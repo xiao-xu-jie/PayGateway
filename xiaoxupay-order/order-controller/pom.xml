@@ -5,41 +5,27 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.xujie</groupId>
-        <artifactId>PayGateWay</artifactId>
+        <artifactId>xiaoxupay-order</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>xiaoxupay-order</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>order-infra</module>
-        <module>order-domain</module>
-        <module>order-application</module>
-        <module>order-controller</module>
-        <module>order-api</module>
-        <module>order-starter</module>
-        <module>order-common</module>
-    </modules>
+    <artifactId>order-controller</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.xujie</groupId>
-            <artifactId>xiaoxupay-common</artifactId>
-            <scope>compile</scope>
+            <artifactId>order-domain</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>

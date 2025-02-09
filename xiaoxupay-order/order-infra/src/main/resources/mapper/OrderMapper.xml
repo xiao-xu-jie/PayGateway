@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xujie.infra.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.xujie.infra.entity.Order">
+    <!--@mbg.generated-->
+    <!--@Table `order`-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="open_no" jdbcType="VARCHAR" property="openNo" />
+    <result column="trade_no" jdbcType="BIGINT" property="tradeNo" />
+    <result column="site_id" jdbcType="BIGINT" property="siteId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="order_desc" jdbcType="VARCHAR" property="orderDesc" />
+    <result column="real_fee" jdbcType="DECIMAL" property="realFee" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="total_fee" jdbcType="DECIMAL" property="totalFee" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
+    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, open_no, trade_no, site_id, title, order_desc, real_fee, discount, total_fee, 
+    remark, create_time, expire_time, pay_time, update_time, order_status, is_delete
+  </sql>
+</mapper>

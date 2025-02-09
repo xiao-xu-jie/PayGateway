@@ -13,6 +13,9 @@
         <module>xiaoxupay-pay</module>
         <module>xiaoxupay-order</module>
         <module>xiaoxupay-site</module>
+        <module>xiaoxupay-pay/pay-strategy</module>
+
+
     </modules>
 
     <properties>
@@ -26,6 +29,7 @@
         <spring-cloud.version>2023.0.1</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
         <flatten-maven-plugin.version>1.2.7</flatten-maven-plugin.version>
+        <rocketmq-spring-boot.version>2.3.0</rocketmq-spring-boot.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -73,12 +77,25 @@
                 <artifactId>xiaoxupay-common</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-spring-boot-starter</artifactId>
+                <version>${rocketmq-spring-boot.version}</version>
+            </dependency>
+
+            <!-- 工具类 -->
+
         </dependencies>
     </dependencyManagement>
 
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.boot.version}</version>
+                </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>flatten-maven-plugin</artifactId>
