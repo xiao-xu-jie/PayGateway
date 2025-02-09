@@ -32,16 +32,21 @@ public class PayResponseCheckAOP {
         // 执行目标方法
         Object result = joinPoint.proceed();
         // 检查返回值
-        JSONObject response = (JSONObject) result;
-        // Hash值计算
-        String hash = HashUtil.hash(response.entrySet(), config.getAppSecret());
-        // 获取响应中的 hash 值
-        String resHash = response.getStr("hash");
-        log.info("[PayResponseCheckAOP] Hash值校验：{}，{}", hash, resHash);
+        if(result instanceof JSONObject response){
+            if(response.getInt("errcode") != 0) {
+                log.error("[PayResponseCheckAOP] 返回状态码异常：{}",response);
+                throw new CustomException("返回异常");
+            }
+            // Hash值计算
+            String hash = HashUtil.hash(response.entrySet(), config.getAppSecret());
+            // 获取响应中的 hash 值
+            String resHash = response.getStr("hash");
+            log.info("[PayResponseCheckAOP] Hash值校验：{}，{}", hash, resHash);
 
-        // 比较 hash 值
-        if (ObjectUtils.compare(hash, resHash) != 0) {
-            throw new CustomException("hash校验异常");  // 抛出异常，中断方法
+            // 比较 hash 值
+            if (ObjectUtils.compare(hash, resHash) != 0) {
+                throw new CustomException("hash校验异常");  // 抛出异常，中断方法
+            }
         }
 
         return result;

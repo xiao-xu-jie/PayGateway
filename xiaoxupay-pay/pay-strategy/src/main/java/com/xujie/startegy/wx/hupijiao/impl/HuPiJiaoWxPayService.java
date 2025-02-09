@@ -2,6 +2,7 @@ package com.xujie.startegy.wx.hupijiao.impl;
 
 import cn.hutool.json.JSONObject;
 import com.xujie.common.exception.CustomException;
+import com.xujie.common.utils.HashUtil;
 import com.xujie.startegy.wx.hupijiao.AbstractHuPiJiaoPayService;
 import com.xujie.startegy.wx.hupijiao.config.HuPiJiaoPayConfig;
 import com.xujie.startegy.wx.hupijiao.constants.HuPiJiaoPayConstant;
@@ -9,6 +10,8 @@ import com.xujie.startegy.wx.hupijiao.entity.OrderRequest;
 import com.xujie.startegy.wx.hupijiao.entity.RefundRequest;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.Assert;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Date;
@@ -74,6 +77,22 @@ public class HuPiJiaoWxPayService extends AbstractHuPiJiaoPayService {
             log.info("[HuPiJiaoPayService] 发送订单退款请求响应结果：{}", post);
         }
         return getJsonObject(post);
+    }
+
+    @Override
+    public String checkNotify(Map<String, Object> map) {
+        Assert.notEmpty(map,"参数不为空");
+        log.info("[HuPijiao] 开始--支付成功回调：{}", map);
+        String hash = HashUtil.hash(map.entrySet(), config.getAppSecret());
+        String resHash = map.get("hash").toString();
+        if (StringUtils.compare(resHash, hash) != 0) {
+            log.error("[HuPijiao]支付回调异常：计算hash {}，返回hash：{}", hash, resHash);
+            return "error";
+        }
+        String orderNo = map.get("trade_order_id").toString();
+        Assert.notNull(orderNo,"回调订单号不为空！");
+        log.info("[HuPijiao] 结束--支付成功回调：{}", orderNo);
+        return orderNo;
     }
 
 
