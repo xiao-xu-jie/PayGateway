@@ -1,6 +1,9 @@
 server:
   port: 8011
 spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
   application:
     name: xiaoxupay-order
   cloud:

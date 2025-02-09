@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -18,6 +19,7 @@ public class WxOrderDTO {
     private String urlQrcode;
     private String url;
     private String channel;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date expireTime;
     private JSONObject jsonData;
 }

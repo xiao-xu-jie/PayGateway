@@ -2,11 +2,13 @@ package com.xujie.common.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 
 
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,6 +29,10 @@ public class WxOrderRequest {
      **/
     @Range(min = 0,max = 9999)
     private Double totalFee;
+    /**
+     * 订单描述
+     **/
+    private String desc;
     /**
      * 订单备注
      **/
