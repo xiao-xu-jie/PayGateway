@@ -1,8 +1,8 @@
 package com.xujie.startegy;
 
-import cn.hutool.json.JSONObject;
-import com.xujie.startegy.wx.hupijiao.entity.OrderRequest;
+import com.xujie.common.dto.WxOrderDTO;
+import com.xujie.common.dto.WxOrderRequest;
 
 public abstract class AbstractPayContext {
-    abstract public JSONObject processOrder(OrderRequest request);
+    abstract public WxOrderDTO processOrder(WxOrderRequest request);
 }

@@ -5,21 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.xujie</groupId>
-        <artifactId>PayGateWay</artifactId>
+        <artifactId>pay-application</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <packaging>pom</packaging>
-    <artifactId>xiaoxupay-pay</artifactId>
 
-    <modules>
-        <module>pay-http</module>
-        <module>pay-api</module>
-        <module>pay-strategy</module>
-        <module>pay-common</module>
-        <module>pay-starter</module>
-        <module>pay-controller</module>
-        <module>pay-application</module>
-    </modules>
+    <artifactId>pay-rocketmq</artifactId>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -27,15 +18,11 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.xujie</groupId>
-            <artifactId>xiaoxupay-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xujie</groupId>
-            <artifactId>pay-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>

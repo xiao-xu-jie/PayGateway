@@ -1,6 +1,10 @@
 package com.xujie.startegy.wx.hupijiao.impl;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONObject;
+import com.xujie.application.RocketMQProducer;
+import com.xujie.common.dto.WxOrderDTO;
+import com.xujie.common.dto.WxOrderRequest;
 import com.xujie.common.exception.CustomException;
 import com.xujie.common.utils.HashUtil;
 import com.xujie.startegy.wx.hupijiao.AbstractHuPiJiaoPayService;
@@ -23,12 +27,20 @@ public class HuPiJiaoWxPayService extends AbstractHuPiJiaoPayService {
     private WebClient webClient;
     @Resource(name = "huPiJiaoPayConfig")
     private HuPiJiaoPayConfig config;
+    @Resource
+    private RocketMQProducer rocketMQProducer;
 
     private final Integer timeout = 5000;
 
     @Override
-    public JSONObject createOrder(OrderRequest orderRequest) {
-        Map<String, Object> requestBody = orderRequest.getReqBody();
+    public WxOrderDTO createOrder(WxOrderRequest orderRequest) {
+        OrderRequest request = OrderRequest.builder()
+                .orderId(orderRequest.getOpenNo())
+                .title(orderRequest.getTitle())
+                .totalFee(orderRequest.getTotalFee())
+                .remark(orderRequest.getRemark())
+                .build();
+        Map<String, Object> requestBody = request.getReqBody();
         requestBody.put("appid", config.getAppid());
         requestBody.put("version", "1.1");
         requestBody.put("nonce_str", getNonceStr());
@@ -51,7 +63,18 @@ public class HuPiJiaoWxPayService extends AbstractHuPiJiaoPayService {
         if (log.isInfoEnabled()) {
             log.info("[HuPiJiaoPayService] 发送创建订单请求响应结果：{}", post);
         }
-        return getJsonObject(post);
+        JSONObject order0 = getJsonObject(post);
+        WxOrderDTO build = WxOrderDTO.builder()
+                .channel("wx.hupijiao")
+                .openNo(orderRequest.getOpenNo())
+                .jsonData(order0)
+                .expireTime(DateUtil.offsetMinute(new Date(), 15))
+                .transactionId(order0.getStr("openid"))
+                .url(order0.getStr("url"))
+                .urlQrcode(order0.getStr("url_qrcode"))
+                .build();
+        rocketMQProducer.sendDelayMessage("order","expire",orderRequest.getOpenNo(),14);
+        return build;
     }
 
     @Override

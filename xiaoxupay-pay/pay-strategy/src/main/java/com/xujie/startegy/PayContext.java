@@ -1,8 +1,8 @@
 package com.xujie.startegy;
 
-import cn.hutool.json.JSONObject;
+import com.xujie.common.dto.WxOrderDTO;
+import com.xujie.common.dto.WxOrderRequest;
 import com.xujie.common.exception.CustomException;
-import com.xujie.startegy.wx.hupijiao.entity.OrderRequest;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class PayContext extends AbstractPayContext{
 
 
     @Override
-    public JSONObject processOrder(OrderRequest request) {
+    public WxOrderDTO processOrder(WxOrderRequest request) {
         Map<String, PayService> payServiceMap = applicationContext.getBeansOfType(PayService.class);
         for(PayService payService:wxPayServices) {
 

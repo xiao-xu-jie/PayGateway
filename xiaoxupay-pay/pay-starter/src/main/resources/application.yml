@@ -16,6 +16,7 @@ spring:
       - nacos:${spring.application.name}.yml
       - nacos:nacos-discovery.yml
 
+
 logging:
   config: classpath:log4j2-spring.xml
   level:

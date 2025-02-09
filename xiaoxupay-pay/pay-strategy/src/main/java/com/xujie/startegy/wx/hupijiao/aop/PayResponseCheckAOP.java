@@ -1,6 +1,7 @@
 package com.xujie.startegy.wx.hupijiao.aop;
 
 import cn.hutool.json.JSONObject;
+import com.xujie.common.dto.WxOrderDTO;
 import com.xujie.common.exception.CustomException;
 import com.xujie.common.utils.HashUtil;
 import com.xujie.startegy.wx.hupijiao.config.HuPiJiaoPayConfig;
@@ -32,7 +33,8 @@ public class PayResponseCheckAOP {
         // 执行目标方法
         Object result = joinPoint.proceed();
         // 检查返回值
-        if(result instanceof JSONObject response){
+        if(result instanceof WxOrderDTO){
+            JSONObject response = ((WxOrderDTO) result).getJsonData();
             if(response.getInt("errcode") != 0) {
                 log.error("[PayResponseCheckAOP] 返回状态码异常：{}",response);
                 throw new CustomException("返回异常");
