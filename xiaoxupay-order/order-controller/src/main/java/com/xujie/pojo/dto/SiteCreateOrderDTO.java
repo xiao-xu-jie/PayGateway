@@ -63,10 +63,21 @@ public class SiteCreateOrderDTO {
      * 备注
      */
     private String remark;
+    /**
+     * 随机字符串
+     */
+    @NotEmpty(message = "请传入随机字符串")
+    private String nonceStr;
 
+    /**
+     * 时间戳
+     */
+    @NotEmpty(message = "请传入时间戳")
+    private String timestamp;
     /**
      * hash校验
      */
+    @NotEmpty(message = "请传入hash")
     private String hash;
 
 }

@@ -92,6 +92,16 @@ public class Order {
     private OrderStatus orderStatus;
 
     /**
+     * 随机字符串
+     */
+    private String nonceStr;
+
+    /**
+     * 时间戳
+     */
+    private String timestamp;
+
+    /**
      * hash校验
      */
     private String hash;

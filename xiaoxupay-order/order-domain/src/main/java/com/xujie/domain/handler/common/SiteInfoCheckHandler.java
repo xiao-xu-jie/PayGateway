@@ -1,6 +1,7 @@
 package com.xujie.domain.handler.common;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.crypto.SecureUtil;
 import com.xujie.common.entity.ResponseEntity;
 import com.xujie.common.exception.CustomException;
 import com.xujie.domain.entity.Order;
@@ -38,6 +39,21 @@ public class SiteInfoCheckHandler extends OrderHandler {
                 .sorted(Map.Entry.comparingByKey())
                 .toList();
         log.info("[SiteInfoCheckHandler]排序后的参数：{}",list);
+        StringBuilder sb = new StringBuilder();
+        for(Map.Entry<String, Object> entry:list) {
+            sb.append(entry.getKey()).append("=")
+                    .append(entry.getValue())
+                    .append("&");
+        }
+        sb.deleteCharAt(sb.length()-1);
+        sb.append(siteDTO.getSiteSecret());
+        log.info("[SiteInfoCheckHandler]拼接后的字符串：{}",sb);
+        String hash = SecureUtil.md5(sb.toString());
+        log.info("[SiteInfoCheckHandler]hash对比：请求hash{}，计算{}",reqHash,hash);
+        if(StringUtils.compare(hash,reqHash) != 0) {
+            throw new CustomException("auth 失败");
+        }
+
     }
     public SiteInfoCheckHandler(SiteFeignClient siteFeignClient) {
         this.siteFeignClient = siteFeignClient;
