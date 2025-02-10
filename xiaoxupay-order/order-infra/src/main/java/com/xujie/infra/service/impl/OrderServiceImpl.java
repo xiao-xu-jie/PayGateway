@@ -1,0 +1,42 @@
+package com.xujie.infra.service.impl;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.xujie.infra.entity.SiteOrder;
+import com.xujie.infra.mapper.SiteOrderMapper;
+import com.xujie.infra.service.OrderService;
+import jakarta.annotation.Resource;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class OrderServiceImpl implements OrderService {
+    @Resource
+    private SiteOrderMapper orderMapper;
+    @Override
+    public SiteOrder getOrderByEntity(SiteOrder order) {
+        List<SiteOrder> siteOrders = getOrderListByEntity(order);
+        return siteOrders.stream().findFirst().orElseGet(null);
+    }
+
+    @Override
+    public List<SiteOrder> getOrderListByEntity(SiteOrder order) {
+        return  orderMapper.selectByAll(order);
+    }
+
+    @Override
+    public void insertOrder(SiteOrder order) {
+        orderMapper.insert(order);
+    }
+
+    @Override
+    public void updateOrder(String openNo, SiteOrder order) {
+        LambdaQueryWrapper<SiteOrder> eq = Wrappers.<SiteOrder>lambdaQuery().
+                eq(StringUtils.isNotBlank(openNo), SiteOrder::getOpenNo, order);
+        orderMapper.update(order,eq);
+    }
+
+
+}

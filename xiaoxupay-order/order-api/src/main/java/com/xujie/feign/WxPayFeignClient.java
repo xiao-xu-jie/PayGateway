@@ -1,0 +1,15 @@
+package com.xujie.feign;
+
+import com.xujie.common.dto.WxOrderDTO;
+import com.xujie.common.dto.WxOrderRequest;
+import com.xujie.common.entity.ResponseEntity;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+@FeignClient(name = "xiaoxupay-pay",path = "wx")
+public interface WxPayFeignClient {
+    @PostMapping("/createOrder")
+    ResponseEntity<WxOrderDTO> createOrder(@RequestBody @Validated WxOrderRequest request);
+}

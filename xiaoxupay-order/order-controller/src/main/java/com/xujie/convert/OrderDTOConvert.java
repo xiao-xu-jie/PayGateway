@@ -10,7 +10,7 @@ import org.mapstruct.Mappings;
 public interface OrderDTOConvert {
     @Mappings({
             @Mapping(source = "tradeNo", target = "tradeNo"),
-            @Mapping(source = "siteId", target = "siteId"),
+            @Mapping(source = "siteAppid", target = "siteAppid"),
             @Mapping(source = "title", target = "title"),
             @Mapping(source = "orderDesc", target = "orderDesc"),
             @Mapping(source = "realFee", target = "realFee"),

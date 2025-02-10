@@ -13,7 +13,6 @@
         <module>xiaoxupay-pay</module>
         <module>xiaoxupay-order</module>
         <module>xiaoxupay-site</module>
-        <module>xiaoxupay-pay/pay-strategy</module>
 
 
     </modules>
@@ -22,7 +21,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <druid.version>1.1.10</druid.version>
+        <druid.version>1.1.18</druid.version>
         <mybatis-plus.version>3.5.10.1</mybatis-plus.version>
         <!-- 微服务版本 -->
         <spring.boot.version>3.2.4</spring.boot.version>
@@ -40,6 +39,12 @@
                 <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- Spring Cloud依赖 -->
             <dependency>
@@ -67,9 +72,16 @@
 
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+                <artifactId>mybatis-plus-bom</artifactId>
                 <version>${mybatis-plus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.baomidou</groupId>-->
+<!--                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>-->
+<!--                <version>${mybatis-plus.version}</version>-->
+<!--            </dependency>-->
 
             <!-- 公共模型 -->
             <dependency>

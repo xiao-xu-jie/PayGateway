@@ -17,7 +17,7 @@ public class SiteCreateOrderDTO {
     /**
      * 站点ID
      */
-    private Long siteId;
+    private String siteAppid;
 
     /**
      * 订单标题

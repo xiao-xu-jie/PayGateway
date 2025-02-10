@@ -28,9 +28,11 @@ public class Order {
     private Long tradeNo;
 
     /**
-     * 站点ID
+     * 站点APPID
      */
-    private Long siteId;
+    private String siteAppid;
+
+
 
     /**
      * 订单标题

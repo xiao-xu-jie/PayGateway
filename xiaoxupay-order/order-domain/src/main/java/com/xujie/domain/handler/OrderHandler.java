@@ -11,6 +11,7 @@ public abstract class OrderHandler {
     }
 
     protected abstract void doHandle(Order order);
+
     public OrderHandler setNext(OrderHandler orderHandler) {
         next = orderHandler;
         return next;
