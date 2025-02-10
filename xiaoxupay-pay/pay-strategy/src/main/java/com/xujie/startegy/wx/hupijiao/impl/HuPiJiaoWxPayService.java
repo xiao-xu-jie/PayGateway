@@ -65,7 +65,7 @@ public class HuPiJiaoWxPayService extends AbstractHuPiJiaoPayService {
         }
         JSONObject order0 = getJsonObject(post);
         WxOrderDTO build = WxOrderDTO.builder()
-                .channel("wx.hupijiao")
+                .channel("wx")
                 .openNo(orderRequest.getOpenNo())
                 .jsonData(order0)
                 .expireTime(DateUtil.offsetMinute(new Date(), 15))

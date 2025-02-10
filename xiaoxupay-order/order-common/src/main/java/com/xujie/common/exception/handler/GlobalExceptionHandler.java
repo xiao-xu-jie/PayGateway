@@ -1,6 +1,7 @@
 package com.xujie.common.exception.handler;
 
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.xujie.common.entity.ResponseEntity;
 import com.xujie.common.exception.BaseException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +30,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.error(e.getMessage());
     }
 
+    @ExceptionHandler({InvalidFormatException.class})
+    public ResponseEntity<?> invalidFormatExceptionHandler(BaseException e) {
+        return ResponseEntity.error("传入信息有误");
+    }
 
     @ExceptionHandler({ConstraintViolationException.class, BindException.class, MethodArgumentNotValidException.class})
     public ResponseEntity<?> validateException(Exception ex, HttpServletRequest request) {
