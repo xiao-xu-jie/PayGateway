@@ -15,15 +15,16 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
     @Resource
     private SiteOrderMapper orderMapper;
+
     @Override
     public SiteOrder getOrderByEntity(SiteOrder order) {
         List<SiteOrder> siteOrders = getOrderListByEntity(order);
-        return siteOrders.stream().findFirst().orElseGet(null);
+        return siteOrders.stream().findFirst().orElse(null);
     }
 
     @Override
     public List<SiteOrder> getOrderListByEntity(SiteOrder order) {
-        return  orderMapper.selectByAll(order);
+        return orderMapper.selectByAll(order);
     }
 
     @Override
@@ -34,8 +35,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrder(String openNo, SiteOrder order) {
         LambdaQueryWrapper<SiteOrder> eq = Wrappers.<SiteOrder>lambdaQuery().
-                eq(StringUtils.isNotBlank(openNo), SiteOrder::getOpenNo, order);
-        orderMapper.update(order,eq);
+                eq(StringUtils.isNotBlank(openNo), SiteOrder::getOpenNo, openNo);
+        orderMapper.update(order, eq);
     }
 
 

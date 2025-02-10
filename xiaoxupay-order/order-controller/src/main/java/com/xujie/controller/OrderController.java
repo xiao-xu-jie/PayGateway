@@ -26,6 +26,7 @@ public class OrderController {
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody @Validated SiteCreateOrderDTO createOrderDTO) {
         Order order = orderDomainService.processOrder(convert.dto2bo(createOrderDTO));
+
         return ResponseEntity.success(order);
     }
 }

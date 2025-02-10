@@ -73,7 +73,7 @@ public class HuPiJiaoWxPayService extends AbstractHuPiJiaoPayService {
                 .url(order0.getStr("url"))
                 .urlQrcode(order0.getStr("url_qrcode"))
                 .build();
-        rocketMQProducer.sendDelayMessage("order","expire",orderRequest.getOpenNo(),14);
+        rocketMQProducer.sendDelayMessage("order", "expire", orderRequest.getOpenNo(), 14);
         return build;
     }
 
@@ -104,7 +104,7 @@ public class HuPiJiaoWxPayService extends AbstractHuPiJiaoPayService {
 
     @Override
     public String checkNotify(Map<String, Object> map) {
-        Assert.notEmpty(map,"参数不为空");
+        Assert.notEmpty(map, "参数不为空");
         log.info("[HuPijiao] 开始--支付成功回调：{}", map);
         String hash = HashUtil.hash(map.entrySet(), config.getAppSecret());
         String resHash = map.get("hash").toString();
@@ -113,7 +113,7 @@ public class HuPiJiaoWxPayService extends AbstractHuPiJiaoPayService {
             return "error";
         }
         String orderNo = map.get("trade_order_id").toString();
-        Assert.notNull(orderNo,"回调订单号不为空！");
+        Assert.notNull(orderNo, "回调订单号不为空！");
         log.info("[HuPijiao] 结束--支付成功回调：{}", orderNo);
         return orderNo;
     }

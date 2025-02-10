@@ -43,8 +43,8 @@ public class SiteOrder {
     /**
      * 站点ID
      */
-    @TableField(value = "site_id")
-    private Long siteId;
+    @TableField(value = "site_appid")
+    private String siteAppid;
 
     /**
      * 订单标题
@@ -94,7 +94,7 @@ public class SiteOrder {
     @TableField(value = "json_data")
     private String jsonData;
 
-    @TableField(value = "create_time",fill = FieldFill.INSERT)
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Date createTime;
 
     /**
@@ -109,7 +109,7 @@ public class SiteOrder {
     @TableField(value = "pay_time")
     private Date payTime;
 
-    @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
     /**
