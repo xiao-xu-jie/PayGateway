@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xujie.infra.mapper.NotifyLogMapper">
+    <resultMap id="BaseResultMap" type="com.xujie.infra.entity.NotifyLog">
+        <!--@mbg.generated-->
+        <!--@Table notify_log-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="open_no" jdbcType="VARCHAR" property="openNo"/>
+        <result column="site_appid" jdbcType="VARCHAR" property="siteAppid"/>
+        <result column="notifu_url" jdbcType="VARCHAR" property="notifuUrl"/>
+        <result column="res_body" jdbcType="VARCHAR" property="resBody"/>
+        <result column="current_count" jdbcType="INTEGER" property="currentCount"/>
+        <result column="notify_type" jdbcType="INTEGER" property="notifyType"/>
+        <result column="notify_status" jdbcType="INTEGER" property="notifyStatus"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, open_no, site_appid, notifu_url, res_body, current_count, notify_type, notify_status,
+        create_time, update_time, is_delete
+    </sql>
+</mapper>
