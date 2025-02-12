@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +41,11 @@ public class HttpNotifyStrategy extends NotifyStrategy {
         str.append(request.getSiteSecret());
         String hash = SecureUtil.md5(str.toString());
         map.put("hash", hash);
+        try {
+            new URL(request.getNotifyUrl());
+        } catch (MalformedURLException e) {
+            throw new CustomException("回调通知URL格式错误");
+        }
         try (HttpResponse response = HttpUtil.createPost(request.getNotifyUrl())
                 .body(JSONUtil.toJsonStr(map))
                 .execute()) {
