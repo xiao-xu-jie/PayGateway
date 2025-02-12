@@ -5,7 +5,7 @@ import cn.hutool.crypto.SecureUtil;
 import com.xujie.common.entity.ResponseEntity;
 import com.xujie.common.exception.CustomException;
 import com.xujie.domain.entity.Order;
-import com.xujie.domain.handler.OrderHandler;
+import com.xujie.domain.handler.AbstractOrderHandler;
 import com.xujie.dto.SiteDTO;
 import com.xujie.feign.SiteFeignClient;
 import lombok.extern.slf4j.Slf4j;
@@ -15,19 +15,29 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 站点创建订单请求参数校验
+ */
 @Slf4j
-public class SiteInfoCheckHandler extends OrderHandler {
-
+public class SiteInfoCheckHandler extends AbstractOrderHandler {
 
     private final SiteFeignClient siteFeignClient;
+
+    /**
+     * 去掉空值
+     * 参数名称字典升序
+     * 末尾加上secret
+     * md5校验hash
+     */
     @Override
     protected void doHandle(Order order) {
+        //TODO 加一层缓存
         ResponseEntity<SiteDTO> siteDTOResponseEntity = siteFeignClient.searchByAppid(order.getSiteAppid());
-        if(siteDTOResponseEntity.getCode() != 200) {
+        if (siteDTOResponseEntity.getCode() != 200) {
             throw new CustomException("站点信息有误！");
         }
         // 站点信息
-        log.info("[SiteInfoCheckHandler]站点信息：{}",siteDTOResponseEntity);
+        log.info("[SiteInfoCheckHandler]站点信息：{}", siteDTOResponseEntity);
         // 获取appSecret
         SiteDTO siteDTO = siteDTOResponseEntity.getData();
         String siteSecret = siteDTO.getSiteSecret();
@@ -35,26 +45,27 @@ public class SiteInfoCheckHandler extends OrderHandler {
         Map<String, Object> map = BeanUtil.beanToMap(order);
         List<Map.Entry<String, Object>> list = map.entrySet().stream()
                 .filter(o -> ObjectUtils.isNotEmpty(o.getValue()))
-                .filter(o -> StringUtils.compare(o.getKey(),"hash") != 0)
+                .filter(o -> StringUtils.compare(o.getKey(), "hash") != 0)
                 .sorted(Map.Entry.comparingByKey())
                 .toList();
-        log.info("[SiteInfoCheckHandler]排序后的参数：{}",list);
+        log.info("[SiteInfoCheckHandler]排序后的参数：{}", list);
         StringBuilder sb = new StringBuilder();
-        for(Map.Entry<String, Object> entry:list) {
+        for (Map.Entry<String, Object> entry : list) {
             sb.append(entry.getKey()).append("=")
                     .append(entry.getValue())
                     .append("&");
         }
-        sb.deleteCharAt(sb.length()-1);
+        sb.deleteCharAt(sb.length() - 1);
         sb.append(siteDTO.getSiteSecret());
-        log.info("[SiteInfoCheckHandler]拼接后的字符串：{}",sb);
+        log.info("[SiteInfoCheckHandler]拼接后的字符串：{}", sb);
         String hash = SecureUtil.md5(sb.toString());
-        log.info("[SiteInfoCheckHandler]hash对比：请求hash{}，计算{}",reqHash,hash);
-        if(StringUtils.compare(hash,reqHash) != 0) {
+        log.info("[SiteInfoCheckHandler]hash对比：请求hash{}，计算{}", reqHash, hash);
+        if (StringUtils.compare(hash, reqHash) != 0) {
             throw new CustomException("auth 失败");
         }
 
     }
+
     public SiteInfoCheckHandler(SiteFeignClient siteFeignClient) {
         this.siteFeignClient = siteFeignClient;
     }

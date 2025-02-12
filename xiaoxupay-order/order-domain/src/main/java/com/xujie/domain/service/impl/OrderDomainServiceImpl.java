@@ -11,7 +11,6 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -26,7 +25,6 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     private DomainConvert convert;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public Order processOrder(Order order) {
         orderHandlerContext.process(order);
         orderService.insertOrder(convert.bo2do(order));
@@ -42,9 +40,11 @@ public class OrderDomainServiceImpl implements OrderDomainService {
                 .build());
 
         // 订单处于待支付
-        if (ObjectUtils.isNotEmpty(orderByEntity) && OrderStatus.WAIT_PAY.equals(orderByEntity.getOrderStatus())) {
+        if (ObjectUtils.isNotEmpty(orderByEntity)
+                && ObjectUtils.compare(orderByEntity.getOrderStatus(), OrderStatus.WAIT_PAY) == 0) {
             orderByEntity.setOrderStatus(OrderStatus.EXPIRED);
             // 更新订单状态
+            // TODO 解决订单过期时支付冲突问题
             orderService.updateOrder(openNo, orderByEntity);
         } else {
             log.error("订单过期处理逻辑异常：{}", orderByEntity);
