@@ -20,6 +20,12 @@ public class WxOrderRequest {
     private String openNo;
 
     /**
+     * 站点APPID
+     **/
+    @NotNull(message = "请传入站点APPID")
+    private String siteAppid;
+
+    /**
      * 订单标题
      **/
     @NotNull(message = "请传入订单标题")
@@ -27,7 +33,7 @@ public class WxOrderRequest {
     /**
      * 订单价格 精确分
      **/
-    @Range(min = 0,max = 9999)
+    @Range(min = 0, max = 9999)
     private Double totalFee;
     /**
      * 订单描述

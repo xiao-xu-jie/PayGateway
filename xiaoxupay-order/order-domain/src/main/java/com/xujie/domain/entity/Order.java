@@ -1,6 +1,7 @@
 package com.xujie.domain.entity;
 
 import com.xujie.common.enums.ChannelTypeEnum;
+import com.xujie.common.enums.OrderNotifyStatus;
 import com.xujie.common.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,7 +33,6 @@ public class Order {
      * 站点APPID
      */
     private String siteAppid;
-
 
 
     /**
@@ -90,6 +90,10 @@ public class Order {
      * 订单状态
      */
     private OrderStatus orderStatus;
+    /**
+     * 订单通知状态
+     */
+    private OrderNotifyStatus notifyStatus;
 
     /**
      * 随机字符串

@@ -1,6 +1,7 @@
 package com.xujie.infra.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.xujie.common.enums.OrderNotifyStatus;
 import com.xujie.common.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -117,6 +118,11 @@ public class SiteOrder {
      */
     @TableField(value = "order_status")
     private OrderStatus orderStatus;
+    /**
+     * 订单通知状态
+     */
+    @TableField(value = "notify_status")
+    private OrderNotifyStatus notifyStatus;
 
     @TableField(value = "is_delete")
     private Integer isDelete;

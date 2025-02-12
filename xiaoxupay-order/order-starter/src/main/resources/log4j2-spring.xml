@@ -1,90 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出-->
-<!--monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数-->
-<configuration status="INFO" monitorInterval="5">
-    <!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
-    <!--变量配置-->
+<!-- Don't forget to set system property
+-Dlog4j2.contextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector
+     to make all loggers asynchronous. -->
+<Configuration status="WARN">
+    <!--变量配置：此处的变量都是自定义的 -->
     <Properties>
-        <!-- 格式化输出：%date表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %msg：日志消息，%n是换行符-->
-        <!-- %logger{36} 表示 Logger 名字最长36个字符 -->
-        <property name="LOG_PATTERN" value="%date{HH:mm:ss.SSS} %X{PFTID} [%thread] %-5level %logger{36} - %msg%n"/>
-        <!-- 定义日志存储的路径 -->
-        <property name="FILE_PATH" value="./logs/order"/>
-        <property name="FILE_NAME" value="business.log"/>
+        <!--module name：服务名 -->
+        <property name="MODULE_NAME" value="xiaoxupay-order"/>
+        <!--log.pattern：日志输出的前缀格式  -->
+        <property name="LOG_PATTERN"
+                  value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level [%traceId] [%logger{60}:%L] - %msg%n"/>
+        <!--TIME_INTERVAL：日志分割的时间间隔，时间单位是根据filePattern来定的 -->
+        <property name="TIME_INTERVAL" value="1"/>
+        <!--maxFileSize：单个日志文件的最大大小 -->
+        <property name="MAX_FILE_SIZE" value="200 MB"/>
+        <!-- TOTAL_SIZE_CAP：不同日志级别的日志文件总磁盘占用的阈值 -->
+        <property name="TOTAL_SIZE_INFO" value="30 GB"/>
+        <property name="TOTAL_SIZE_WARN" value="5 GB"/>
+        <property name="TOTAL_SIZE_ERROR" value="5 GB"/>
+        <!--maxHistory：日志的最大留存时间 -->
+        <property name="MAX_HISTORY" value="P15D"/>
+        <!--maxHistory：日志分割最大随机延迟的秒数 -->
+        <property name="MAX_RANDOMDELAY" value="300"/>
+        <!-- level：日志级别 -->
+        <property name="LEVEL_INFO" value="info"/>
+        <property name="LEVEL_WARN" value="warn"/>
+        <property name="LEVEL_ERROR" value="error"/>
+        <!-- log path：日志输出的路径，可以配置相对路径、绝对路径、路径软连接 -->
+        <property name="LOG_PATH" value="./logs"/>
     </Properties>
 
-    <!--https://logging.apache.org/log4j/2.x/manual/appenders.html-->
-    <appenders>
-
-        <console name="Console" target="SYSTEM_OUT">
-            <!--输出日志的格式-->
-            <PatternLayout pattern="${LOG_PATTERN}"/>
-            <!--控制台只输出level及其以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
-            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+    <Appenders>
+        <!-- Console -->
+        <console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}" charset="UTF-8"/>
         </console>
 
-        <!--文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，适合临时测试用-->
-        <File name="fileLog" fileName="${FILE_PATH}/temp.log" append="false">
-            <PatternLayout pattern="${LOG_PATTERN}"/>
-        </File>
-
-        <!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
-        <RollingFile name="RollingFileInfo" fileName="${FILE_PATH}/info.log"
-                     filePattern="${FILE_PATH}/${FILE_NAME}-INFO-%d{yyyy-MM-dd}_%i.log.gz">
-            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
-            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="${LOG_PATTERN}"/>
+        <!-- INFO_FILE -->
+        <RollingRandomAccessFile name="INFO_FILE" fileName="${LOG_PATH}/${MODULE_NAME}-${LEVEL_INFO}.log"
+                                 immediateFlush="false"
+                                 append="true"
+                                 filePattern="${LOG_PATH}/${MODULE_NAME}-${LEVEL_INFO}-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}" charset="UTF-8"/>
+            <!-- 日志分割策略 -->
             <Policies>
-                <!--interval属性用来指定多久滚动一次，默认是1 hour-->
-                <TimeBasedTriggeringPolicy interval="1"/>
-                <SizeBasedTriggeringPolicy size="10MB"/>
+                <TimeBasedTriggeringPolicy interval="${TIME_INTERVAL}" maxRandomDelay="${MAX_RANDOMDELAY}"/>
+                <SizeBasedTriggeringPolicy size="${MAX_FILE_SIZE}"/>
             </Policies>
-            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件开始覆盖-->
-            <DefaultRolloverStrategy max="15"/>
-        </RollingFile>
+            <!-- 日志删除策略 -->
+            <DefaultRolloverStrategy fileIndex="nomax">
+                <Delete basePath="${LOG_PATH}" maxDepth="1" followLinks="true">
+                    <IfFileName glob="${MODULE_NAME}-${LEVEL_INFO}*.log">
+                        <IfAny>
+                            <IfAccumulatedFileSize exceeds="${TOTAL_SIZE_INFO}"/>
+                            <IfLastModified age="${MAX_HISTORY}"/>
+                        </IfAny>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+            <!-- 日志级别 -->
+            <Filters>
+                <ThresholdFilter level="${LEVEL_WARN}" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="${LEVEL_INFO}" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingRandomAccessFile>
 
-        <!-- 这个会打印出所有的warn及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
-        <RollingFile name="RollingFileWarn" fileName="${FILE_PATH}/warn.log"
-                     filePattern="${FILE_PATH}/${FILE_NAME}-WARN-%d{yyyy-MM-dd}_%i.log.gz">
-            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
-            <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="${LOG_PATTERN}"/>
+        <!-- WARN_FILE -->
+        <RollingRandomAccessFile name="WARN_FILE" fileName="${LOG_PATH}/${MODULE_NAME}-${LEVEL_WARN}.log"
+                                 immediateFlush="false"
+                                 append="true"
+                                 filePattern="${LOG_PATH}/${MODULE_NAME}-${LEVEL_WARN}-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}" charset="UTF-8"/>
+            <!-- 日志分割策略 -->
             <Policies>
-                <!--interval属性用来指定多久滚动一次，默认是1 hour-->
-                <TimeBasedTriggeringPolicy interval="1"/>
-                <SizeBasedTriggeringPolicy size="10MB"/>
+                <TimeBasedTriggeringPolicy interval="${TIME_INTERVAL}" maxRandomDelay="${MAX_RANDOMDELAY}"/>
+                <SizeBasedTriggeringPolicy size="${MAX_FILE_SIZE}"/>
             </Policies>
-            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件开始覆盖-->
-            <DefaultRolloverStrategy max="15"/>
-        </RollingFile>
+            <!-- 日志删除策略 -->
+            <DefaultRolloverStrategy fileIndex="nomax">
+                <Delete basePath="${LOG_PATH}" maxDepth="1" followLinks="true">
+                    <IfFileName glob="${MODULE_NAME}-${LEVEL_WARN}*.log">
+                        <IfAny>
+                            <IfAccumulatedFileSize exceeds="${TOTAL_SIZE_WARN}"/>
+                            <IfLastModified age="${MAX_HISTORY}"/>
+                        </IfAny>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+            <!-- 日志级别 -->
+            <Filters>
+                <ThresholdFilter level="${LEVEL_ERROR}" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="${LEVEL_WARN}" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingRandomAccessFile>
 
-        <!-- 这个会打印出所有的error及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
-        <RollingFile name="RollingFileError" fileName="${FILE_PATH}/error.log"
-                     filePattern="${FILE_PATH}/${FILE_NAME}-ERROR-%d{yyyy-MM-dd}_%i.log.gz">
-            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
-            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="${LOG_PATTERN}"/>
+        <!-- ERROR_FILE -->
+        <RollingRandomAccessFile name="ERROR_FILE" fileName="${LOG_PATH}/${MODULE_NAME}-${LEVEL_ERROR}.log"
+                                 immediateFlush="false"
+                                 append="true"
+                                 filePattern="${LOG_PATH}/${MODULE_NAME}-${LEVEL_ERROR}-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}" charset="UTF-8"/>
+            <!-- 日志分割策略 -->
             <Policies>
-                <!--interval属性用来指定多久滚动一次，默认是1 hour-->
-                <TimeBasedTriggeringPolicy interval="1"/>
-                <SizeBasedTriggeringPolicy size="10MB"/>
+                <TimeBasedTriggeringPolicy interval="${TIME_INTERVAL}" maxRandomDelay="${MAX_RANDOMDELAY}"/>
+                <SizeBasedTriggeringPolicy size="${MAX_FILE_SIZE}"/>
             </Policies>
-            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件开始覆盖-->
-            <DefaultRolloverStrategy max="15"/>
-        </RollingFile>
+            <!-- 日志删除策略 -->
+            <DefaultRolloverStrategy fileIndex="nomax">
+                <Delete basePath="${LOG_PATH}" maxDepth="1" followLinks="true">
+                    <IfFileName glob="${MODULE_NAME}-${LEVEL_ERROR}*.log">
+                        <IfAny>
+                            <IfAccumulatedFileSize exceeds="${TOTAL_SIZE_ERROR}"/>
+                            <IfLastModified age="${MAX_HISTORY}"/>
+                        </IfAny>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+            <!-- 日志级别 -->
+            <Filters>
+                <ThresholdFilter level="${LEVEL_ERROR}" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingRandomAccessFile>
 
-    </appenders>
+    </Appenders>
 
-    <!--Logger节点用来单独指定日志的形式，比如要为指定包下的class指定不同的日志级别等。-->
-    <!--然后定义loggers，只有定义了logger并引入的appender，appender才会生效-->
-    <loggers>
-        <root level="info">
-            <appender-ref ref="Console"/>
-            <appender-ref ref="RollingFileInfo"/>
-            <appender-ref ref="RollingFileWarn"/>
-            <appender-ref ref="RollingFileError"/>
-            <appender-ref ref="fileLog"/>
-        </root>
-    </loggers>
+    <Loggers>
+        <!-- logger 用来设置某一个包或者具体的某一个类的日志打印级别、以及指定 -->
+        <!-- common framework level -->
+        <AsyncLogger name="org.apache" level="INFO"/>
+        <AsyncLogger name="org.apache.http" level="INFO"/>
 
-</configuration>
+        <!-- root -->
+        <Root level="INFO" includeLocation="false">
+            <AppenderRef ref="CONSOLE"/>
+            <AppenderRef ref="INFO_FILE"/>
+            <AppenderRef ref="WARN_FILE"/>
+            <AppenderRef ref="ERROR_FILE"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

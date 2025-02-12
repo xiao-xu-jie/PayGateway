@@ -1,5 +1,6 @@
 package com.xujie.application;
 
+import cn.hutool.core.lang.Pair;
 import jakarta.annotation.Resource;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
@@ -29,13 +30,13 @@ public class RocketMQProducer {
         System.out.println("Tagged message sent: " + message);
     }
 
-//    /**
-//     * 发送带对象的消息
-//     */
-//    public void sendObjectMessage(String topic, MyMessageObject myMessageObject) {
-//        rocketMQTemplate.convertAndSend(topic, myMessageObject);
-//        System.out.println("Object message sent: " + myMessageObject);
-//    }
+    /**
+     * 发送带对象的消息
+     */
+    public void sendObjectMessage(String topic, Pair myMessageObject) {
+        rocketMQTemplate.convertAndSend(topic, myMessageObject);
+        System.out.println("Object message sent: " + myMessageObject);
+    }
 
     /**
      * 发送事务消息
@@ -48,7 +49,7 @@ public class RocketMQProducer {
     /**
      * 发送延时消息
      */
-    public void sendDelayMessage(String topic,String tag,String message,int delayLevel) {
+    public void sendDelayMessage(String topic, String tag, String message, int delayLevel) {
         // 拼接 topic 和 tag
         String destination = topic + ":" + tag;
 

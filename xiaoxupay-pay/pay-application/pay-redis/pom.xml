@@ -5,16 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.xujie</groupId>
-        <artifactId>xiaoxupay-pay</artifactId>
+        <artifactId>pay-application</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <packaging>pom</packaging>
-    <modules>
-        <module>pay-rocketmq</module>
-        <module>pay-redis</module>
-    </modules>
-    <artifactId>pay-application</artifactId>
+    <artifactId>pay-redis</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -23,10 +18,15 @@
     </properties>
 
     <dependencies>
+        <!--redis场景依赖-->
         <dependency>
-            <groupId>com.xujie</groupId>
-            <artifactId>pay-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!-- redis创建连接池，默认不会创建连接池 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
         </dependency>
     </dependencies>
 </project>

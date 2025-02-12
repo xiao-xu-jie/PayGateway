@@ -4,6 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import com.xujie.common.dto.WxOrderDTO;
 import com.xujie.common.dto.WxOrderRequest;
 import com.xujie.common.entity.ResponseEntity;
+import com.xujie.common.enums.OrderNotifyStatus;
 import com.xujie.common.enums.OrderStatus;
 import com.xujie.common.exception.CustomException;
 import com.xujie.domain.entity.Order;
@@ -27,6 +28,7 @@ public class WxChannelStrategy extends ChannelStrategy {
                 .totalFee(order.getTotalFee())
                 .title(order.getTitle())
                 .openNo(openNo)
+                .siteAppid(order.getSiteAppid())
                 .remark(order.getRemark())
                 .desc(order.getOrderDesc())
                 .build();
@@ -39,7 +41,10 @@ public class WxChannelStrategy extends ChannelStrategy {
         order.setUrlQrcode(wxOrderDTO.getUrlQrcode());
         order.setUrl(wxOrderDTO.getUrl());
         order.setOpenNo(wxOrderDTO.getOpenNo());
+        // 设置订单状态
         order.setOrderStatus(OrderStatus.WAIT_PAY);
+        // 设置订单通知状态
+        order.setNotifyStatus(OrderNotifyStatus.WAIT_NOTIFY);
         order.setTransactionId(wxOrderDTO.getTransactionId());
     }
 }

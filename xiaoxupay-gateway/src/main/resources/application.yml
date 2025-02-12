@@ -30,7 +30,7 @@ spring:
       - nacos:nacos-discovery.yml
 
 
-#logging:
-#  config: classpath:log4j2-spring.xml
-#  level:
-#    com.alibaba.cloud.nacos: debug
+logging:
+  config: classpath:log4j2-spring.xml
+  level:
+    com.alibaba.cloud.nacos: debug

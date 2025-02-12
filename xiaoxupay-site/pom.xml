@@ -31,6 +31,7 @@
             <groupId>com.xujie</groupId>
             <artifactId>xiaoxupay-common</artifactId>
         </dependency>
+
     </dependencies>
     <build>
         <plugins>

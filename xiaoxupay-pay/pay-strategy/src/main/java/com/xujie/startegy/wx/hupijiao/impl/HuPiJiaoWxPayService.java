@@ -3,6 +3,7 @@ package com.xujie.startegy.wx.hupijiao.impl;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONObject;
 import com.xujie.application.RocketMQProducer;
+import com.xujie.application.redis.utils.RedisUtils;
 import com.xujie.common.dto.WxOrderDTO;
 import com.xujie.common.dto.WxOrderRequest;
 import com.xujie.common.exception.CustomException;
@@ -20,6 +21,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class HuPiJiaoWxPayService extends AbstractHuPiJiaoPayService {
@@ -73,6 +75,8 @@ public class HuPiJiaoWxPayService extends AbstractHuPiJiaoPayService {
                 .url(order0.getStr("url"))
                 .urlQrcode(order0.getStr("url_qrcode"))
                 .build();
+        // 订单信息缓存，方便通知获取站点appid
+        RedisUtils.setCacheObject("order:" + orderRequest.getOpenNo(), orderRequest.getSiteAppid(), 15, TimeUnit.MINUTES);
         rocketMQProducer.sendDelayMessage("order", "expire", orderRequest.getOpenNo(), 14);
         return build;
     }

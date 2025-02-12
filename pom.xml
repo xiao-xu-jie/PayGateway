@@ -77,11 +77,11 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>com.baomidou</groupId>-->
-<!--                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>-->
-<!--                <version>${mybatis-plus.version}</version>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.baomidou</groupId>-->
+            <!--                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>-->
+            <!--                <version>${mybatis-plus.version}</version>-->
+            <!--            </dependency>-->
 
             <!-- 公共模型 -->
             <dependency>
@@ -93,10 +93,20 @@
                 <groupId>org.apache.rocketmq</groupId>
                 <artifactId>rocketmq-spring-boot-starter</artifactId>
                 <version>${rocketmq-spring-boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- 工具类 -->
-
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>3.4.4</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
