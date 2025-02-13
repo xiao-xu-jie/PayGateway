@@ -2,6 +2,8 @@ package com.xujie.domain.handler.common;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.crypto.SecureUtil;
+import cn.hutool.json.JSONUtil;
+import com.xujie.application.redis.utils.RedisUtils;
 import com.xujie.common.entity.ResponseEntity;
 import com.xujie.common.exception.CustomException;
 import com.xujie.domain.entity.Order;
@@ -14,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 站点创建订单请求参数校验
@@ -31,15 +34,9 @@ public class SiteInfoCheckHandler extends AbstractOrderHandler {
      */
     @Override
     protected void doHandle(Order order) {
-        //TODO 加一层缓存
-        ResponseEntity<SiteDTO> siteDTOResponseEntity = siteFeignClient.searchByAppid(order.getSiteAppid());
-        if (siteDTOResponseEntity.getCode() != 200) {
-            throw new CustomException("站点信息有误！");
-        }
-        // 站点信息
-        log.info("[SiteInfoCheckHandler]站点信息：{}", siteDTOResponseEntity);
-        // 获取appSecret
-        SiteDTO siteDTO = siteDTOResponseEntity.getData();
+
+        // 获取站点信息
+        SiteDTO siteDTO = getSiteInfoByAppid(order.getSiteAppid());
         String siteSecret = siteDTO.getSiteSecret();
         String reqHash = order.getHash();
         Map<String, Object> map = BeanUtil.beanToMap(order);
@@ -56,7 +53,7 @@ public class SiteInfoCheckHandler extends AbstractOrderHandler {
                     .append("&");
         }
         sb.deleteCharAt(sb.length() - 1);
-        sb.append(siteDTO.getSiteSecret());
+        sb.append(siteSecret);
         log.info("[SiteInfoCheckHandler]拼接后的字符串：{}", sb);
         String hash = SecureUtil.md5(sb.toString());
         log.info("[SiteInfoCheckHandler]hash对比：请求hash{}，计算{}", reqHash, hash);
@@ -64,6 +61,36 @@ public class SiteInfoCheckHandler extends AbstractOrderHandler {
             throw new CustomException("auth 失败");
         }
 
+    }
+
+    /**
+     * 通过siteAppid获取site信息
+     * 如果redis中有缓存，从缓存拿
+     * 没有就掉接口，查询后放置缓存
+     *
+     * @param siteAppid
+     * @return
+     */
+    private SiteDTO getSiteInfoByAppid(String siteAppid) {
+        Optional<SiteDTO> cacheObject = RedisUtils.getCacheObject("order:" + siteAppid, SiteDTO.class);
+        return cacheObject.orElseGet(() -> {
+            SiteDTO data;
+            synchronized (this) {
+                Optional<SiteDTO> siteDTO = RedisUtils.getCacheObject("order:" + siteAppid, SiteDTO.class);
+                if (siteDTO.isPresent()) {
+                    return siteDTO.get();
+                }
+                ResponseEntity<SiteDTO> siteDTOResponseEntity = siteFeignClient.searchByAppid(siteAppid);
+                // 站点信息
+                log.info("[SiteInfoCheckHandler]站点信息：{}", siteDTOResponseEntity);
+                if (siteDTOResponseEntity.getCode() != 200) {
+                    throw new CustomException("站点信息有误！");
+                }
+                data = siteDTOResponseEntity.getData();
+                RedisUtils.setCacheObject("order:" + siteAppid, JSONUtil.toJsonStr(data));
+            }
+            return data;
+        });
     }
 
     public SiteInfoCheckHandler(SiteFeignClient siteFeignClient) {

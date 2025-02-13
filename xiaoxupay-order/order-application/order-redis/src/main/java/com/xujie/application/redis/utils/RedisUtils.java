@@ -1,5 +1,6 @@
 package com.xujie.application.redis.utils;
 
+import cn.hutool.json.JSONUtil;
 import jakarta.annotation.PostConstruct;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -48,8 +49,18 @@ public class RedisUtils {
      * @param key 缓存键值
      * @return 缓存键值对应的数据
      */
-    public static <T> Optional<T> getCacheObject(final String key) {
-        return Optional.ofNullable((T) staticRedisTemplate.opsForValue().get(key));
+    public static Optional<?> getCacheObject(final String key) {
+        return Optional.ofNullable(staticRedisTemplate.opsForValue().get(key));
+    }
+
+    public static <T> Optional<T> getCacheObject(final String key, Class<T> tClass) {
+        Object o = staticRedisTemplate.opsForValue().get(key);
+        if (o instanceof String str) {
+            if (!tClass.equals(String.class) && JSONUtil.isTypeJSON(str)) {
+                o = JSONUtil.toBean(str, tClass);
+            }
+        }
+        return Optional.ofNullable((T) o);
     }
 
     /**
@@ -98,6 +109,7 @@ public class RedisUtils {
     public static Long zRemoveRangeByScore(String key, double min, double max) {
         return staticRedisTemplate.opsForZSet().removeRangeByScore(key, min, max);
     }
+
     // Springboot启动成功之后会调用这个方法
     @PostConstruct
     public void initRedis() {
