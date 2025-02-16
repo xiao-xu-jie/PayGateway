@@ -3,6 +3,7 @@ package com.xujie.domain.strategy.notify.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.SecureUtil;
+import cn.hutool.http.ContentType;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
@@ -48,6 +49,9 @@ public class HttpNotifyStrategy extends NotifyStrategy {
         }
         try (HttpResponse response = HttpUtil.createPost(request.getNotifyUrl())
                 .body(JSONUtil.toJsonStr(map))
+                .timeout(1000 * 30)
+                .contentType(ContentType.JSON.getValue())
+                .keepAlive(true)
                 .execute()) {
             if (StringUtils.compare(response.body(), "success") != 0) {
                 throw new CustomException("返回值异常");
