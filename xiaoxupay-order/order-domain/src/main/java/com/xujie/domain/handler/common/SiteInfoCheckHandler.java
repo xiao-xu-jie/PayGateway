@@ -75,6 +75,7 @@ public class SiteInfoCheckHandler extends AbstractOrderHandler {
         Optional<SiteDTO> cacheObject = RedisUtils.getCacheObject("order:" + siteAppid, SiteDTO.class);
         return cacheObject.orElseGet(() -> {
             SiteDTO data;
+            // TODO 可以换成分布式锁
             synchronized (this) {
                 Optional<SiteDTO> siteDTO = RedisUtils.getCacheObject("order:" + siteAppid, SiteDTO.class);
                 if (siteDTO.isPresent()) {

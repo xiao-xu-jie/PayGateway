@@ -1,4 +1,4 @@
-package com.xujie.startegy.wx.hupijiao.impl;
+package com.xujie.strategy.wx.hupijiao.impl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONObject;
@@ -8,11 +8,11 @@ import com.xujie.common.dto.WxOrderDTO;
 import com.xujie.common.dto.WxOrderRequest;
 import com.xujie.common.exception.CustomException;
 import com.xujie.common.utils.HashUtil;
-import com.xujie.startegy.wx.hupijiao.AbstractHuPiJiaoPayService;
-import com.xujie.startegy.wx.hupijiao.config.HuPiJiaoPayConfig;
-import com.xujie.startegy.wx.hupijiao.constants.HuPiJiaoPayConstant;
-import com.xujie.startegy.wx.hupijiao.entity.OrderRequest;
-import com.xujie.startegy.wx.hupijiao.entity.RefundRequest;
+import com.xujie.strategy.wx.hupijiao.AbstractHuPiJiaoPayService;
+import com.xujie.strategy.wx.hupijiao.config.HuPiJiaoPayConfig;
+import com.xujie.strategy.wx.hupijiao.constants.HuPiJiaoPayConstant;
+import com.xujie.strategy.wx.hupijiao.entity.OrderRequest;
+import com.xujie.strategy.wx.hupijiao.entity.RefundRequest;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -81,7 +81,7 @@ public class HuPiJiaoWxPayService extends AbstractHuPiJiaoPayService {
         return build;
     }
 
-    @Override
+    //    @Override
     public JSONObject refundOrder(RefundRequest refundRequest) {
         Map<String, Object> requestBody = refundRequest.getRefundMap();
         requestBody.put("appid", config.getAppid());

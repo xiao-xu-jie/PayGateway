@@ -1,4 +1,4 @@
-package com.xujie.startegy.wx.hupijiao.entity;
+package com.xujie.strategy.wx.hupijiao.entity;
 
 import com.xujie.startegy.wx.hupijiao.constants.HuPiJiaoPayConstant;
 import lombok.AllArgsConstructor;

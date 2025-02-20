@@ -1,4 +1,4 @@
-package com.xujie.startegy.wx.hupijiao.config;
+package com.xujie.strategy.wx.hupijiao.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

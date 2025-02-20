@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.xujie</groupId>
-        <artifactId>xiaoxupay-pay</artifactId>
+        <artifactId>pay-strategy</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>pay-api</artifactId>
+    <artifactId>wx-wxpay</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

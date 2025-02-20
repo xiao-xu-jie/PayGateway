@@ -1,10 +1,10 @@
-package com.xujie.startegy.wx.hupijiao.aop;
+package com.xujie.strategy.wx.hupijiao.aop;
 
 import cn.hutool.json.JSONObject;
 import com.xujie.common.dto.WxOrderDTO;
 import com.xujie.common.exception.CustomException;
 import com.xujie.common.utils.HashUtil;
-import com.xujie.startegy.wx.hupijiao.config.HuPiJiaoPayConfig;
+import com.xujie.strategy.wx.hupijiao.config.HuPiJiaoPayConfig;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -24,7 +24,7 @@ public class PayResponseCheckAOP {
     @Resource(name = "huPiJiaoPayConfig")
     private HuPiJiaoPayConfig config;
 
-    @Pointcut("execution(* com.xujie.startegy.wx.hupijiao.impl.HuPiJiaoWxPayService.*(..))")
+    @Pointcut("execution(* com.xujie.strategy.wx.hupijiao.impl.HuPiJiaoWxPayService.*(..))")
     public void pointcut() {
     }
 
@@ -33,10 +33,10 @@ public class PayResponseCheckAOP {
         // 执行目标方法
         Object result = joinPoint.proceed();
         // 检查返回值
-        if(result instanceof WxOrderDTO){
+        if (result instanceof WxOrderDTO) {
             JSONObject response = ((WxOrderDTO) result).getJsonData();
-            if(response.getInt("errcode") != 0) {
-                log.error("[PayResponseCheckAOP] 返回状态码异常：{}",response);
+            if (response.getInt("errcode") != 0) {
+                log.error("[PayResponseCheckAOP] 返回状态码异常：{}", response);
                 throw new CustomException("返回异常");
             }
             // Hash值计算

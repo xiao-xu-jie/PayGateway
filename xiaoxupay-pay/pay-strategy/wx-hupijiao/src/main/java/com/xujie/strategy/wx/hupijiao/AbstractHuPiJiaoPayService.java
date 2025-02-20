@@ -1,4 +1,4 @@
-package com.xujie.startegy.wx.hupijiao;
+package com.xujie.strategy.wx.hupijiao;
 
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.json.JSONObject;

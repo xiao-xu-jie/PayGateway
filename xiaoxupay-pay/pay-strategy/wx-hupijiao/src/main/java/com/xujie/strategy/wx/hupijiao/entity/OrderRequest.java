@@ -1,6 +1,5 @@
-package com.xujie.startegy.wx.hupijiao.entity;
+package com.xujie.strategy.wx.hupijiao.entity;
 
-import com.xujie.startegy.wx.hupijiao.constants.HuPiJiaoPayConstant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.xujie.strategy.wx.hupijiao.constants.HuPiJiaoPayConstant.*;
 
 @Builder
 @Data
@@ -41,12 +42,12 @@ public class OrderRequest {
 
     public Map<String, Object> getReqBody() {
         Map<String, Object> map = new HashMap<>();
-        map.put(HuPiJiaoPayConstant.ORDER_ID, orderId);
-        map.put(HuPiJiaoPayConstant.NOTIFY_URL, notifyUrl);
-        map.put(HuPiJiaoPayConstant.RETURN_URL, returnUrl);
-        map.put(HuPiJiaoPayConstant.TITLE, title);
-        map.put(HuPiJiaoPayConstant.TOTAL_FEE, totalFee);
-        map.put(HuPiJiaoPayConstant.PLUGINS, remark);
+        map.put(ORDER_ID, orderId);
+        map.put(NOTIFY_URL, notifyUrl);
+        map.put(RETURN_URL, returnUrl);
+        map.put(TITLE, title);
+        map.put(TOTAL_FEE, totalFee);
+        map.put(PLUGINS, remark);
         return map;
     }
 }

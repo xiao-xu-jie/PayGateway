@@ -11,6 +11,12 @@
     </parent>
 
     <artifactId>pay-strategy</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>wx-wxpay</module>
+        <module>wx-hupijiao</module>
+        <module>strategy-api</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

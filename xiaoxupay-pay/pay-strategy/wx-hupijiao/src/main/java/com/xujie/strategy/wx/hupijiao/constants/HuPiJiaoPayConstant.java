@@ -1,4 +1,4 @@
-package com.xujie.startegy.wx.hupijiao.constants;
+package com.xujie.strategy.wx.hupijiao.constants;
 
 public class HuPiJiaoPayConstant {
     /**
