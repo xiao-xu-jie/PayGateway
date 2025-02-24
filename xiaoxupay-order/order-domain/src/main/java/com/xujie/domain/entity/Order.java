@@ -1,6 +1,7 @@
 package com.xujie.domain.entity;
 
 import com.xujie.common.enums.ChannelTypeEnum;
+import com.xujie.common.enums.ClientTypeEnum;
 import com.xujie.common.enums.OrderNotifyStatus;
 import com.xujie.common.enums.OrderStatus;
 import lombok.AllArgsConstructor;
@@ -61,6 +62,10 @@ public class Order {
      * 支付通道
      */
     private ChannelTypeEnum channel;
+    /**
+     * 支付通道
+     */
+    private ClientTypeEnum client;
 
     private String urlQrcode;
 

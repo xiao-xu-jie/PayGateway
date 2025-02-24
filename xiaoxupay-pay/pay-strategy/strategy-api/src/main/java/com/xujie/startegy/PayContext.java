@@ -39,7 +39,7 @@ public class PayContext extends AbstractPayContext {
                         .map(Map.Entry::getKey)
                         .findFirst()
                         .orElse("UnknownBean"); // 如果找不到，返回默认值
-                log.error("[PayContext] " + beanName + " 订单创建异常", e);
+                log.error("[PayContext] {} 订单创建异常", beanName, e);
             }
         }
         throw new CustomException("订单创建失败");

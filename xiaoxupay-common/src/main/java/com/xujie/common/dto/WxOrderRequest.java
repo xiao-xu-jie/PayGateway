@@ -36,6 +36,10 @@ public class WxOrderRequest {
     @Range(min = 0, max = 9999)
     private Double totalFee;
     /**
+     * 客户端 app pc h5
+     **/
+    private String client;
+    /**
      * 订单描述
      **/
     private String desc;
@@ -43,4 +47,5 @@ public class WxOrderRequest {
      * 订单备注
      **/
     private String remark;
+
 }

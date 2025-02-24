@@ -31,6 +31,7 @@ public class WxChannelStrategy extends ChannelStrategy {
                 .siteAppid(order.getSiteAppid())
                 .remark(order.getRemark())
                 .desc(order.getOrderDesc())
+                .client(order.getClient().getType())
                 .build();
         ResponseEntity<WxOrderDTO> response = wxPayFeignClient.createOrder(orderRequest);
         WxOrderDTO wxOrderDTO = response.getData();

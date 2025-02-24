@@ -1,7 +1,7 @@
 package com.xujie.controller;
 
 import com.xujie.service.MessageService;
-import com.xujie.startegy.wx.hupijiao.impl.HuPiJiaoWxPayService;
+import com.xujie.strategy.wx.hupijiao.impl.HuPiJiaoWxPayService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
@@ -25,7 +25,7 @@ public class NotifyController {
         HuPiJiaoWxPayService huPiJiaoWxPayService = applicationContext.getBean(HuPiJiaoWxPayService.class);
         String orderNo = null;
         try {
-            orderNo = huPiJiaoWxPayService.checkNotify(map).toString();
+            orderNo = huPiJiaoWxPayService.checkNotify(map);
         } catch (Exception e) {
             log.error("[HuPiJiao]回调异常：{}",e.getMessage());
             return "error";

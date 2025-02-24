@@ -1,6 +1,6 @@
 package com.xujie.strategy.wx.hupijiao.entity;
 
-import com.xujie.startegy.wx.hupijiao.constants.HuPiJiaoPayConstant;
+import com.xujie.strategy.wx.hupijiao.constants.HuPiJiaoPayConstant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
