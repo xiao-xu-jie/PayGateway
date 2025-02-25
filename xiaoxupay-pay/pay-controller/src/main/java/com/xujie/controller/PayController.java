@@ -2,7 +2,7 @@ package com.xujie.controller;
 
 import com.xujie.common.dto.WxOrderRequest;
 import com.xujie.common.entity.ResponseEntity;
-import com.xujie.startegy.PayContext;
+import com.xujie.startegy.content.WxPayContext;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/wx")
 public class PayController {
 
-    private final PayContext payContext;
-    public PayController(PayContext payContext){
+    private final WxPayContext payContext;
+    public PayController(WxPayContext payContext){
         this.payContext = payContext;
     }
 

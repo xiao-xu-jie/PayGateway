@@ -1,8 +1,11 @@
-package com.xujie.startegy;
+package com.xujie.startegy.content;
 
 import com.xujie.common.dto.WxOrderDTO;
 import com.xujie.common.dto.WxOrderRequest;
 import com.xujie.common.exception.CustomException;
+import com.xujie.startegy.AbstractPayContext;
+import com.xujie.startegy.PayService;
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,8 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,13 +24,22 @@ import java.util.Map;
 @Slf4j
 @RefreshScope
 @Component
-public class PayContext extends AbstractPayContext {
+public class WxPayContext extends AbstractPayContext {
     @Autowired
     private ApplicationContext applicationContext;
     @Resource
     private List<PayService> wxPayServices;
 
 
+    /**
+     * 排序PayService
+     */
+    @PostConstruct
+    public void init() {
+        // 排序
+        wxPayServices.sort(Comparator.comparingInt(PayService::getOrder));
+        log.info("WxPayService 排序：{}",wxPayServices);
+    }
     @Override
     public WxOrderDTO processOrder(WxOrderRequest request) {
         Map<String, PayService> payServiceMap = applicationContext.getBeansOfType(PayService.class);

@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONObject;
 import com.xujie.application.RocketMQProducer;
 import com.xujie.application.redis.utils.RedisUtils;
+import com.xujie.common.annotations.Order;
 import com.xujie.common.dto.WxOrderDTO;
 import com.xujie.common.dto.WxOrderRequest;
 import com.xujie.common.exception.CustomException;
@@ -22,7 +23,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
+@Order(0)
 @Slf4j
 public class HuPiJiaoWxPayService extends AbstractHuPiJiaoPayService {
     @Resource(name = "webClient")

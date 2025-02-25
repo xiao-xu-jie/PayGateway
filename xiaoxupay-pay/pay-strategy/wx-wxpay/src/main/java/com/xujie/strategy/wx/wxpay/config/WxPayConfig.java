@@ -6,6 +6,10 @@ import com.wechat.pay.java.core.notification.NotificationParser;
 import com.wechat.pay.java.service.payments.jsapi.JsapiServiceExtension;
 import com.wechat.pay.java.service.payments.nativepay.NativePayService;
 import com.xujie.common.exception.CustomException;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -23,6 +27,9 @@ import java.io.InputStream;
 @Configuration
 @ConditionalOnProperty(prefix = "wx.pay",name = {"appId","mchId","merchantSerialNumber","apiV3Key","notifyUrl"})
 @Slf4j
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class WxPayConfig {
     public NotificationParser parser;
     @Value("${wx.pay.appId}")
@@ -66,14 +73,12 @@ public class WxPayConfig {
 
     @Bean
     public JsapiServiceExtension jsapiServiceExtension(Config config) {
-
         return new JsapiServiceExtension.Builder()
                 .config(config)
                 .build();
     }
     @Bean
     public NativePayService nativePayService(Config config) {
-
         return new NativePayService.Builder()
                 .config(config)
                 .build();

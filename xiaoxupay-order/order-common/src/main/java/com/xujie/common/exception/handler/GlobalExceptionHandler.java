@@ -57,8 +57,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({RuntimeException.class})
     public ResponseEntity<?> exceptionHandler(Exception e) {
         log.error("系统异常", e);
-        int length = Math.min(e.getMessage().length(), 10);
-        return ResponseEntity.error(e.getMessage().substring(0, length)+Arrays.toString(e.getStackTrace()).substring(1, 10));
+        return ResponseEntity.error("运行时异常！");
     }
 
     @ExceptionHandler({IllegalArgumentException.class})

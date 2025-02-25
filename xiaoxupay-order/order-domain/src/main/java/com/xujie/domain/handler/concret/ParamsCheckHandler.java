@@ -28,7 +28,7 @@ public class ParamsCheckHandler extends AbstractOrderHandler {
         boolean after = now.plusMinutes(2).isBefore(time);
         if (!after) {
             log.error("时间戳过期：{}", timestamp);
-            throw new CustomException("时间戳过期");
+//            throw new CustomException("时间戳过期");
         }
     }
 }

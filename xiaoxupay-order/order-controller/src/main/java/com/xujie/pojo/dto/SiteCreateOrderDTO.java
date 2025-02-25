@@ -1,6 +1,7 @@
 package com.xujie.pojo.dto;
 
 import com.xujie.common.enums.ChannelTypeEnum;
+import com.xujie.common.enums.ClientTypeEnum;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -58,6 +59,12 @@ public class SiteCreateOrderDTO {
      */
     @NotNull(message = "请传入通道")
     private ChannelTypeEnum channel;
+
+    /**
+     * 客户端
+     */
+    @NotNull(message = "请传入客户端")
+    private ClientTypeEnum client;
 
     /**
      * 备注

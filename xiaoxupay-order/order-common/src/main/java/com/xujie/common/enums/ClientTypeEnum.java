@@ -1,5 +1,6 @@
 package com.xujie.common.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -14,7 +15,8 @@ import lombok.NoArgsConstructor;
 public enum ClientTypeEnum {
     APP("app"),
     H5("h5"),
-    PC("PC");
+    PC("pc");
 
+    @JsonValue
     private String type;
 }

@@ -2,6 +2,8 @@ package com.xujie.strategy.wx.wxpay;
 
 import com.wechat.pay.java.service.payments.nativepay.NativePayService;
 import com.xujie.strategy.wx.wxpay.config.WxPayConfig;
+import com.xujie.strategy.wx.wxpay.core.IWxPayChannelService;
+import com.xujie.strategy.wx.wxpay.core.impl.WxPayChannelServiceImpl;
 import com.xujie.strategy.wx.wxpay.impl.WxPayService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -22,5 +24,10 @@ public class WxPayAutoConfiguration {
     @ConditionalOnBean(NativePayService.class)
     public WxPayService wxPayService() {
         return new WxPayService();
+    }
+    @Bean
+    @ConditionalOnBean(WxPayService.class)
+    public IWxPayChannelService wxPayChannelService() {
+        return new WxPayChannelServiceImpl();
     }
 }
