@@ -14,14 +14,21 @@ import com.xujie.strategy.wx.hupijiao.config.HuPiJiaoPayConfig;
 import com.xujie.strategy.wx.hupijiao.constants.HuPiJiaoPayConstant;
 import com.xujie.strategy.wx.hupijiao.entity.OrderRequest;
 import com.xujie.strategy.wx.hupijiao.entity.RefundRequest;
+import io.netty.util.concurrent.DefaultThreadFactory;
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.util.Assert;
+import org.springframework.util.StopWatch;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 @Order(0)
 @Slf4j
@@ -37,6 +44,8 @@ public class HuPiJiaoWxPayService extends AbstractHuPiJiaoPayService {
 
     @Override
     public WxOrderDTO createOrder(WxOrderRequest orderRequest) {
+        StopWatch createWatch = new StopWatch("createOrder");
+        createWatch.start();
         OrderRequest request = OrderRequest.builder()
                 .orderId(orderRequest.getOpenNo())
                 .title(orderRequest.getTitle())
@@ -57,7 +66,11 @@ public class HuPiJiaoWxPayService extends AbstractHuPiJiaoPayService {
         }
         String post = null;
         try {
+            StopWatch postWatch = new StopWatch("post");
+            postWatch.start();
             post = post(config.getUrl(), requestBody, webClient, timeout);
+            postWatch.stop();
+            log.info("post 消耗时间：{}",postWatch.getTotalTimeMillis());
         } catch (Exception e) {
             log.error("对接平台创建订单请求异常: ", e);
             throw new CustomException("对接平台创建订单请求异常！");
@@ -76,10 +89,21 @@ public class HuPiJiaoWxPayService extends AbstractHuPiJiaoPayService {
                 .url(order0.getStr("url"))
                 .urlQrcode(order0.getStr("url_qrcode"))
                 .build();
+        createWatch.stop();
+        log.info("createOrder 消耗时间：{}",createWatch.getTotalTimeMillis());
         // 订单信息缓存，方便通知获取站点appid
+        cacheAndSendMsg(orderRequest);
+        return build;
+    }
+
+    @Async
+    protected void cacheAndSendMsg(WxOrderRequest orderRequest) {
+        StopWatch stopWatch = new StopWatch("cacheAndSendMsg");
+        stopWatch.start();
         RedisUtils.setCacheObject("order:" + orderRequest.getOpenNo(), orderRequest.getSiteAppid(), 15, TimeUnit.MINUTES);
         rocketMQProducer.sendDelayMessage("order", "expire", orderRequest.getOpenNo(), 14);
-        return build;
+        stopWatch.stop();
+        log.info("cacheAndSendMsg 消耗时间：{}", stopWatch.getTotalTimeMillis());
     }
 
     //    @Override
@@ -124,4 +148,26 @@ public class HuPiJiaoWxPayService extends AbstractHuPiJiaoPayService {
     }
 
 
+    @PostConstruct
+    public void init() {
+        String url = config.getUrl(); // 替换为你的服务 URL
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor(new DefaultThreadFactory("预热线程-"));
+        scheduledExecutorService.scheduleAtFixedRate(()-> preheatConnectionPool(webClient,url),10,10,TimeUnit.SECONDS);
+    }
+
+    private void preheatConnectionPool(WebClient webClient, String url) {
+        webClient.post()
+                .uri(url)
+                .retrieve() // 发起请求并获取响应
+                .bodyToMono(String.class) // 将响应体转换为 String
+                .doOnSuccess(response -> {
+                    // 可选：处理成功的响应
+                    log.info("虎皮椒连接预热成功: {}", response);
+                })
+                .doOnError(error -> {
+                    // 可选：处理请求错误
+                    log.error("虎皮椒预热失败: {}", error.getMessage());
+                })
+                .subscribe();
+    }
 }

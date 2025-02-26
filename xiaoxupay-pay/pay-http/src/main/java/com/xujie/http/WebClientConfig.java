@@ -29,7 +29,7 @@ public class WebClientConfig {
                         // 最大连接数
                         .maxConnections(200)
                         // 最大空闲时间
-                        .maxIdleTime(Duration.ofSeconds(60))
+                        .maxIdleTime(Duration.ofSeconds(60*30))
                         // 最大等待连接数量
                         .pendingAcquireMaxCount(1000)
                         .build();

@@ -3,6 +3,7 @@ package com.xujie.application.redis.utils;
 import jakarta.annotation.PostConstruct;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -38,6 +39,7 @@ public class RedisUtils {
      * @param timeout  时间
      * @param timeUnit 时间颗粒度
      */
+
     public static <T> void setCacheObject(final String key, final T value, final long timeout, final TimeUnit timeUnit) {
         staticRedisTemplate.opsForValue().set(key, value, timeout, timeUnit);
     }

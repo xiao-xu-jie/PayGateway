@@ -1,6 +1,7 @@
 package com.xujie.domain.service.impl;
 
 import com.xujie.common.enums.OrderStatus;
+import com.xujie.common.exception.CustomException;
 import com.xujie.domain.convert.DomainConvert;
 import com.xujie.domain.entity.Order;
 import com.xujie.domain.handler.OrderHandlerContext;
@@ -10,8 +11,10 @@ import com.xujie.infra.service.OrderService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 
 @Slf4j
@@ -27,7 +30,11 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     @Override
     public Order processOrder(Order order) {
         orderHandlerContext.process(order);
-        orderService.insertOrder(convert.bo2do(order));
+        try {
+            orderService.insertOrder(convert.bo2do(order));
+        } catch (DuplicateKeyException e) {
+            throw new CustomException("订单号已经存在");
+        }
         log.info("订单保存到数据库：{}", order);
         return order;
     }
