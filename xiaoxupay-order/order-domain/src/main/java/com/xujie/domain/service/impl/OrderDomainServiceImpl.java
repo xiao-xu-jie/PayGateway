@@ -14,8 +14,8 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -72,5 +72,10 @@ public class OrderDomainServiceImpl implements OrderDomainService {
             orderByEntity.setPayTime(new Date());
             orderService.updateOrder(openNo, orderByEntity);
         }
+    }
+
+    @Override
+    public void handleOrderPaid(List<String> list) {
+        orderService.updateOrderPaidBatch(list);
     }
 }

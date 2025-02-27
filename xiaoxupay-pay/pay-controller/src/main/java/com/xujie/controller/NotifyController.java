@@ -21,17 +21,23 @@ public class NotifyController {
     private MessageService messageService;
 
     @RequestMapping("/hpj")
-    public String notify(@RequestParam() Map<String, Object> map){
+    public String notify(@RequestParam() Map<String, Object> map) {
         HuPiJiaoWxPayService huPiJiaoWxPayService = applicationContext.getBean(HuPiJiaoWxPayService.class);
         String orderNo = null;
         try {
             orderNo = huPiJiaoWxPayService.checkNotify(map);
         } catch (Exception e) {
-            log.error("[HuPiJiao]回调异常：{}",e.getMessage());
+            log.error("[HuPiJiao]回调异常：{}", e.getMessage());
             return "error";
         }
         log.info("[虎皮椒] 开始--支付成功回调--校验成功：{}", map);
         messageService.sendOrderPaidMessage(orderNo);
+        return "success";
+    }
+
+    @RequestMapping("/test")
+    public String test(@RequestParam("openNo") String openNo) {
+        messageService.sendOrderPaidMessage(openNo);
         return "success";
     }
 }

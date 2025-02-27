@@ -1,7 +1,10 @@
 package com.xujie.infra.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.xujie.common.enums.OrderStatus;
 import com.xujie.infra.entity.SiteOrder;
 import com.xujie.infra.mapper.SiteOrderMapper;
 import com.xujie.infra.service.OrderService;
@@ -37,6 +40,16 @@ public class OrderServiceImpl implements OrderService {
         LambdaQueryWrapper<SiteOrder> eq = Wrappers.<SiteOrder>lambdaQuery().
                 eq(StringUtils.isNotBlank(openNo), SiteOrder::getOpenNo, openNo);
         orderMapper.update(order, eq);
+    }
+
+    @Override
+    public void updateOrderPaidBatch(List<String> list) {
+        LambdaUpdateWrapper<SiteOrder> set = Wrappers.lambdaUpdate(SiteOrder.class)
+                .eq(SiteOrder::getOrderStatus, OrderStatus.WAIT_PAY)
+                .in(SiteOrder::getOrderStatus, list)
+                .set(SiteOrder::getOrderStatus, OrderStatus.SUCCESS)
+                .set(SiteOrder::getPayTime, DateUtil.date());
+        orderMapper.update(set);
     }
 
 

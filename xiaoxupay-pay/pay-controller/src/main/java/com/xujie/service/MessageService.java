@@ -35,6 +35,7 @@ public class MessageService {
                 , new ArrayBlockingQueue<>(1000)
                 , new ThreadPoolExecutor.CallerRunsPolicy()
         );
+        log.info("初始化线程池 threadPoolExecutor 成功！");
     }
 
     public void sendOrderPaidMessage(String openNo) {

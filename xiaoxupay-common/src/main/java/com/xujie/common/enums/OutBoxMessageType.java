@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public enum OutBoxMessageType {
     ORDER_PAID("paid"),
-    SITE_NOTIFY("site");
+    SITE_NOTIFY("notify");
     private String type;
 }
