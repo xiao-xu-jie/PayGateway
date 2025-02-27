@@ -1,6 +1,8 @@
 server:
   port: 8011
 spring:
+  profiles:
+    active: dev
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -19,6 +21,7 @@ spring:
       - nacos:${spring.application.name}.yml
       - nacos:db-common.yml    #数据库公共配置
       - nacos:nacos-discovery.yml
+      - nacos:snail-${spring.profiles.active}.yml
 logging:
   config: classpath:log4j2-spring.xml
   level:

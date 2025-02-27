@@ -1,4 +1,4 @@
-package com.xujie.startegy;
+package com.xujie.strategy;
 
 import com.xujie.common.dto.WxOrderDTO;
 import com.xujie.common.dto.WxOrderRequest;

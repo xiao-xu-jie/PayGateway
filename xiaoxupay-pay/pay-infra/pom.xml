@@ -5,43 +5,34 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.xujie</groupId>
-        <artifactId>xiaoxupay-order</artifactId>
+        <artifactId>xiaoxupay-pay</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>order-starter</artifactId>
+    <artifactId>pay-infra</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.xujie</groupId>
-            <artifactId>order-controller</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.xujie</groupId>
-            <artifactId>order-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.xujie</groupId>
-            <artifactId>order-api</artifactId>
+            <artifactId>pay-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.xujie</groupId>
-            <artifactId>order-executor</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-jsqlparser</artifactId>
         </dependency>
     </dependencies>
 </project>

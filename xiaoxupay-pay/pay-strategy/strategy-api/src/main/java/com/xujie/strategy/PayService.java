@@ -1,4 +1,4 @@
-package com.xujie.startegy;
+package com.xujie.strategy;
 
 import com.xujie.common.annotations.Order;
 import com.xujie.common.dto.WxOrderDTO;
@@ -12,9 +12,9 @@ public interface PayService {
 
     Object checkNotify(Map<String, Object> map);
 
-    default  int getOrder() {
+    default int getOrder() {
         Class<? extends PayService> aClass = this.getClass();
-        if(aClass.isAnnotationPresent(Order.class)) {
+        if (aClass.isAnnotationPresent(Order.class)) {
             Order order = aClass.getAnnotation(Order.class);
             return order.value();
         }

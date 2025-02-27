@@ -34,5 +34,10 @@
             <artifactId>wx-wxpay</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.xujie</groupId>
+            <artifactId>pay-infra</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

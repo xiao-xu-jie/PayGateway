@@ -3,7 +3,7 @@ package com.xujie.strategy.wx.hupijiao;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.json.JSONObject;
 import com.xujie.common.exception.CustomException;
-import com.xujie.startegy.PayService;
+import com.xujie.strategy.PayService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.MediaType;

@@ -19,6 +19,7 @@
         <module>order-api</module>
         <module>order-starter</module>
         <module>order-common</module>
+        <module>order-executor</module>
     </modules>
 
     <properties>

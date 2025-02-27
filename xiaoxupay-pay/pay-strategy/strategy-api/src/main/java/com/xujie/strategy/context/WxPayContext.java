@@ -1,22 +1,26 @@
-package com.xujie.startegy.content;
+package com.xujie.strategy.context;
 
+import com.xujie.application.RocketMQProducer;
+import com.xujie.application.redis.utils.RedisUtils;
 import com.xujie.common.dto.WxOrderDTO;
 import com.xujie.common.dto.WxOrderRequest;
 import com.xujie.common.exception.CustomException;
-import com.xujie.startegy.AbstractPayContext;
-import com.xujie.startegy.PayService;
+import com.xujie.strategy.AbstractPayContext;
+import com.xujie.strategy.PayService;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 支付策略上下文
@@ -29,7 +33,8 @@ public class WxPayContext extends AbstractPayContext {
     private ApplicationContext applicationContext;
     @Resource
     private List<PayService> wxPayServices;
-
+    @Resource
+    private RocketMQProducer rocketMQProducer;
 
     /**
      * 排序PayService
@@ -38,14 +43,18 @@ public class WxPayContext extends AbstractPayContext {
     public void init() {
         // 排序
         wxPayServices.sort(Comparator.comparingInt(PayService::getOrder));
-        log.info("WxPayService 排序：{}",wxPayServices);
+        log.info("WxPayService 排序：{}", wxPayServices);
     }
+
     @Override
     public WxOrderDTO processOrder(WxOrderRequest request) {
         Map<String, PayService> payServiceMap = applicationContext.getBeansOfType(PayService.class);
         for (PayService payService : wxPayServices) {
             try {
-                return payService.createOrder(request);
+                WxOrderDTO order = payService.createOrder(request);
+                // 缓存订单信息与发送消息
+                cacheAndSendMsg(request);
+                return order;
             } catch (Exception e) {
                 // 找到当前 PayService 的 Bean 名称
                 String beanName = payServiceMap.entrySet().stream()
@@ -57,6 +66,16 @@ public class WxPayContext extends AbstractPayContext {
             }
         }
         throw new CustomException("订单创建失败");
+    }
+
+    @Async
+    protected void cacheAndSendMsg(WxOrderRequest orderRequest) {
+        StopWatch stopWatch = new StopWatch("cacheAndSendMsg");
+        stopWatch.start();
+        RedisUtils.setCacheObject("order:" + orderRequest.getOpenNo(), orderRequest.getSiteAppid(), 15, TimeUnit.MINUTES);
+        rocketMQProducer.sendDelayMessage("order", "expire", orderRequest.getOpenNo(), 14);
+        stopWatch.stop();
+        log.info("cacheAndSendMsg 消耗时间：{}", stopWatch.getTotalTimeMillis());
     }
 
 

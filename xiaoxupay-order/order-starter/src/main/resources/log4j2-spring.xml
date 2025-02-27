@@ -35,7 +35,8 @@
         <console name="CONSOLE" target="SYSTEM_OUT">
             <PatternLayout pattern="${LOG_PATTERN}" charset="UTF-8"/>
         </console>
-
+        <!-- SnailLog4j2 appender -->
+        <SnailLog4j2Appender name="SnailLog4j2Appender" ignoreExceptions="true" />
         <!-- INFO_FILE -->
         <RollingRandomAccessFile name="INFO_FILE" fileName="${LOG_PATH}/${MODULE_NAME}-${LEVEL_INFO}.log"
                                  immediateFlush="false"
@@ -136,6 +137,7 @@
             <AppenderRef ref="INFO_FILE"/>
             <AppenderRef ref="WARN_FILE"/>
             <AppenderRef ref="ERROR_FILE"/>
+            <AppenderRef ref="SnailLog4j2Appender"/>
         </Root>
     </Loggers>
 
