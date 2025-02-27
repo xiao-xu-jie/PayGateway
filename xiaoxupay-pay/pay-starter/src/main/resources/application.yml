@@ -15,6 +15,7 @@ spring:
     import:
       - nacos:${spring.application.name}.yml
       - nacos:nacos-discovery.yml
+      - nacos:db-common.yml    #数据库公共配置
 
 
 logging:
