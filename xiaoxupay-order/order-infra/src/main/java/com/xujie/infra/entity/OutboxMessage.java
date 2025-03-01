@@ -1,9 +1,6 @@
 package com.xujie.infra.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -81,6 +78,7 @@ public class OutboxMessage {
      * 重试次数
      */
     @TableField(value = "retry_count")
+    @Version
     private Integer retryCount;
 
     public static final String COL_ID = "id";
