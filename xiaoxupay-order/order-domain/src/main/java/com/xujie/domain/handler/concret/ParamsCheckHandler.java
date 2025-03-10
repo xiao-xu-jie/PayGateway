@@ -1,9 +1,11 @@
 package com.xujie.domain.handler.concret;
 
+import com.xujie.common.exception.CustomException;
 import com.xujie.domain.entity.Order;
 import com.xujie.domain.handler.AbstractOrderHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
+import org.springframework.core.env.Environment;
 
 import java.util.Date;
 
@@ -13,8 +15,16 @@ import java.util.Date;
  */
 @Slf4j
 public class ParamsCheckHandler extends AbstractOrderHandler {
+    private Environment environment;
+
+    public ParamsCheckHandler(Environment environment) {
+        this.environment = environment;
+    }
+
     @Override
     protected void doHandle(Order order) {
+
+        String env = environment.getProperty("spring.profiles.active");
         String timestamp = order.getTimestamp();
         Long time = Long.parseLong(timestamp);
         Date date = null;
@@ -27,7 +37,9 @@ public class ParamsCheckHandler extends AbstractOrderHandler {
         boolean after = now.plusMinutes(2).isBefore(time);
         if (!after) {
             log.error("时间戳过期：{}", timestamp);
-//            throw new CustomException("时间戳过期");
+            if ("prod".equals(env)) {
+                throw new CustomException("时间戳过期");
+            }
         }
     }
 }
