@@ -13,13 +13,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.ApplicationContext;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,6 +36,8 @@ public class WxPayContext extends AbstractPayContext {
     private List<PayService> wxPayServices;
     @Resource
     private RocketMQProducer rocketMQProducer;
+    @Resource
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     /**
      * 排序PayService
@@ -53,7 +56,9 @@ public class WxPayContext extends AbstractPayContext {
             try {
                 WxOrderDTO order = payService.createOrder(request);
                 // 缓存订单信息与发送消息
-                cacheAndSendMsg(request);
+                CompletableFuture.runAsync(() -> {
+                    cacheAndSendMsg(request);
+                }, threadPoolTaskExecutor);
                 return order;
             } catch (Exception e) {
                 // 找到当前 PayService 的 Bean 名称
@@ -68,12 +73,13 @@ public class WxPayContext extends AbstractPayContext {
         throw new CustomException("订单创建失败");
     }
 
-    @Async
+
     protected void cacheAndSendMsg(WxOrderRequest orderRequest) {
         StopWatch stopWatch = new StopWatch("cacheAndSendMsg");
         stopWatch.start();
         RedisUtils.setCacheObject("order:" + orderRequest.getOpenNo(), orderRequest.getSiteAppid(), 15, TimeUnit.MINUTES);
         rocketMQProducer.sendDelayMessage("order", "expire", orderRequest.getOpenNo(), 14);
+
         stopWatch.stop();
         log.info("cacheAndSendMsg 消耗时间：{}", stopWatch.getTotalTimeMillis());
     }

@@ -20,6 +20,7 @@ public class WxChannelStrategy extends ChannelStrategy {
     @Resource
     private WxPayFeignClient wxPayFeignClient;
 
+
     @Override
     public void handle(Order order) {
         // 调用创建订单
