@@ -13,6 +13,7 @@
         <module>xiaoxupay-pay</module>
         <module>xiaoxupay-order</module>
         <module>xiaoxupay-site</module>
+        <module>xiaoxupay-id</module>
 
 
     </modules>

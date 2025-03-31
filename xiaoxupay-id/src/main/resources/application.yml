@@ -1,0 +1,24 @@
+server:
+  port: 8099
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  application:
+    name: xiaoxupay-id-generator
+  cloud:
+    nacos:
+      config:
+        server-addr: 183.131.51.137:8848
+        file-extension: yml   #指定配置文件扩展名为yml
+        username: nacos
+        password: xujie520.
+        namespace: pay-gateway
+  config:
+    import:
+      - nacos:${spring.application.name}.yml
+      - nacos:nacos-discovery.yml
+logging:
+  config: classpath:log4j2-spring.xml
+  level:
+    com.alibaba.cloud.nacos: debug

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Don't forget to set system property
+-Dlog4j2.contextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector
+     to make all loggers asynchronous. -->
+<Configuration status="INFO">
+    <!--变量配置：此处的变量都是自定义的 -->
+    <Properties>
+        <!--module name：服务名 -->
+        <property name="MODULE_NAME" value="xiaoxupay-id"/>
+        <!--log.pattern：日志输出的前缀格式  -->
+        <property name="LOG_PATTERN"
+                  value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level [%traceId] [%logger{60}:%L] - %msg%n"/>
+        <!--TIME_INTERVAL：日志分割的时间间隔，时间单位是根据filePattern来定的 -->
+        <property name="TIME_INTERVAL" value="1"/>
+        <!--maxFileSize：单个日志文件的最大大小 -->
+        <property name="MAX_FILE_SIZE" value="200 MB"/>
+        <!-- TOTAL_SIZE_CAP：不同日志级别的日志文件总磁盘占用的阈值 -->
+        <property name="TOTAL_SIZE_INFO" value="30 GB"/>
+        <property name="TOTAL_SIZE_WARN" value="5 GB"/>
+        <property name="TOTAL_SIZE_ERROR" value="5 GB"/>
+        <!--maxHistory：日志的最大留存时间 -->
+        <property name="MAX_HISTORY" value="P15D"/>
+        <!--maxHistory：日志分割最大随机延迟的秒数 -->
+        <property name="MAX_RANDOMDELAY" value="300"/>
+        <!-- level：日志级别 -->
+        <property name="LEVEL_INFO" value="info"/>
+        <property name="LEVEL_WARN" value="warn"/>
+        <property name="LEVEL_ERROR" value="error"/>
+        <!-- log path：日志输出的路径，可以配置相对路径、绝对路径、路径软连接 -->
+        <property name="LOG_PATH" value="./logs"/>
+    </Properties>
+
+    <Appenders>
+        <!-- Console -->
+        <console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}" charset="UTF-8"/>
+        </console>
+
+        <!-- INFO_FILE -->
+        <RollingRandomAccessFile name="INFO_FILE" fileName="${LOG_PATH}/${MODULE_NAME}-${LEVEL_INFO}.log"
+                                 immediateFlush="false"
+                                 append="true"
+                                 filePattern="${LOG_PATH}/${MODULE_NAME}-${LEVEL_INFO}-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}" charset="UTF-8"/>
+            <!-- 日志分割策略 -->
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${TIME_INTERVAL}" maxRandomDelay="${MAX_RANDOMDELAY}"/>
+                <SizeBasedTriggeringPolicy size="${MAX_FILE_SIZE}"/>
+            </Policies>
+            <!-- 日志删除策略 -->
+            <DefaultRolloverStrategy fileIndex="nomax">
+                <Delete basePath="${LOG_PATH}" maxDepth="1" followLinks="true">
+                    <IfFileName glob="${MODULE_NAME}-${LEVEL_INFO}*.log">
+                        <IfAny>
+                            <IfAccumulatedFileSize exceeds="${TOTAL_SIZE_INFO}"/>
+                            <IfLastModified age="${MAX_HISTORY}"/>
+                        </IfAny>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+            <!-- 日志级别 -->
+            <Filters>
+                <ThresholdFilter level="${LEVEL_WARN}" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="${LEVEL_INFO}" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingRandomAccessFile>
+
+        <!-- WARN_FILE -->
+        <RollingRandomAccessFile name="WARN_FILE" fileName="${LOG_PATH}/${MODULE_NAME}-${LEVEL_WARN}.log"
+                                 immediateFlush="false"
+                                 append="true"
+                                 filePattern="${LOG_PATH}/${MODULE_NAME}-${LEVEL_WARN}-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}" charset="UTF-8"/>
+            <!-- 日志分割策略 -->
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${TIME_INTERVAL}" maxRandomDelay="${MAX_RANDOMDELAY}"/>
+                <SizeBasedTriggeringPolicy size="${MAX_FILE_SIZE}"/>
+            </Policies>
+            <!-- 日志删除策略 -->
+            <DefaultRolloverStrategy fileIndex="nomax">
+                <Delete basePath="${LOG_PATH}" maxDepth="1" followLinks="true">
+                    <IfFileName glob="${MODULE_NAME}-${LEVEL_WARN}*.log">
+                        <IfAny>
+                            <IfAccumulatedFileSize exceeds="${TOTAL_SIZE_WARN}"/>
+                            <IfLastModified age="${MAX_HISTORY}"/>
+                        </IfAny>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+            <!-- 日志级别 -->
+            <Filters>
+                <ThresholdFilter level="${LEVEL_ERROR}" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="${LEVEL_WARN}" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingRandomAccessFile>
+
+        <!-- ERROR_FILE -->
+        <RollingRandomAccessFile name="ERROR_FILE" fileName="${LOG_PATH}/${MODULE_NAME}-${LEVEL_ERROR}.log"
+                                 immediateFlush="false"
+                                 append="true"
+                                 filePattern="${LOG_PATH}/${MODULE_NAME}-${LEVEL_ERROR}-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}" charset="UTF-8"/>
+            <!-- 日志分割策略 -->
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${TIME_INTERVAL}" maxRandomDelay="${MAX_RANDOMDELAY}"/>
+                <SizeBasedTriggeringPolicy size="${MAX_FILE_SIZE}"/>
+            </Policies>
+            <!-- 日志删除策略 -->
+            <DefaultRolloverStrategy fileIndex="nomax">
+                <Delete basePath="${LOG_PATH}" maxDepth="1" followLinks="true">
+                    <IfFileName glob="${MODULE_NAME}-${LEVEL_ERROR}*.log">
+                        <IfAny>
+                            <IfAccumulatedFileSize exceeds="${TOTAL_SIZE_ERROR}"/>
+                            <IfLastModified age="${MAX_HISTORY}"/>
+                        </IfAny>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+            <!-- 日志级别 -->
+            <Filters>
+                <ThresholdFilter level="${LEVEL_ERROR}" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingRandomAccessFile>
+
+    </Appenders>
+
+    <Loggers>
+        <!-- logger 用来设置某一个包或者具体的某一个类的日志打印级别、以及指定 -->
+        <!-- common framework level -->
+        <AsyncLogger name="org.apache" level="INFO"/>
+        <AsyncLogger name="org.apache.http" level="INFO"/>
+
+        <!-- root -->
+        <Root level="INFO" includeLocation="false">
+            <AppenderRef ref="CONSOLE"/>
+            <AppenderRef ref="INFO_FILE"/>
+            <AppenderRef ref="WARN_FILE"/>
+            <AppenderRef ref="ERROR_FILE"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
