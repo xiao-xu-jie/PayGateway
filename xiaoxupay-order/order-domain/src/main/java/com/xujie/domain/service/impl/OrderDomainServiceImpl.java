@@ -1,11 +1,14 @@
 package com.xujie.domain.service.impl;
 
+import com.xujie.common.entity.ResponseEntity;
 import com.xujie.common.enums.OrderStatus;
 import com.xujie.common.exception.CustomException;
 import com.xujie.domain.convert.DomainConvert;
 import com.xujie.domain.entity.Order;
 import com.xujie.domain.handler.OrderHandlerContext;
 import com.xujie.domain.service.OrderDomainService;
+import com.xujie.id.api.IdGeneratorFeignApi;
+import com.xujie.id.constants.IdConstant;
 import com.xujie.infra.entity.SiteOrder;
 import com.xujie.infra.service.OrderService;
 import jakarta.annotation.Resource;
@@ -26,12 +29,20 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     private OrderService orderService;
     @Resource
     private DomainConvert convert;
+    @Resource
+    private IdGeneratorFeignApi idGeneratorFeignApi;
 
     @Override
     public Order processOrder(Order order) {
         orderHandlerContext.process(order);
         try {
-            orderService.insertOrder(convert.bo2do(order));
+            SiteOrder siteOrder = convert.bo2do(order);
+            ResponseEntity<Long> responseEntity = idGeneratorFeignApi.getId(IdConstant.ORDER_ID_SNOWFLAKE);
+            log.info("调用ID服务获取ID：{}", responseEntity);
+            if (responseEntity.isSuccess()) {
+                siteOrder.setId(responseEntity.getData());
+            }
+            orderService.insertOrder(siteOrder);
         } catch (DuplicateKeyException e) {
             throw new CustomException("订单号已经存在");
         }

@@ -1,7 +1,7 @@
-package com.xujie.feign;
+package com.xujie.id.feign;
 
-import com.xujie.api.IdGeneratorFeignApi;
 import com.xujie.common.entity.ResponseEntity;
+import com.xujie.id.api.IdGeneratorFeignApi;
 import jakarta.annotation.Resource;
 import me.ahoo.cosid.IdGenerator;
 import me.ahoo.cosid.provider.IdGeneratorProvider;
@@ -15,7 +15,7 @@ public class IdGeneratorFeignProvider implements IdGeneratorFeignApi {
     private IdGeneratorProvider idGeneratorProvider;
 
     @Override
-    public ResponseEntity<Long> getSeqId(String name) {
+    public ResponseEntity<Long> getId(String name) {
         Optional<IdGenerator> idGenerator = idGeneratorProvider.get(name);
         boolean present = idGenerator.isPresent();
         if (!present) {

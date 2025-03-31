@@ -1,4 +1,4 @@
-package com.xujie;
+package com.xujie.id;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

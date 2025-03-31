@@ -1,16 +1,17 @@
 package com.xujie.domain.strategy.wx;
 
-import cn.hutool.core.util.IdUtil;
-
 import com.xujie.api.dto.WxOrderDTO;
 import com.xujie.api.dto.WxOrderRequest;
+import com.xujie.api.feign.PayFeignApi;
 import com.xujie.common.entity.ResponseEntity;
 import com.xujie.common.enums.OrderNotifyStatus;
 import com.xujie.common.enums.OrderStatus;
+import com.xujie.common.exception.BaseException;
 import com.xujie.common.exception.CustomException;
 import com.xujie.domain.entity.Order;
 import com.xujie.domain.strategy.ChannelStrategy;
-import com.xujie.api.feign.PayFeignApi;
+import com.xujie.id.api.IdGeneratorFeignApi;
+import com.xujie.id.constants.IdConstant;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,15 +22,26 @@ public class WxChannelStrategy extends ChannelStrategy {
     @Resource
     private PayFeignApi payFeignApi;
 
+    @Resource
+    private IdGeneratorFeignApi idGeneratorFeignApi;
+
 
     @Override
     public void handle(Order order) {
         // 调用创建订单
-        String openNo = IdUtil.getSnowflakeNextIdStr();
+        ResponseEntity<Long> responseEntity = idGeneratorFeignApi.getId(IdConstant.ORDER_OPEN_NO_SNOWFLAKE);
+        int count = 5;
+        while (!responseEntity.isSuccess() && count-- > 0) {
+            responseEntity = idGeneratorFeignApi.getId(IdConstant.ORDER_OPEN_NO_SNOWFLAKE);
+        }
+        if (!responseEntity.isSuccess()) {
+            throw new BaseException(1001, "Id 服务调用失败");
+        }
+        Long openNo = responseEntity.getData();
         WxOrderRequest orderRequest = WxOrderRequest.builder()
                 .totalFee(order.getTotalFee())
                 .title(order.getTitle())
-                .openNo(openNo)
+                .openNo(String.valueOf(openNo))
                 .siteAppid(order.getSiteAppid())
                 .remark(order.getRemark())
                 .desc(order.getOrderDesc())

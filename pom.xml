@@ -14,6 +14,7 @@
         <module>xiaoxupay-order</module>
         <module>xiaoxupay-site</module>
         <module>xiaoxupay-id</module>
+        <module>xiaoxupay-id/id-api</module>
 
 
     </modules>

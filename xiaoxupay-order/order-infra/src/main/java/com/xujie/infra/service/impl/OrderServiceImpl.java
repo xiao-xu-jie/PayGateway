@@ -32,6 +32,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void insertOrder(SiteOrder order) {
+
         orderMapper.insert(order);
     }
 

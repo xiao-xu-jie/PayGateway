@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Builder
 @Data
 @AllArgsConstructor
@@ -35,10 +37,15 @@ public class ResponseEntity<T> {
         return responseEntity;
     }
 
+    public boolean isSuccess() {
+        return Objects.equals(ResponseCodeEnum.SUCCESS.getCode(), this.code);
+    }
+
     private static <T> ResponseEntity<T> buildByEnum(ResponseCodeEnum responseCodeEnum) {
         return ResponseEntity.<T>builder()
                 .code(responseCodeEnum.getCode())
                 .message(responseCodeEnum.getMessage())
                 .build();
     }
+
 }
