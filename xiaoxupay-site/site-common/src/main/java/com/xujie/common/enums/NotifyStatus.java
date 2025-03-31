@@ -9,7 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum NotifyStatus {
     SUCCESS(1, "success"),
-    FAILED(-1, "success");
+    FAILED(-1, "failed");
     @EnumValue
     private final Integer code;
     @JsonValue

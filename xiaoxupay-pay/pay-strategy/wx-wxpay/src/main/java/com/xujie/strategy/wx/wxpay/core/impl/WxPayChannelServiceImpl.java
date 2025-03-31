@@ -2,14 +2,13 @@ package com.xujie.strategy.wx.wxpay.core.impl;
 
 import com.wechat.pay.java.service.payments.nativepay.NativePayService;
 import com.wechat.pay.java.service.payments.nativepay.model.PrepayResponse;
-import com.xujie.common.dto.WxOrderDTO;
-import com.xujie.common.dto.WxOrderRequest;
+
+
+import com.xujie.api.dto.WxOrderDTO;
+import com.xujie.api.dto.WxOrderRequest;
 import com.xujie.strategy.wx.wxpay.core.AbstractWxPayChannel;
-import com.xujie.strategy.wx.wxpay.impl.WxPayService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.stereotype.Service;
 
 /**
  * @author Xujie

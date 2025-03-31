@@ -1,8 +1,9 @@
 package com.xujie.strategy.wx.wxpay.impl;
 
 import com.xujie.common.annotations.Order;
-import com.xujie.common.dto.WxOrderDTO;
-import com.xujie.common.dto.WxOrderRequest;
+
+import com.xujie.api.dto.WxOrderDTO;
+import com.xujie.api.dto.WxOrderRequest;
 import com.xujie.strategy.PayService;
 import com.xujie.strategy.wx.wxpay.core.impl.WxPayChannelServiceImpl;
 import jakarta.annotation.Resource;

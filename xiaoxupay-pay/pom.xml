@@ -19,6 +19,7 @@
         <module>pay-controller</module>
         <module>pay-application</module>
         <module>pay-infra</module>
+        <module>pay-api</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

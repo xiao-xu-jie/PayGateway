@@ -1,4 +1,4 @@
-package com.xujie.common.dto;
+package com.xujie.api.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

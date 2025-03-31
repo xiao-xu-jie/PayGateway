@@ -1,4 +1,4 @@
-package com.xujie.common.dto;
+package com.xujie.api.dto;
 
 import cn.hutool.json.JSONObject;
 import lombok.AllArgsConstructor;

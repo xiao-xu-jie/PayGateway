@@ -8,8 +8,8 @@ import com.xujie.common.entity.ResponseEntity;
 import com.xujie.common.exception.CustomException;
 import com.xujie.domain.entity.Order;
 import com.xujie.domain.handler.AbstractOrderHandler;
-import com.xujie.dto.SiteDTO;
-import com.xujie.feign.SiteFeignClient;
+import com.xujie.site.api.dto.SiteDTO;
+import com.xujie.site.api.feign.SiteFeignApi;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,8 +24,7 @@ import java.util.Optional;
 @Slf4j
 public class SiteInfoCheckHandler extends AbstractOrderHandler {
 
-    private final SiteFeignClient siteFeignClient;
-
+    private final SiteFeignApi siteFeignApi;
     /**
      * 去掉空值
      * 参数名称字典升序
@@ -81,7 +80,7 @@ public class SiteInfoCheckHandler extends AbstractOrderHandler {
                 if (siteDTO.isPresent()) {
                     return siteDTO.get();
                 }
-                ResponseEntity<SiteDTO> siteDTOResponseEntity = siteFeignClient.searchByAppid(siteAppid);
+                ResponseEntity<SiteDTO> siteDTOResponseEntity = siteFeignApi.searchByAppid(siteAppid);
                 // 站点信息
                 log.info("[SiteInfoCheckHandler]站点信息：{}", siteDTOResponseEntity);
                 if (siteDTOResponseEntity.getCode() != 200) {
@@ -94,7 +93,7 @@ public class SiteInfoCheckHandler extends AbstractOrderHandler {
         });
     }
 
-    public SiteInfoCheckHandler(SiteFeignClient siteFeignClient) {
-        this.siteFeignClient = siteFeignClient;
+    public SiteInfoCheckHandler(SiteFeignApi siteFeignApi) {
+        this.siteFeignApi = siteFeignApi;
     }
 }

@@ -1,12 +1,12 @@
 package com.xujie.strategy.wx.wxpay.core;
 
 import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.wechat.pay.java.service.payments.nativepay.model.Amount;
 import com.wechat.pay.java.service.payments.nativepay.model.PrepayRequest;
 import com.wechat.pay.java.service.payments.nativepay.model.PrepayResponse;
-import com.xujie.common.dto.WxOrderDTO;
-import com.xujie.common.dto.WxOrderRequest;
+
+import com.xujie.api.dto.WxOrderDTO;
+import com.xujie.api.dto.WxOrderRequest;
 import com.xujie.strategy.wx.wxpay.config.WxPayConfig;
 import jakarta.annotation.Resource;
 

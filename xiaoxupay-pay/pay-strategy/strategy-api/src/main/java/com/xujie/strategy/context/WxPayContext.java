@@ -2,9 +2,9 @@ package com.xujie.strategy.context;
 
 import com.xujie.application.RocketMQProducer;
 import com.xujie.application.redis.utils.RedisUtils;
-import com.xujie.common.dto.WxOrderDTO;
-import com.xujie.common.dto.WxOrderRequest;
 import com.xujie.common.exception.CustomException;
+import com.xujie.api.dto.WxOrderDTO;
+import com.xujie.api.dto.WxOrderRequest;
 import com.xujie.strategy.AbstractPayContext;
 import com.xujie.strategy.PayService;
 import jakarta.annotation.PostConstruct;

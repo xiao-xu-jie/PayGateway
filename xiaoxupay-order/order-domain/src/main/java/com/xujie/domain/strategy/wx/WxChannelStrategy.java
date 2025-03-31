@@ -1,15 +1,16 @@
 package com.xujie.domain.strategy.wx;
 
 import cn.hutool.core.util.IdUtil;
-import com.xujie.common.dto.WxOrderDTO;
-import com.xujie.common.dto.WxOrderRequest;
+
+import com.xujie.api.dto.WxOrderDTO;
+import com.xujie.api.dto.WxOrderRequest;
 import com.xujie.common.entity.ResponseEntity;
 import com.xujie.common.enums.OrderNotifyStatus;
 import com.xujie.common.enums.OrderStatus;
 import com.xujie.common.exception.CustomException;
 import com.xujie.domain.entity.Order;
 import com.xujie.domain.strategy.ChannelStrategy;
-import com.xujie.feign.WxPayFeignClient;
+import com.xujie.api.feign.PayFeignApi;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component(value = "wx-Channel")
 public class WxChannelStrategy extends ChannelStrategy {
     @Resource
-    private WxPayFeignClient wxPayFeignClient;
+    private PayFeignApi payFeignApi;
 
 
     @Override
@@ -34,7 +35,7 @@ public class WxChannelStrategy extends ChannelStrategy {
                 .desc(order.getOrderDesc())
                 .client(order.getClient().getType())
                 .build();
-        ResponseEntity<WxOrderDTO> response = wxPayFeignClient.createOrder(orderRequest);
+        ResponseEntity<WxOrderDTO> response = payFeignApi.createOrder(orderRequest);
         WxOrderDTO wxOrderDTO = response.getData();
         if (response.getCode() != 200) {
             log.error("[WxChannelStrategy]创建订单异常：{}", response);

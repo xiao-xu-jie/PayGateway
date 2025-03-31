@@ -2,10 +2,11 @@ package com.xujie.strategy.wx.hupijiao.impl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONObject;
+import com.xujie.api.dto.WxOrderDTO;
+import com.xujie.api.dto.WxOrderRequest;
 import com.xujie.application.RocketMQProducer;
 import com.xujie.common.annotations.Order;
-import com.xujie.common.dto.WxOrderDTO;
-import com.xujie.common.dto.WxOrderRequest;
+
 import com.xujie.common.exception.CustomException;
 import com.xujie.common.utils.HashUtil;
 import com.xujie.strategy.wx.hupijiao.AbstractHuPiJiaoPayService;

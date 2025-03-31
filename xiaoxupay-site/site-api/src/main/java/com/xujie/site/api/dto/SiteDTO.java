@@ -1,6 +1,6 @@
-package com.xujie.dto;
+package com.xujie.site.api.dto;
 
-
+import com.xujie.common.enums.NotifyType;
 import com.xujie.common.groups.CreateGroup;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -29,7 +29,7 @@ public class SiteDTO {
      * 回调类型
      */
     @NotNull(groups = {CreateGroup.class},message = "站点回调类型不为空")
-    private String notifyType;
+    private NotifyType notifyType;
 
     /**
      * 回调URL

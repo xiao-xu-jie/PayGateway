@@ -1,8 +1,8 @@
 package com.xujie;
 
-import com.xujie.common.dto.WxOrderRequest;
+import com.xujie.api.dto.WxOrderRequest;
 import com.xujie.common.entity.ResponseEntity;
-import com.xujie.feign.WxPayFeignClient;
+import com.xujie.api.feign.PayFeignApi;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = OrderApplication.class)
 public class TestFeign {
     @Resource
-    private WxPayFeignClient wxPayFeignClient;
+    private PayFeignApi payFeignApi;
 
     @Test
     public void testWxFeign() {
@@ -22,7 +22,7 @@ public class TestFeign {
                 .totalFee(0.1)
                 .remark("测试")
                 .build();
-        ResponseEntity<?> order = wxPayFeignClient.createOrder(orderRequest);
+        ResponseEntity<?> order = payFeignApi.createOrder(orderRequest);
         log.info("{}",order);
     }
 }
