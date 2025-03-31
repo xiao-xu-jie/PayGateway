@@ -1,7 +1,7 @@
 package com.xujie.strategy.wx.hupijiao.aop;
 
 import cn.hutool.json.JSONObject;
-import com.xujie.common.dto.WxOrderDTO;
+import com.xujie.api.dto.WxOrderDTO;
 import com.xujie.common.exception.CustomException;
 import com.xujie.common.utils.HashUtil;
 import com.xujie.strategy.wx.hupijiao.config.HuPiJiaoPayConfig;

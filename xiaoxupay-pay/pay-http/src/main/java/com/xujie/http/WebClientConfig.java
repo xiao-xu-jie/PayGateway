@@ -68,10 +68,10 @@ public class WebClientConfig {
 
     private ExchangeFilterFunction logRequest() {
         return (clientRequest, next) -> {
-            log.info("Request: {} {}", clientRequest.method(), clientRequest.url());
+            log.debug("Request: {} {}", clientRequest.method(), clientRequest.url());
             clientRequest
                     .headers()
-                    .forEach((name, values) -> values.forEach(value -> log.info("{}={}", name, value)));
+                    .forEach((name, values) -> values.forEach(value -> log.debug("{}={}", name, value)));
             return next.exchange(clientRequest);
         };
     }

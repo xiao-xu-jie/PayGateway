@@ -4,11 +4,15 @@ import com.xujie.common.entity.ResponseEntity;
 import com.xujie.convert.SiteDTOConvert;
 import com.xujie.domain.entity.Site;
 import com.xujie.domain.service.SiteDomainService;
+import com.xujie.site.api.dto.SiteDTO;
 import com.xujie.site.api.feign.SiteFeignApi;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RestController;
 
-@Component
+import static com.xujie.common.entity.ResponseEntity.success;
+
+@RestController
 public class SiteFeignProvider implements SiteFeignApi {
 
     @Resource
@@ -24,8 +28,9 @@ public class SiteFeignProvider implements SiteFeignApi {
      * @return
      */
     @Override
-    public ResponseEntity<?> searchByAppid(String appid) {
+    public ResponseEntity<SiteDTO> searchByAppid(String appid) {
         Site siteByAppId = siteDomainService.getSiteByAppId(appid);
-        return ResponseEntity.success(siteDTOConvert.bo2dto(siteByAppId));
+        SiteDTO siteDTO = siteDTOConvert.bo2dto(siteByAppId);
+        return ResponseEntity.success(siteDTO);
     }
 }

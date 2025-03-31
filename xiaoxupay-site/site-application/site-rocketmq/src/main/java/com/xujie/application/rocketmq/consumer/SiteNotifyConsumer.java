@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RocketMQMessageListener(topic = "notify", consumerGroup = "default")
-public class SIteNotifyConsumer implements RocketMQListener<String> {
+public class SiteNotifyConsumer implements RocketMQListener<String> {
 
     @Resource
     private NotifyTaskThreadPool notifyTaskThreadPool;

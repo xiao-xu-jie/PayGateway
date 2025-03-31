@@ -36,7 +36,7 @@ public class OrderJob {
      * @param jobArgs 参数
      * @return 执行结果
      */
-    @JobExecutor(name = "orderPaid")
+//    @JobExecutor(name = "orderPaid")
     @Transactional(rollbackFor = Exception.class)
     public ExecuteResult jobExecute(JobArgs jobArgs) {
         log.info("开始执行OrderPaid补偿定时任务");
@@ -61,7 +61,7 @@ public class OrderJob {
             outboxMessage.setProcessedAt(DateUtil.date());
         } catch (Exception e) {
             log.info("订单已支付消息补偿异常：{}", payload, e);
-//            outboxMessage.addRetryCount();
+            outboxMessage.addRetryCount();
             outboxMessage.setErrorMessage(e.getMessage());
             outboxMessage.addPriority(1);
         }

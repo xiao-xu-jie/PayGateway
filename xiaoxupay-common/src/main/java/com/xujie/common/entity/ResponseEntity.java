@@ -16,13 +16,13 @@ public class ResponseEntity <T>{
     private T Data;
     private String errMessage;
 
-    public static<T> ResponseEntity<?> success(T data){
+    public static<T> ResponseEntity<T> success(T data){
         ResponseEntity<T> responseEntity = buildByEnum(ResponseCodeEnum.SUCCESS);
         responseEntity.setData(data);
         return responseEntity;
     }
 
-    public static<T> ResponseEntity<?> success(T data,String message){
+    public static<T> ResponseEntity<T> success(T data,String message){
         ResponseEntity<T> responseEntity = buildByEnum(ResponseCodeEnum.SUCCESS);
         responseEntity.setData(data);
         responseEntity.setMessage(message);
