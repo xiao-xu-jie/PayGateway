@@ -10,27 +10,27 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseEntity <T>{
+public class ResponseEntity<T> {
     private Integer code;
     private String message;
     private T Data;
     private String errMessage;
 
-    public static<T> ResponseEntity<T> success(T data){
+    public static <T> ResponseEntity<T> success(T data) {
         ResponseEntity<T> responseEntity = buildByEnum(ResponseCodeEnum.SUCCESS);
         responseEntity.setData(data);
         return responseEntity;
     }
 
-    public static<T> ResponseEntity<T> success(T data,String message){
+    public static <T> ResponseEntity<T> success(T data, String message) {
         ResponseEntity<T> responseEntity = buildByEnum(ResponseCodeEnum.SUCCESS);
         responseEntity.setData(data);
         responseEntity.setMessage(message);
         return responseEntity;
     }
 
-    public static ResponseEntity<?> error(String msg){
-        ResponseEntity<?> responseEntity = buildByEnum(ResponseCodeEnum.ERROR);
+    public static <T> ResponseEntity<T> error(String msg) {
+        ResponseEntity<T> responseEntity = buildByEnum(ResponseCodeEnum.ERROR);
         responseEntity.setErrMessage(msg);
         return responseEntity;
     }
