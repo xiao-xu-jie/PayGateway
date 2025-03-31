@@ -61,7 +61,7 @@ public class OrderJob {
             outboxMessage.setProcessedAt(DateUtil.date());
         } catch (Exception e) {
             log.info("订单已支付消息补偿异常：{}", payload, e);
-            outboxMessage.addRetryCount();
+//            outboxMessage.addRetryCount();
             outboxMessage.setErrorMessage(e.getMessage());
             outboxMessage.addPriority(1);
         }
