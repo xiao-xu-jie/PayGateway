@@ -5,17 +5,15 @@ import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 import com.wechat.pay.java.core.notification.NotificationParser;
 import com.wechat.pay.java.service.payments.jsapi.JsapiServiceExtension;
 import com.wechat.pay.java.service.payments.nativepay.NativePayService;
-import com.xujie.common.exception.CustomException;
+import com.xujie.pay.common.exception.CustomException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 import java.io.InputStream;
@@ -25,7 +23,7 @@ import java.io.InputStream;
  * @since 2025/2/24 21:47
  **/
 @Configuration
-@ConditionalOnProperty(prefix = "wx.pay",name = {"appId","mchId","merchantSerialNumber","apiV3Key","notifyUrl"})
+@ConditionalOnProperty(prefix = "wx.pay", name = {"appId", "mchId", "merchantSerialNumber", "apiV3Key", "notifyUrl"})
 @Slf4j
 @Data
 @AllArgsConstructor
@@ -62,11 +60,11 @@ public class WxPayConfig {
             if (resourceAsStream != null) {
                 byte[] bytes = resourceAsStream.readAllBytes();
                 return new String(bytes);
-            }else{
+            } else {
                 throw new CustomException("未配置微信支付钥密文件");
             }
-        }catch (Exception e){
-            log.error("钥密读取异常：{}",e.getMessage(),e);
+        } catch (Exception e) {
+            log.error("钥密读取异常：{}", e.getMessage(), e);
         }
         return null;
     }
@@ -77,6 +75,7 @@ public class WxPayConfig {
                 .config(config)
                 .build();
     }
+
     @Bean
     public NativePayService nativePayService(Config config) {
         return new NativePayService.Builder()

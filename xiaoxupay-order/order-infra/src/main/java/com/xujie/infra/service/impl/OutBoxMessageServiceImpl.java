@@ -2,11 +2,11 @@ package com.xujie.infra.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.xujie.common.enums.AggregateType;
-import com.xujie.common.enums.OutBoxMessageType;
 import com.xujie.infra.entity.OutboxMessage;
 import com.xujie.infra.mapper.OutboxMessageMapper;
 import com.xujie.infra.service.OutBoxMessageService;
+import com.xujie.payGateway.common.enums.AggregateType;
+import com.xujie.payGateway.common.enums.OutBoxMessageType;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

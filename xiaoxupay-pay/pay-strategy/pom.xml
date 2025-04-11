@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.xujie</groupId>
         <artifactId>xiaoxupay-pay</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -28,17 +28,17 @@
         <dependency>
             <groupId>com.xujie</groupId>
             <artifactId>pay-http</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>com.xujie</groupId>
             <artifactId>pay-rocketmq</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>com.xujie</groupId>
             <artifactId>pay-redis</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 </project>

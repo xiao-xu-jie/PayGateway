@@ -4,7 +4,7 @@ import com.xujie.api.dto.WxOrderDTO;
 import com.xujie.api.dto.WxOrderRequest;
 import com.xujie.application.RocketMQProducer;
 import com.xujie.application.redis.utils.RedisUtils;
-import com.xujie.common.exception.CustomException;
+import com.xujie.pay.common.exception.CustomException;
 import com.xujie.strategy.PayService;
 import com.xujie.strategy.context.base.AbstractPayContext;
 import jakarta.annotation.PostConstruct;

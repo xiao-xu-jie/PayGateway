@@ -1,7 +1,7 @@
 package com.xujie.site.api.dto;
 
 import com.xujie.common.enums.NotifyType;
-import com.xujie.common.groups.CreateGroup;
+import com.xujie.payGateway.common.groups.CreateGroup;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

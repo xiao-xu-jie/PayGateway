@@ -6,13 +6,15 @@
     <parent>
         <groupId>com.xujie</groupId>
         <artifactId>PayGateWay</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
     </parent>
 
     <artifactId>xiaoxupay-id</artifactId>
     <packaging>pom</packaging>
+    <version>1.0</version>
     <modules>
         <module>id-starter</module>
+        <module>id-api</module>
     </modules>
 
     <properties>

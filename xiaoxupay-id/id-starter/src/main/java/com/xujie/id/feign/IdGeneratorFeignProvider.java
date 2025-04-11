@@ -1,7 +1,7 @@
 package com.xujie.id.feign;
 
-import com.xujie.common.entity.ResponseEntity;
 import com.xujie.id.api.IdGeneratorFeignApi;
+import com.xujie.payGateway.common.entity.ResponseEntity;
 import jakarta.annotation.Resource;
 import me.ahoo.cosid.IdGenerator;
 import me.ahoo.cosid.provider.IdGeneratorProvider;

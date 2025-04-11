@@ -1,14 +1,13 @@
 package com.xujie.executors.order.notify;
 
 import cn.hutool.core.date.DateUtil;
-import com.aizuda.snailjob.client.job.core.annotation.JobExecutor;
 import com.aizuda.snailjob.client.job.core.dto.JobArgs;
 import com.aizuda.snailjob.client.model.ExecuteResult;
-import com.xujie.common.enums.AggregateType;
-import com.xujie.common.enums.OutBoxMessageType;
 import com.xujie.domain.service.OrderDomainService;
 import com.xujie.infra.entity.OutboxMessage;
 import com.xujie.infra.service.OutBoxMessageService;
+import com.xujie.payGateway.common.enums.AggregateType;
+import com.xujie.payGateway.common.enums.OutBoxMessageType;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

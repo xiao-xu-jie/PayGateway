@@ -6,7 +6,7 @@
 
     <groupId>com.xujie</groupId>
     <artifactId>PayGateWay</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>pom</packaging>
     <modules>
         <module>xiaoxupay-gateway</module>
@@ -14,12 +14,12 @@
         <module>xiaoxupay-order</module>
         <module>xiaoxupay-site</module>
         <module>xiaoxupay-id</module>
-        <module>xiaoxupay-id/id-api</module>
 
 
     </modules>
 
     <properties>
+        <project.version>1.0</project.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -90,7 +90,7 @@
             <dependency>
                 <groupId>com.xujie</groupId>
                 <artifactId>xiaoxupay-common</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.rocketmq</groupId>
@@ -137,7 +137,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <build>
         <pluginManagement>
             <plugins>
@@ -173,5 +172,6 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
     </build>
 </project>

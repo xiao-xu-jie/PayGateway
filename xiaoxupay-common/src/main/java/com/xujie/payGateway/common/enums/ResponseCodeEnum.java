@@ -1,4 +1,4 @@
-package com.xujie.common.enums;
+package com.xujie.payGateway.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public enum ResponseCodeEnum {
-    SUCCESS(200,"ok"),
-    ERROR(201,"fail");
+    SUCCESS(200, "ok"),
+    ERROR(201, "fail");
 
     private Integer code;
     private String message;

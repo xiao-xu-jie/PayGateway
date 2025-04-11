@@ -1,8 +1,8 @@
 package com.xujie;
 
 import com.xujie.api.dto.WxOrderRequest;
-import com.xujie.common.entity.ResponseEntity;
 import com.xujie.api.feign.PayFeignApi;
+import com.xujie.payGateway.common.entity.ResponseEntity;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.xujie</groupId>
         <artifactId>order-application</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
     </parent>
 
     <artifactId>rocketmq</artifactId>
@@ -24,7 +24,7 @@
         <dependency>
             <groupId>com.xujie</groupId>
             <artifactId>order-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 

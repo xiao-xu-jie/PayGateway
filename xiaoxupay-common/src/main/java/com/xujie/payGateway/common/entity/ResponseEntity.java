@@ -1,6 +1,6 @@
-package com.xujie.common.entity;
+package com.xujie.payGateway.common.entity;
 
-import com.xujie.common.enums.ResponseCodeEnum;
+import com.xujie.payGateway.common.enums.ResponseCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

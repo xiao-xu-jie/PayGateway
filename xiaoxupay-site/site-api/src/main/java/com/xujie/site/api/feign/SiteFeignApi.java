@@ -1,11 +1,10 @@
 package com.xujie.site.api.feign;
 
-import com.xujie.common.entity.ResponseEntity;
+import com.xujie.payGateway.common.entity.ResponseEntity;
 import com.xujie.site.api.dto.SiteDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 @FeignClient(name = "xiaoxupay-site")
 public interface SiteFeignApi {

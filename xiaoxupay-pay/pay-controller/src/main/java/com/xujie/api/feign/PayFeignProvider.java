@@ -1,11 +1,10 @@
 package com.xujie.api.feign;
 
-import com.xujie.common.entity.ResponseEntity;
 import com.xujie.api.dto.WxOrderDTO;
 import com.xujie.api.dto.WxOrderRequest;
+import com.xujie.payGateway.common.entity.ResponseEntity;
 import com.xujie.strategy.context.WxPayContext;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

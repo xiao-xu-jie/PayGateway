@@ -2,8 +2,8 @@ package com.xujie.strategy.wx.hupijiao.aop;
 
 import cn.hutool.json.JSONObject;
 import com.xujie.api.dto.WxOrderDTO;
-import com.xujie.common.exception.CustomException;
-import com.xujie.common.utils.HashUtil;
+import com.xujie.pay.common.exception.CustomException;
+import com.xujie.pay.common.utils.HashUtil;
 import com.xujie.strategy.wx.hupijiao.config.HuPiJiaoPayConfig;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;

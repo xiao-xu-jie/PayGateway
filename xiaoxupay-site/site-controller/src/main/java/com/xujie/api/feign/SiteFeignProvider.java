@@ -1,16 +1,13 @@
 package com.xujie.api.feign;
 
-import com.xujie.common.entity.ResponseEntity;
 import com.xujie.convert.SiteDTOConvert;
 import com.xujie.domain.entity.Site;
 import com.xujie.domain.service.SiteDomainService;
+import com.xujie.payGateway.common.entity.ResponseEntity;
 import com.xujie.site.api.dto.SiteDTO;
 import com.xujie.site.api.feign.SiteFeignApi;
 import jakarta.annotation.Resource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
-
-import static com.xujie.common.entity.ResponseEntity.success;
 
 @RestController
 public class SiteFeignProvider implements SiteFeignApi {

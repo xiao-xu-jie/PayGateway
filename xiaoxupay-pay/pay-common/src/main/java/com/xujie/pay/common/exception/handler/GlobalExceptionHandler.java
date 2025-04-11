@@ -1,8 +1,8 @@
-package com.xujie.common.exception.handler;
+package com.xujie.pay.common.exception.handler;
 
 
-import com.xujie.common.entity.ResponseEntity;
-import com.xujie.common.exception.BaseException;
+import com.xujie.payGateway.common.entity.ResponseEntity;
+import com.xujie.payGateway.common.exception.BaseException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> exceptionHandler(Exception e) {
         log.error("系统异常", e);
         int length = Math.min(e.getMessage().length(), 10);
-        return ResponseEntity.error(e.getMessage().substring(0, length)+Arrays.toString(e.getStackTrace()).substring(1, 10));
+        return ResponseEntity.error(e.getMessage().substring(0, length) + Arrays.toString(e.getStackTrace()).substring(1, 10));
     }
 
     @ExceptionHandler({IllegalArgumentException.class})

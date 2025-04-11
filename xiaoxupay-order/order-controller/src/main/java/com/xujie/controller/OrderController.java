@@ -1,9 +1,9 @@
 package com.xujie.controller;
 
-import com.xujie.common.entity.ResponseEntity;
 import com.xujie.convert.OrderDTOConvert;
 import com.xujie.domain.entity.Order;
 import com.xujie.domain.service.OrderDomainService;
+import com.xujie.payGateway.common.entity.ResponseEntity;
 import com.xujie.pojo.dto.OrderDto;
 import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;

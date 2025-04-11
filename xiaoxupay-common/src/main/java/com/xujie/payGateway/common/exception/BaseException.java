@@ -1,4 +1,4 @@
-package com.xujie.common.exception;
+package com.xujie.payGateway.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

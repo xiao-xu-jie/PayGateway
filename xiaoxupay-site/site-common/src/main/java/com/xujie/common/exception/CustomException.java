@@ -1,6 +1,7 @@
 package com.xujie.common.exception;
 
-import com.xujie.common.enums.ResponseCodeEnum;
+import com.xujie.payGateway.common.enums.ResponseCodeEnum;
+import com.xujie.payGateway.common.exception.BaseException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

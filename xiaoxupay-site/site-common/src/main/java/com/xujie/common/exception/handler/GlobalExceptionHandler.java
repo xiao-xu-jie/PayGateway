@@ -1,8 +1,8 @@
 package com.xujie.common.exception.handler;
 
 
-import com.xujie.common.entity.ResponseEntity;
-import com.xujie.common.exception.BaseException;
+import com.xujie.payGateway.common.entity.ResponseEntity;
+import com.xujie.payGateway.common.exception.BaseException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;

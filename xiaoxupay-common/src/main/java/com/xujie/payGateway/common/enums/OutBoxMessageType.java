@@ -1,18 +1,14 @@
-package com.xujie.common.enums;
+package com.xujie.payGateway.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/**
- * 业务聚合类型
- */
-
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public enum AggregateType {
-    ORDER("order"),
-    SITE("site");
-    @Getter
+public enum OutBoxMessageType {
+    ORDER_PAID("paid"),
+    SITE_NOTIFY("notify");
     private String type;
 }

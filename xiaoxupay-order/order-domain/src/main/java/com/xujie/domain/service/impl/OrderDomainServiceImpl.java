@@ -1,9 +1,6 @@
 package com.xujie.domain.service.impl;
 
-import com.xujie.common.entity.ResponseEntity;
 import com.xujie.common.enums.OrderStatus;
-import com.xujie.common.enums.ResponseCodeEnum;
-import com.xujie.common.exception.CustomException;
 import com.xujie.domain.convert.DomainConvert;
 import com.xujie.domain.entity.Order;
 import com.xujie.domain.handler.OrderHandlerContext;
@@ -12,6 +9,8 @@ import com.xujie.id.api.IdGeneratorFeignApi;
 import com.xujie.id.constants.IdConstant;
 import com.xujie.infra.entity.SiteOrder;
 import com.xujie.infra.service.OrderService;
+import com.xujie.pay.common.exception.CustomException;
+import com.xujie.payGateway.common.entity.ResponseEntity;
 import com.xujie.site.api.dto.SiteDTO;
 import com.xujie.site.api.feign.SiteFeignApi;
 import jakarta.annotation.Resource;
@@ -102,7 +101,7 @@ public class OrderDomainServiceImpl implements OrderDomainService {
             return null;
         }
         ResponseEntity<SiteDTO> siteDTOResponseEntity = siteFeignApi.searchByAppid(appid);
-        if (ResponseCodeEnum.SUCCESS.getCode().equals(siteDTOResponseEntity.getCode())) {
+        if (siteDTOResponseEntity != null && siteDTOResponseEntity.isSuccess()) {
             SiteDTO siteDTO = siteDTOResponseEntity.getData();
             if (siteDTO != null && ObjectUtils.compare(siteDTO.getSiteSecret(), siteSecret) == 0) {
                 SiteOrder order = orderService.getOrderByTradeNo(appid, tradeNo);

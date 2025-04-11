@@ -2,8 +2,6 @@ package com.xujie.domain.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.DigestUtil;
-import com.xujie.common.entity.ResponseEntity;
-import com.xujie.common.enums.ResponseCodeEnum;
 import com.xujie.common.exception.CustomException;
 import com.xujie.domain.convert.SiteDomainConvert;
 import com.xujie.domain.entity.Site;
@@ -11,6 +9,8 @@ import com.xujie.domain.service.SiteDomainService;
 import com.xujie.id.api.IdGeneratorFeignApi;
 import com.xujie.infra.entity.SiteInfo;
 import com.xujie.infra.service.SiteService;
+import com.xujie.payGateway.common.entity.ResponseEntity;
+import com.xujie.payGateway.common.enums.ResponseCodeEnum;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;

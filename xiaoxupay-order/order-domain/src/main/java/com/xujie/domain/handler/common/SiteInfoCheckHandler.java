@@ -4,10 +4,10 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.json.JSONUtil;
 import com.xujie.application.redis.utils.RedisUtils;
-import com.xujie.common.entity.ResponseEntity;
-import com.xujie.common.exception.CustomException;
 import com.xujie.domain.entity.Order;
 import com.xujie.domain.handler.AbstractOrderHandler;
+import com.xujie.pay.common.exception.CustomException;
+import com.xujie.payGateway.common.entity.ResponseEntity;
 import com.xujie.site.api.dto.SiteDTO;
 import com.xujie.site.api.feign.SiteFeignApi;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +25,7 @@ import java.util.Optional;
 public class SiteInfoCheckHandler extends AbstractOrderHandler {
 
     private final SiteFeignApi siteFeignApi;
+
     /**
      * 去掉空值
      * 参数名称字典升序

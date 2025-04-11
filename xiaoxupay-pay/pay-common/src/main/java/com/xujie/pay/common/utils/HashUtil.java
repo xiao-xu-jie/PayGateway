@@ -1,4 +1,4 @@
-package com.xujie.common.utils;
+package com.xujie.pay.common.utils;
 
 import cn.hutool.crypto.SecureUtil;
 
