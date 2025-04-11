@@ -2,6 +2,7 @@ package com.xujie.domain.service.impl;
 
 import com.xujie.common.entity.ResponseEntity;
 import com.xujie.common.enums.OrderStatus;
+import com.xujie.common.enums.ResponseCodeEnum;
 import com.xujie.common.exception.CustomException;
 import com.xujie.domain.convert.DomainConvert;
 import com.xujie.domain.entity.Order;
@@ -11,9 +12,12 @@ import com.xujie.id.api.IdGeneratorFeignApi;
 import com.xujie.id.constants.IdConstant;
 import com.xujie.infra.entity.SiteOrder;
 import com.xujie.infra.service.OrderService;
+import com.xujie.site.api.dto.SiteDTO;
+import com.xujie.site.api.feign.SiteFeignApi;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +35,8 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     private DomainConvert convert;
     @Resource
     private IdGeneratorFeignApi idGeneratorFeignApi;
+    @Autowired
+    private SiteFeignApi siteFeignApi;
 
     @Override
     public Order processOrder(Order order) {
@@ -88,5 +94,21 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     @Override
     public void handleOrderPaid(List<String> list) {
         orderService.updateOrderPaidBatch(list);
+    }
+
+    @Override
+    public Order queryOrder(String appid, String siteSecret, Long tradeNo) {
+        if (ObjectUtils.isEmpty(tradeNo) || ObjectUtils.isEmpty(appid) || ObjectUtils.isEmpty(siteSecret)) {
+            return null;
+        }
+        ResponseEntity<SiteDTO> siteDTOResponseEntity = siteFeignApi.searchByAppid(appid);
+        if (ResponseCodeEnum.SUCCESS.getCode().equals(siteDTOResponseEntity.getCode())) {
+            SiteDTO siteDTO = siteDTOResponseEntity.getData();
+            if (siteDTO != null && ObjectUtils.compare(siteDTO.getSiteSecret(), siteSecret) == 0) {
+                SiteOrder order = orderService.getOrderByTradeNo(appid, tradeNo);
+                return convert.do2bo(order);
+            }
+        }
+        return null;
     }
 }

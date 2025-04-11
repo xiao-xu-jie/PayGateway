@@ -7,4 +7,5 @@ public class IdConstant {
 
 
     public static final String ID_SEQUENCE = "sequence";
+    public static final String SITE_ID_SEQUENCE = "site-id";
 }

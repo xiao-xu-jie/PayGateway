@@ -5,8 +5,6 @@ import cn.hutool.json.JSONObject;
 import com.xujie.api.dto.WxOrderDTO;
 import com.xujie.api.dto.WxOrderRequest;
 import com.xujie.application.RocketMQProducer;
-import com.xujie.common.annotations.Order;
-
 import com.xujie.common.exception.CustomException;
 import com.xujie.common.utils.HashUtil;
 import com.xujie.strategy.wx.hupijiao.AbstractHuPiJiaoPayService;
@@ -29,7 +27,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-@Order(0)
 @Slf4j
 public class HuPiJiaoWxPayService extends AbstractHuPiJiaoPayService {
     @Resource(name = "webClient")

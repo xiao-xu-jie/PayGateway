@@ -1,12 +1,12 @@
 package com.xujie.strategy.context;
 
+import com.xujie.api.dto.WxOrderDTO;
+import com.xujie.api.dto.WxOrderRequest;
 import com.xujie.application.RocketMQProducer;
 import com.xujie.application.redis.utils.RedisUtils;
 import com.xujie.common.exception.CustomException;
-import com.xujie.api.dto.WxOrderDTO;
-import com.xujie.api.dto.WxOrderRequest;
-import com.xujie.strategy.AbstractPayContext;
 import com.xujie.strategy.PayService;
+import com.xujie.strategy.context.base.AbstractPayContext;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +52,7 @@ public class WxPayContext extends AbstractPayContext {
     @Override
     public WxOrderDTO processOrder(WxOrderRequest request) {
         Map<String, PayService> payServiceMap = applicationContext.getBeansOfType(PayService.class);
+        // 轮询支付服务，保证支付最大可能成功
         for (PayService payService : wxPayServices) {
             try {
                 WxOrderDTO order = payService.createOrder(request);

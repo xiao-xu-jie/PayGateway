@@ -9,6 +9,7 @@ import com.xujie.infra.entity.SiteOrder;
 import com.xujie.infra.mapper.SiteOrderMapper;
 import com.xujie.infra.service.OrderService;
 import jakarta.annotation.Resource;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,17 @@ public class OrderServiceImpl implements OrderService {
                 .set(SiteOrder::getOrderStatus, OrderStatus.SUCCESS)
                 .set(SiteOrder::getPayTime, DateUtil.date());
         orderMapper.update(set);
+    }
+
+    @Override
+    public SiteOrder getOrderByTradeNo(String appid, Long tradeNo) {
+        if (ObjectUtils.anyNull(tradeNo, appid)) {
+            return null;
+        }
+        LambdaQueryWrapper<SiteOrder> eq = Wrappers.<SiteOrder>lambdaQuery()
+                .eq(SiteOrder::getSiteAppid, appid)
+                .eq(SiteOrder::getTradeNo, tradeNo);
+        return orderMapper.selectOne(eq);
     }
 
 

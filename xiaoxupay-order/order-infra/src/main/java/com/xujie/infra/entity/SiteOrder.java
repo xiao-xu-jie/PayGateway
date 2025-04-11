@@ -127,6 +127,7 @@ public class SiteOrder {
     @TableField(value = "is_delete")
     private Integer isDelete;
 
+
     public static final String COL_ID = "id";
 
     public static final String COL_TRANSACTION_ID = "transaction_id";

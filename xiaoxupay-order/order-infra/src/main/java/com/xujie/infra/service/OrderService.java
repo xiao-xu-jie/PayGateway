@@ -14,4 +14,6 @@ public interface OrderService {
     void updateOrder(String openNo, SiteOrder order);
 
     void updateOrderPaidBatch(List<String> list);
+
+    SiteOrder getOrderByTradeNo(String appid, Long tradeNo);
 }

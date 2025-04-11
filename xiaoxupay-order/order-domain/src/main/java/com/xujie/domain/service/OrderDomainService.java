@@ -12,4 +12,6 @@ public interface OrderDomainService {
     void handleOrderPaid(String openNo);
 
     void handleOrderPaid(List<String> list);
+
+    Order queryOrder(String appid, String siteSecret, Long tradeNo);
 }

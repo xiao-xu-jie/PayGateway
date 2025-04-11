@@ -1,7 +1,5 @@
 package com.xujie.strategy.wx.wxpay.impl;
 
-import com.xujie.common.annotations.Order;
-
 import com.xujie.api.dto.WxOrderDTO;
 import com.xujie.api.dto.WxOrderRequest;
 import com.xujie.strategy.PayService;
@@ -17,7 +15,6 @@ import static com.xujie.strategy.wx.wxpay.constants.WxPayConstant.WxPayChannel.P
  * @author Xujie
  * @since 2025/2/24 22:18
  **/
-@Order(1)
 @Slf4j
 public class WxPayService implements PayService {
     @Resource

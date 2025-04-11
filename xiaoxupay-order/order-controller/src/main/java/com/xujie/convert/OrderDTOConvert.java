@@ -1,7 +1,7 @@
 package com.xujie.convert;
 
 import com.xujie.domain.entity.Order;
-import com.xujie.pojo.dto.SiteCreateOrderDTO;
+import com.xujie.pojo.dto.OrderDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -29,5 +29,5 @@ public interface OrderDTOConvert {
             @Mapping(target = "payTime", ignore = true),
             @Mapping(target = "orderStatus", ignore = true)
     })
-    Order dto2bo(SiteCreateOrderDTO siteCreateOrderDTO);
+    Order dto2bo(OrderDto.SiteCreateOrderRequest createOrderRequest);
 }
