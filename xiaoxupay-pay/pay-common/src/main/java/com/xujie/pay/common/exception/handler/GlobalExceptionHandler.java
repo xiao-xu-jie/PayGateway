@@ -1,8 +1,8 @@
 package com.xujie.pay.common.exception.handler;
 
 
-import com.xujie.payGateway.common.entity.ResponseEntity;
-import com.xujie.payGateway.common.exception.BaseException;
+import com.xujie.common.entity.ResponseEntity;
+import com.xujie.common.exception.BaseException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -20,7 +20,7 @@ import java.util.Set;
  * @Date: 2024/7/15 21:59
  * @Description:
  **/
-@RestControllerAdvice(basePackages = "com.xujie")
+@RestControllerAdvice(name = "payExceptionHandler", basePackages = "com.xujie.pay")
 @Slf4j
 public class GlobalExceptionHandler {
 

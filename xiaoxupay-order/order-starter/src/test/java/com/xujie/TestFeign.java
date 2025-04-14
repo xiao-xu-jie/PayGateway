@@ -1,8 +1,9 @@
 package com.xujie;
 
-import com.xujie.api.dto.WxOrderRequest;
-import com.xujie.api.feign.PayFeignApi;
-import com.xujie.payGateway.common.entity.ResponseEntity;
+import com.xujie.common.entity.ResponseEntity;
+import com.xujie.order.OrderApplication;
+import com.xujie.pay.api.dto.WxOrderRequest;
+import com.xujie.pay.api.feign.PayFeignApi;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,6 @@ public class TestFeign {
                 .remark("测试")
                 .build();
         ResponseEntity<?> order = payFeignApi.createOrder(orderRequest);
-        log.info("{}",order);
+        log.info("{}", order);
     }
 }

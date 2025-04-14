@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xujie.infra.mapper.SiteOrderMapper">
-    <resultMap id="BaseResultMap" type="com.xujie.infra.entity.SiteOrder">
+<mapper namespace="com.xujie.order.infra.mapper.SiteOrderMapper">
+    <resultMap id="BaseResultMap" type="com.xujie.order.infra.entity.SiteOrder">
         <!--@mbg.generated-->
         <!--@Table site_order-->
         <id column="id" jdbcType="BIGINT" property="id"/>

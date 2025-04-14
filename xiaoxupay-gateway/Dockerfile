@@ -11,7 +11,7 @@ RUN mkdir -p /app/logs
 COPY  /target/xiaoxupay-gateway-1.0.jar /app/
 
 # 设置环境变量
-ENV SPRING_PROFILES_ACTIVE=prod \
+ENV SPRING_PROFILES_ACTIVE="local" \
     JVM_OPTS="-Xms1024M -Xmx1024M -Xss256K -XX:MetaspaceSize=256M -XX:MaxMetaspaceSize=256M -Xlog:gc*:file=/app/logs/gc.log:time,level,tags"
 
 # 暴露端口
