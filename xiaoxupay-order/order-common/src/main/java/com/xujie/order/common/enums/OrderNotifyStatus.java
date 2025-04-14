@@ -13,7 +13,8 @@ public enum OrderNotifyStatus {
     NOTIFY_FAILED(-1, "通知失败"),
     NOTIFY_SUCCESS(1, "通知成功");
     @EnumValue
-    private final Integer code;
     @JsonValue
+    private final Integer code;
+
     private final String desc;
 }

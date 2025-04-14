@@ -45,7 +45,7 @@ public class WxChannelStrategy extends ChannelStrategy {
                 .siteAppid(order.getSiteAppid())
                 .remark(order.getRemark())
                 .desc(order.getOrderDesc())
-                .client(order.getClient().getType())
+                .client(order.getClient())
                 .build();
         ResponseEntity<WxOrderDTO> response = payFeignApi.createOrder(orderRequest);
         WxOrderDTO wxOrderDTO = response.getData();
@@ -57,9 +57,9 @@ public class WxChannelStrategy extends ChannelStrategy {
         order.setUrl(wxOrderDTO.getUrl());
         order.setOpenNo(wxOrderDTO.getOpenNo());
         // 设置订单状态
-        order.setOrderStatus(OrderStatus.WAIT_PAY);
+        order.setOrderStatus(OrderStatus.WAIT_PAY.getCode());
         // 设置订单通知状态
-        order.setNotifyStatus(OrderNotifyStatus.WAIT_NOTIFY);
+        order.setNotifyStatus(OrderNotifyStatus.WAIT_NOTIFY.getCode());
         order.setTransactionId(wxOrderDTO.getTransactionId());
     }
 }

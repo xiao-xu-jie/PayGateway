@@ -1,5 +1,6 @@
 package com.xujie.common.exception;
 
+import com.xujie.common.enums.BizResponseEnum;
 import com.xujie.common.enums.ResponseCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,11 @@ public class CustomException extends BaseException {
     public CustomException(ResponseCodeEnum baseResultEnum) {
         this.code = baseResultEnum.getCode();
         this.message = baseResultEnum.getMessage();
+    }
+
+    public CustomException(BizResponseEnum bizResponseEnum) {
+        this.code = bizResponseEnum.getCode();
+        this.message = bizResponseEnum.getMessage();
     }
 
     public CustomException(String s) {

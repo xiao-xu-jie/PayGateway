@@ -1,4 +1,4 @@
-package com.xujie.order.domain.entity;
+package com.xujie.client.core.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,28 +9,11 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
-
-    /**
-     * 第三方ID
-     */
-    private String transactionId;
-
-    /**
-     * 平台统一NO
-     */
-    private String openNo;
-
+public class XOrder {
     /**
      * 站点内NO
      */
     private Long tradeNo;
-
-    /**
-     * 站点APPID
-     */
-    private String siteAppid;
-
 
     /**
      * 订单标题
@@ -46,8 +29,6 @@ public class Order {
      * 实际金额
      */
     private double realFee;
-
-    private double discount;
 
     /**
      * 总金额
@@ -72,8 +53,6 @@ public class Order {
      */
     private String remark;
 
-    private String jsonData;
-
     private Date createTime;
 
     /**
@@ -91,24 +70,5 @@ public class Order {
      * 订单状态
      */
     private Integer orderStatus;
-    /**
-     * 订单通知状态
-     */
-    private Integer notifyStatus;
-
-    /**
-     * 随机字符串
-     */
-    private String nonceStr;
-
-    /**
-     * 时间戳
-     */
-    private String timestamp;
-
-    /**
-     * hash校验
-     */
-    private String hash;
 
 }

@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.xujie.common.enums.BizResponseEnum.AUTH_FAILED;
+
 /**
  * 站点创建订单请求参数校验
  */
@@ -62,7 +64,7 @@ public class SiteInfoCheckHandler extends AbstractOrderHandler {
         String hash = SecureUtil.md5(sb.toString());
         log.info("[SiteInfoCheckHandler]hash对比：请求hash{}，计算{}", reqHash, hash);
         if (StringUtils.compare(hash, reqHash) != 0) {
-            throw new CustomException("auth 失败");
+            throw new CustomException(AUTH_FAILED);
         }
 
     }
@@ -100,6 +102,6 @@ public class SiteInfoCheckHandler extends AbstractOrderHandler {
 
     @Override
     public int getOrder() {
-        return 1;
+        return 0;
     }
 }

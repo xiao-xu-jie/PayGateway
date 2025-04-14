@@ -1,5 +1,6 @@
 package com.xujie.order.domain.handler.concret;
 
+import com.xujie.order.common.enums.ChannelTypeEnum;
 import com.xujie.order.domain.entity.Order;
 import com.xujie.order.domain.handler.AbstractOrderHandler;
 import com.xujie.order.domain.strategy.ChannelContext;
@@ -7,6 +8,8 @@ import com.xujie.order.domain.strategy.ChannelStrategy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -21,12 +24,13 @@ public class OrderCreateHandler extends AbstractOrderHandler {
      */
     @Override
     public void doHandle(Order order) {
-        ChannelStrategy channelStrategy = channelContext.distributeChannelStrategy(order.getChannel());
+        String channel = order.getChannel();
+        ChannelStrategy channelStrategy = channelContext.distributeChannelStrategy(Objects.requireNonNull(ChannelTypeEnum.getValue(channel)));
         channelStrategy.handle(order);
     }
 
     @Override
     public int getOrder() {
-        return Integer.MAX_VALUE;
+        return Integer.MAX_VALUE - 1;
     }
 }

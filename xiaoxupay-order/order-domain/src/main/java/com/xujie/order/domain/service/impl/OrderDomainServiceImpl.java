@@ -61,8 +61,8 @@ public class OrderDomainServiceImpl implements OrderDomainService {
 
         // 订单处于待支付
         if (ObjectUtils.isNotEmpty(orderByEntity)
-                && ObjectUtils.compare(orderByEntity.getOrderStatus(), OrderStatus.WAIT_PAY) == 0) {
-            orderByEntity.setOrderStatus(OrderStatus.EXPIRED);
+                && ObjectUtils.compare(orderByEntity.getOrderStatus(), OrderStatus.WAIT_PAY.getCode()) == 0) {
+            orderByEntity.setOrderStatus(OrderStatus.EXPIRED.getCode());
             // 更新订单状态
             // TODO 解决订单过期时支付冲突问题
             orderService.updateOrder(openNo, orderByEntity);
@@ -78,10 +78,10 @@ public class OrderDomainServiceImpl implements OrderDomainService {
         SiteOrder orderByEntity = orderService.getOrderByEntity(SiteOrder.builder()
                 .openNo(openNo)
                 .build());
-        if (!OrderStatus.WAIT_PAY.equals(orderByEntity.getOrderStatus())) {
+        if (!OrderStatus.WAIT_PAY.getCode().equals(orderByEntity.getOrderStatus())) {
             log.error("订单已支付处理错误：{}，{}", openNo, orderByEntity);
         } else {
-            orderByEntity.setOrderStatus(OrderStatus.SUCCESS);
+            orderByEntity.setOrderStatus(OrderStatus.SUCCESS.getCode());
             orderByEntity.setPayTime(new Date());
             orderService.updateOrder(openNo, orderByEntity);
         }

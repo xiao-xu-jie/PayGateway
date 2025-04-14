@@ -47,9 +47,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrderPaidBatch(List<String> list) {
         LambdaUpdateWrapper<SiteOrder> set = Wrappers.lambdaUpdate(SiteOrder.class)
-                .eq(SiteOrder::getOrderStatus, OrderStatus.WAIT_PAY)
+                .eq(SiteOrder::getOrderStatus, OrderStatus.WAIT_PAY.getCode())
                 .in(SiteOrder::getOrderStatus, list)
-                .set(SiteOrder::getOrderStatus, OrderStatus.SUCCESS)
+                .set(SiteOrder::getOrderStatus, OrderStatus.SUCCESS.getCode())
                 .set(SiteOrder::getPayTime, DateUtil.date());
         orderMapper.update(set);
     }

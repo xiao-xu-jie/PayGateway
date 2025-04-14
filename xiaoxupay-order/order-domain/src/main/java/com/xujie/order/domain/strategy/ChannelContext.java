@@ -12,7 +12,7 @@ public class ChannelContext {
     private Map<String, ChannelStrategy> map;
 
     public ChannelStrategy distributeChannelStrategy(ChannelTypeEnum type) {
-        return map.get(type.getType() + "-Channel");
+        return map.get(type.getDesc() + "-Channel");
     }
 
 }

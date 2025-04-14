@@ -1,5 +1,6 @@
 package com.xujie.order.domain.handler.concret;
 
+import com.xujie.common.enums.BizResponseEnum;
 import com.xujie.common.exception.CustomException;
 import com.xujie.order.domain.entity.Order;
 import com.xujie.order.domain.handler.AbstractOrderHandler;
@@ -20,7 +21,7 @@ public class OrderInfoCheckHandler extends AbstractOrderHandler {
     protected void doHandle(Order order) {
         SiteOrder orderByTradeNo = orderService.getOrderByTradeNo(order.getSiteAppid(), order.getTradeNo());
         if (ObjectUtils.isNotEmpty(orderByTradeNo)) {
-            throw new CustomException("订单号已经存在");
+            throw new CustomException(BizResponseEnum.TRADE_NO_EXISTED);
         }
     }
 

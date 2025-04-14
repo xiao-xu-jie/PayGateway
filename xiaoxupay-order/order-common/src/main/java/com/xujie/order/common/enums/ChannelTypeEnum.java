@@ -13,5 +13,16 @@ public enum ChannelTypeEnum {
     QQ("qq");
     @JsonValue
     @EnumValue
-    private final String type;
+    private final String desc;
+
+
+    public static ChannelTypeEnum getValue(String desc) {
+        ChannelTypeEnum[] values = values();
+        for (ChannelTypeEnum value : values) {
+            if (value.getDesc().equals(desc)) {
+                return value;
+            }
+        }
+        return null;
+    }
 }

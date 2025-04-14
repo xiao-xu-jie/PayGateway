@@ -16,7 +16,8 @@ public enum OrderStatus {
     EXPIRED(2, "已过期"),
     REFUND(3, "已退款");
     @EnumValue
-    private Integer code;
     @JsonValue
+    private Integer code;
+
     private String desc;
 }

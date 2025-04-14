@@ -15,5 +15,15 @@ public enum ClientTypeEnum {
     PC("pc");
 
     @JsonValue
-    private final String type;
+    private final String desc;
+
+    public static ClientTypeEnum getValue(String desc) {
+        ClientTypeEnum[] values = values();
+        for (ClientTypeEnum value : values) {
+            if (value.getDesc().equals(desc)) {
+                return value;
+            }
+        }
+        return null;
+    }
 }

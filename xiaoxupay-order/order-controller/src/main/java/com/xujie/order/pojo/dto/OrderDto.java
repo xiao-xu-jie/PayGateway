@@ -1,7 +1,5 @@
 package com.xujie.order.pojo.dto;
 
-import com.xujie.order.common.enums.ChannelTypeEnum;
-import com.xujie.order.common.enums.ClientTypeEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +7,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
 public class OrderDto {
@@ -33,12 +32,14 @@ public class OrderDto {
         /**
          * 订单标题
          */
+        @Length(min = 1, max = 15)
         @NotEmpty(message = "请传入订单标题")
         private String title;
 
         /**
          * 订单描述
          */
+        @Length(min = 1, max = 30)
         @NotEmpty(message = "请传入订单描述")
         private String orderDesc;
 
@@ -60,13 +61,13 @@ public class OrderDto {
          * 支付通道
          */
         @NotNull(message = "请传入通道")
-        private ChannelTypeEnum channel;
+        private String channel;
 
         /**
          * 客户端
          */
         @NotNull(message = "请传入客户端")
-        private ClientTypeEnum client;
+        private String client;
 
         /**
          * 备注
