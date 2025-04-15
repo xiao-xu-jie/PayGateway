@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xujie</groupId>
+    <artifactId>PayGateWay</artifactId>
+    <version>1.0</version>
+  </parent>
+  <groupId>com.xujie</groupId>
+  <artifactId>xiaoxupay-pay</artifactId>
+  <version>1.0</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>pay-http</module>
+    <module>pay-strategy</module>
+    <module>pay-common</module>
+    <module>pay-starter</module>
+    <module>pay-controller</module>
+    <module>pay-application</module>
+    <module>pay-infra</module>
+    <module>pay-api</module>
+  </modules>
+  <properties>
+    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>com.xujie</groupId>
+      <artifactId>xiaoxupay-common</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>
