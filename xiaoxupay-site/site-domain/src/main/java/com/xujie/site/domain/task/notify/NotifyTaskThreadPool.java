@@ -70,6 +70,7 @@ public class NotifyTaskThreadPool {
         AtomicReference<NotifyType> type = new AtomicReference<>();
         CompletableFuture<String> requestFuture = startNotifySite(openNo, siteCompletableFuture, url, type);
         afterNotifySite(openNo, siteAppid, requestFuture, url, type);
+        requestFuture.join();
 
     }
 

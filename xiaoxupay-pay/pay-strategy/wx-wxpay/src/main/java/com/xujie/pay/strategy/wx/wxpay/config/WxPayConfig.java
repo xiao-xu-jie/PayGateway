@@ -42,10 +42,11 @@ public class WxPayConfig {
     private String apiV3Key;
     @Value("${wx.pay.notifyUrl}")
     private String notifyUrl;
+    @Value("${wx.pay.privateKey}")
+    private String privateKey;
 
     @Bean
     public RSAAutoCertificateConfig config() {
-        String privateKey = getPrivateKey();
 
         return new RSAAutoCertificateConfig.Builder()
                 .merchantId(merchantId)
@@ -87,7 +88,7 @@ public class WxPayConfig {
     @Bean("notificationParser")
     public NotificationParser getNotificationConfig(RSAAutoCertificateConfig config) {
         if (ObjectUtils.isEmpty(config)) {
-            String key = getPrivateKey();
+            String key = privateKey;
             config = new RSAAutoCertificateConfig.Builder()
                     .merchantId(merchantId)
                     .privateKey(key)
