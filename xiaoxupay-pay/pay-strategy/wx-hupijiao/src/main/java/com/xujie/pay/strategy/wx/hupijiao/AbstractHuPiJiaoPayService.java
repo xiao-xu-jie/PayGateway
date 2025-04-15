@@ -45,7 +45,7 @@ public abstract class AbstractHuPiJiaoPayService implements PayService {
     protected String post(String url, Map<String, Object> body, WebClient webClient, Integer timeout) {
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         body.forEach((k, v) -> {
-            data.add(k, v.toString());
+            data.add(k, String.valueOf(v));
         });
         return webClient.post()
                 .uri(url)

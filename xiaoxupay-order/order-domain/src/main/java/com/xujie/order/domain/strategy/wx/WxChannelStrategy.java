@@ -1,5 +1,7 @@
 package com.xujie.order.domain.strategy.wx;
 
+import cn.hutool.core.date.DateField;
+import cn.hutool.core.date.DateUtil;
 import com.xujie.common.entity.ResponseEntity;
 import com.xujie.common.exception.BaseException;
 import com.xujie.common.exception.CustomException;
@@ -61,5 +63,7 @@ public class WxChannelStrategy extends ChannelStrategy {
         // 设置订单通知状态
         order.setNotifyStatus(OrderNotifyStatus.WAIT_NOTIFY.getCode());
         order.setTransactionId(wxOrderDTO.getTransactionId());
+        order.setExpireTime(DateUtil.date().offset(DateField.MINUTE, 15));
+        order.setCreateTime(DateUtil.date());
     }
 }

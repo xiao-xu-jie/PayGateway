@@ -4,8 +4,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
-import java.util.Date;
-
 public class XOrderDto {
     @Data
     @ToString
@@ -16,10 +14,6 @@ public class XOrderDto {
          */
         private Long tradeNo;
 
-        /**
-         * 站点ID
-         */
-        private String siteAppid;
 
         /**
          * 订单标题
@@ -57,19 +51,7 @@ public class XOrderDto {
          * 备注
          */
         private String remark;
-        /**
-         * 随机字符串
-         */
-        private String nonceStr;
 
-        /**
-         * 时间戳
-         */
-        private String timestamp;
-        /**
-         * hash校验
-         */
-        private String hash;
     }
 
     @Data
@@ -138,17 +120,17 @@ public class XOrderDto {
 
         private String jsonData;
 
-        private Date createTime;
+        private String createTime;
 
         /**
          * 过期时间
          */
-        private Date expireTime;
+        private String expireTime;
 
         /**
          * 支付时间
          */
-        private Date payTime;
+        private String payTime;
 
 
         /**
@@ -174,5 +156,18 @@ public class XOrderDto {
          * hash校验
          */
         private String hash;
+    }
+
+    @Data
+    @ToString
+    public static class XOrderNotifyRequest {
+        private String openNo;
+
+        private String nonceStr;
+
+        private String timestamp;
+
+        private String hash;
+
     }
 }

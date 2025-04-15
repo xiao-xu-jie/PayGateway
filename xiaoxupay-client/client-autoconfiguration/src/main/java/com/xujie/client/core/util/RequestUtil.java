@@ -1,8 +1,11 @@
 package com.xujie.client.core.util;
 
+import cn.hutool.json.JSONConfig;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.google.common.net.HttpHeaders;
 import com.xujie.client.config.XPayConfig;
+import com.xujie.client.core.exceptio.XOrderException;
 import com.xujie.client.dto.XOrderDto;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
@@ -17,6 +20,7 @@ import reactor.netty.http.client.HttpClient;
 import reactor.netty.resources.ConnectionProvider;
 
 import java.time.Duration;
+import java.util.Map;
 
 @Slf4j
 @Data
@@ -26,17 +30,30 @@ public class RequestUtil {
 
     private final String createOrderPath = "/order/create";
 
-    public XOrderDto.XOrderCreateResponse createOrderRequest(XOrderDto.XOrderCreateRequest request) {
-        XOrderDto.XOrderCreateResponse xOrderCreateResponse = webClient.post()
+    public XOrderDto.XOrderCreateResponse createOrderRequest(Map<String, Object> request) {
+        String response = webClient.post()
                 .uri(createOrderPath)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .bodyValue(JSONUtil.toJsonStr(request))
+                .bodyValue(request)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(XOrderDto.XOrderCreateResponse.class)
+                .bodyToMono(String.class)
                 .block();
-        return xOrderCreateResponse;
+
+        // 配置 Hutool 的日期格式
+        JSONConfig config = JSONConfig.create()
+                .setDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        JSONObject jsonObject = JSONUtil.parseObj(response, config);
+        Integer code = jsonObject.getInt("code");
+        if (code == null || code != 200) {
+            throw new XOrderException("请求返回异常");
+        }
+        JSONObject data = jsonObject.getJSONObject("data");
+        XOrderDto.XOrderCreateResponse bean = JSONUtil.toBean(data.toString(), config, XOrderDto.XOrderCreateResponse.class);
+        return bean;
     }
+
 
     public RequestUtil(XPayConfig config) {
         // 配置固定大小连接池
