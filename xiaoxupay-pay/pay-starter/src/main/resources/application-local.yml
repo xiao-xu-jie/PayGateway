@@ -2,10 +2,10 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 183.131.51.137:8848
+        server-addr: 
         file-extension: yml   #指定配置文件扩展名为yml
-        username: nacos
-        password: xujie520.
+        username: 
+        password: 
         namespace: pay-gateway
   config:
     import:
