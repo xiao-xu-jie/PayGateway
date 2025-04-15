@@ -1,0 +1,23 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: xiaoxupay-order
+          uri: lb://xiaoxupay-order
+          predicates:
+            - Path=/order/**
+        - id: xiaoxupay-site
+          uri: lb://xiaoxupay-site
+          predicates:
+            - Path=/site/**
+    nacos:
+      config:
+        server-addr: 183.131.51.137:8848
+        file-extension: yml   #指定配置文件扩展名为yml
+        username: nacos
+        password: xujie520.
+        namespace: pay-gateway
+  config:
+    import:
+      - optional:nacos:${spring.application.name}.yml
+      - nacos:nacos-discovery.yml
