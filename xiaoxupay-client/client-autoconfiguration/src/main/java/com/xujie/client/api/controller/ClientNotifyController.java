@@ -1,6 +1,7 @@
 package com.xujie.client.api.controller;
 
 import com.xujie.client.config.XPayConfig;
+import com.xujie.client.core.events.publisher.XOrderEventPublisher;
 import com.xujie.client.core.util.HashUtil;
 import com.xujie.client.dto.XOrderDto;
 import jakarta.annotation.Resource;
@@ -16,6 +17,9 @@ public class ClientNotifyController {
     @Resource
     private XPayConfig config;
 
+    @Resource
+    private XOrderEventPublisher xOrderEventPublisher;
+
     @PostMapping("/xorder/pay/notify")
     public String payNotify(@RequestBody XOrderDto.XOrderNotifyRequest xOrderNotifyRequest) {
         // 校验请求的hash
@@ -26,6 +30,7 @@ public class ClientNotifyController {
             return "fail";
         } else {
             log.info("[ClientNotifyController] xorder 订单支付回调信息，校验成功：{}", xOrderNotifyRequest);
+            xOrderEventPublisher.publishOrderPaidEvent(xOrderNotifyRequest.getOpenNo());
         }
         return "success";
     }
