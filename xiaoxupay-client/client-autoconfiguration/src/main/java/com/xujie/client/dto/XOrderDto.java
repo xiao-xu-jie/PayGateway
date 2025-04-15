@@ -170,4 +170,14 @@ public class XOrderDto {
         private String hash;
 
     }
+
+    @Data
+    @ToString
+    @Builder
+    public static class XOrderQueryRequest {
+        private Long tradeNo;
+    }
+
+    public static class XOrderQueryResponse {
+    }
 }

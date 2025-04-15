@@ -120,7 +120,7 @@ public class OrderController {
      */
     @PostMapping("/query")
     public ResponseEntity<Order> queryOrder(@RequestBody @Validated OrderDto.SiteQueryOrderRequest siteQueryOrderRequest) {
-        Order order = orderDomainService.queryOrder(siteQueryOrderRequest.getSiteAppid(), siteQueryOrderRequest.getSiteSecret(), siteQueryOrderRequest.getTradeNo());
+        Order order = orderDomainService.queryOrder(siteQueryOrderRequest.getSiteAppid(), siteQueryOrderRequest.getTradeNo());
         return ResponseEntity.success(order);
     }
 }

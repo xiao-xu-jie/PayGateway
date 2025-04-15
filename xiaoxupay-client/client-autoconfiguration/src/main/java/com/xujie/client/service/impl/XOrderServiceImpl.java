@@ -48,4 +48,10 @@ public class XOrderServiceImpl implements XOrderService {
         }
         return XOrderConvert.toXOrder(orderCreateResponse);
     }
+
+    @Override
+    public XOrder queryOrder(XOrderDto.XOrderQueryRequest request) {
+        XOrderDto.XOrderQueryResponse orderQueryResponse = requestUtil.queryOrderRequest(request, xPayConfig.getSiteAppId());
+        return XOrderConvert.toXOrder(orderQueryResponse);
+    }
 }

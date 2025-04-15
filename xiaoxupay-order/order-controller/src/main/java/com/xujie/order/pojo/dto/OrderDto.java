@@ -103,11 +103,6 @@ public class OrderDto {
         @NotBlank
         private String siteAppid;
 
-        /**
-         * 站点的key
-         */
-        @NotBlank
-        private String siteSecret;
 
         /**
          * 站点内NO

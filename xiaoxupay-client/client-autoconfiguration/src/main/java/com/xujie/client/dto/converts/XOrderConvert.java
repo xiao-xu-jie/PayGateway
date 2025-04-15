@@ -21,4 +21,8 @@ public class XOrderConvert {
         }
         return xOrder;
     }
+
+    public static XOrder toXOrder(XOrderDto.XOrderQueryResponse orderQueryResponse) {
+        return null;
+    }
 }

@@ -1,5 +1,6 @@
 package com.xujie.client.core.util;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.json.JSONConfig;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -29,6 +30,8 @@ public class RequestUtil {
     private WebClient webClient;
 
     private final String createOrderPath = "/order/create";
+
+    private final String queryOrderPath = "/order/query";
 
     public XOrderDto.XOrderCreateResponse createOrderRequest(Map<String, Object> request) {
         String response = webClient.post()
@@ -110,5 +113,30 @@ public class RequestUtil {
                     .forEach((name, values) -> values.forEach(value -> log.debug("{}={}", name, value)));
             return next.exchange(clientRequest);
         };
+    }
+
+    public XOrderDto.XOrderQueryResponse queryOrderRequest(XOrderDto.XOrderQueryRequest request, String siteAppid) {
+        Map<String, Object> stringObjectMap = BeanUtil.beanToMap(request);
+        stringObjectMap.put("siteAppid", siteAppid);
+        String reqBody = JSONUtil.toJsonStr(stringObjectMap);
+        String block = webClient.post()
+                .uri(queryOrderPath)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                .bodyValue(reqBody)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        JSONObject jsonObject = JSONUtil.parseObj(block);
+        Integer code = jsonObject.getInt("code");
+        if (code == null || code != 200) {
+            log.info("请求订单异常：{}", block);
+            return null;
+        } else {
+            JSONObject data = jsonObject.getJSONObject("data");
+            XOrderDto.XOrderQueryResponse bean = JSONUtil.toBean(data, XOrderDto.XOrderQueryResponse.class);
+            return bean;
+        }
+
     }
 }

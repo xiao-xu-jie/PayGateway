@@ -93,14 +93,14 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     }
 
     @Override
-    public Order queryOrder(String appid, String siteSecret, Long tradeNo) {
-        if (ObjectUtils.isEmpty(tradeNo) || ObjectUtils.isEmpty(appid) || ObjectUtils.isEmpty(siteSecret)) {
+    public Order queryOrder(String appid, Long tradeNo) {
+        if (ObjectUtils.isEmpty(tradeNo) || ObjectUtils.isEmpty(appid)) {
             return null;
         }
         ResponseEntity<SiteDTO> siteDTOResponseEntity = siteFeignApi.searchByAppid(appid);
         if (siteDTOResponseEntity != null && siteDTOResponseEntity.isSuccess()) {
             SiteDTO siteDTO = siteDTOResponseEntity.getData();
-            if (siteDTO != null && ObjectUtils.compare(siteDTO.getSiteSecret(), siteSecret) == 0) {
+            if (siteDTO != null) {
                 SiteOrder order = orderService.getOrderByTradeNo(appid, tradeNo);
                 return convert.do2bo(order);
             }
