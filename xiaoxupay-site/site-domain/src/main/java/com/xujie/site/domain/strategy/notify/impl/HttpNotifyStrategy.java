@@ -7,11 +7,11 @@ import cn.hutool.http.ContentType;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
+import com.xujie.common.entity.ResponseEntity;
 import com.xujie.common.exception.CustomException;
 import com.xujie.site.domain.entity.NotifyRequest;
 import com.xujie.site.domain.strategy.notify.NotifyStrategy;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.net.MalformedURLException;
@@ -53,14 +53,16 @@ public class HttpNotifyStrategy extends NotifyStrategy {
                 .contentType(ContentType.JSON.getValue())
                 .keepAlive(true)
                 .execute()) {
-            if (StringUtils.compare(response.body(), "success") != 0) {
-                throw new CustomException("返回值异常");
+            String body = response.body();
+            ResponseEntity responseEntity = JSONUtil.toBean(body, ResponseEntity.class);
+            if (!responseEntity.isSuccess()) {
+                return "error";
             }
-            return response.body();
+            return "success";
         } catch (Exception e) {
             log.error("通知失败", e);
         }
-
         return "error";
+
     }
 }

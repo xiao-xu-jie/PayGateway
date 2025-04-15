@@ -4,6 +4,7 @@ import com.xujie.client.config.XPayConfig;
 import com.xujie.client.core.events.publisher.XOrderEventPublisher;
 import com.xujie.client.core.util.HashUtil;
 import com.xujie.client.dto.XOrderDto;
+import com.xujie.common.entity.ResponseEntity;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,17 +22,18 @@ public class ClientNotifyController {
     private XOrderEventPublisher xOrderEventPublisher;
 
     @PostMapping("/xorder/pay/notify")
-    public String payNotify(@RequestBody XOrderDto.XOrderNotifyRequest xOrderNotifyRequest) {
+    public ResponseEntity<?> payNotify(@RequestBody XOrderDto.XOrderNotifyRequest xOrderNotifyRequest) {
         // 校验请求的hash
         String hash = xOrderNotifyRequest.getHash();
         boolean check = HashUtil.checkNotifyHash(xOrderNotifyRequest, config.getSiteAppSecret());
         if (!check) {
             log.info("[ClientNotifyController] xorder 订单支付回调信息，校验失败：{}", xOrderNotifyRequest);
-            return "fail";
+            return ResponseEntity.error(null);
         } else {
             log.info("[ClientNotifyController] xorder 订单支付回调信息，校验成功：{}", xOrderNotifyRequest);
             xOrderEventPublisher.publishOrderPaidEvent(xOrderNotifyRequest.getOpenNo());
+            return ResponseEntity.success(null);
         }
-        return "success";
+        
     }
 }

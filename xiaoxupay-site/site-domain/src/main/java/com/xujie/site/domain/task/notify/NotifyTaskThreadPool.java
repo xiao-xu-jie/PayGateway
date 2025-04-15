@@ -70,7 +70,6 @@ public class NotifyTaskThreadPool {
         AtomicReference<NotifyType> type = new AtomicReference<>();
         CompletableFuture<String> requestFuture = startNotifySite(openNo, siteCompletableFuture, url, type);
         afterNotifySite(openNo, siteAppid, requestFuture, url, type);
-        requestFuture.join();
 
     }
 
@@ -101,7 +100,7 @@ public class NotifyTaskThreadPool {
     }
 
     private void afterNotifySite(String openNo, String siteAppid, CompletableFuture<String> requestFuture, AtomicReference<String> url, AtomicReference<NotifyType> type) {
-        requestFuture.thenAcceptAsync((res) -> {
+        CompletableFuture<Void> acceptAsync = requestFuture.thenAcceptAsync((res) -> {
             NotifySiteLog.NotifySiteLogBuilder notifySiteLogBuilder = NotifySiteLog.builder()
                     .notifyStatus(NotifyStatus.SUCCESS)
                     .siteAppid(siteAppid)
@@ -123,5 +122,6 @@ public class NotifyTaskThreadPool {
                 notifyLogDomainService.addOneLog(siteLog);
             }
         }, threadPoolExecutor);
+        acceptAsync.join();
     }
 }

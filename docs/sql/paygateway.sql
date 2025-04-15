@@ -1,17 +1,17 @@
 /*
- Navicat Premium Data Transfer
+ Navicat Premium Dump SQL
 
- Source Server         : 127.0.0.1
+ Source Server         : paygateway
  Source Server Type    : MySQL
- Source Server Version : 80036
- Source Host           : localhost:3306
+ Source Server Version : 80024 (8.0.24)
+ Source Host           : 183.131.51.137:3306
  Source Schema         : paygateway
 
  Target Server Type    : MySQL
- Target Server Version : 80036
+ Target Server Version : 80024 (8.0.24)
  File Encoding         : 65001
 
- Date: 01/03/2025 20:50:39
+ Date: 15/04/2025 17:15:49
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `notify_log`  (
   `update_time` datetime NOT NULL,
   `is_delete` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for outbox_message
@@ -57,7 +57,7 @@ CREATE TABLE `outbox_message`  (
   INDEX `idx_aggregate_type_id`(`aggregate_type` ASC, `aggregate_id` ASC) USING BTREE,
   INDEX `idx_type`(`type` ASC) USING BTREE,
   INDEX `idx_retry_count`(`retry_count` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '事务性消息发送箱表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '事务性消息发送箱表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for site_info
@@ -76,7 +76,7 @@ CREATE TABLE `site_info`  (
   `is_delete` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `site_appid`(`site_appid` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for site_order
@@ -108,6 +108,6 @@ CREATE TABLE `site_order`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `site_order`(`trade_no` ASC, `site_appid` ASC) USING BTREE,
   UNIQUE INDEX `open_no`(`open_no` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;
