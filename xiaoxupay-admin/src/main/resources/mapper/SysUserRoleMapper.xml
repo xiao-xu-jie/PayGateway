@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xujie.admin.infra.mapper.SysUserRoleMapper">
+    <resultMap id="BaseResultMap" type="com.xujie.admin.infra.DO.SysUserRole">
+        <!--@mbg.generated-->
+        <!--@Table sys_user_role-->
+        <id column="user_id" jdbcType="BIGINT" property="userId"/>
+        <id column="role_id" jdbcType="BIGINT" property="roleId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        user_id, role_id
+    </sql>
+
+    <select id="selectRoleByUserId" resultType="com.xujie.admin.infra.DO.SysRole">
+        select sys_role.*
+        from sys_user_role
+                 left join sys_role on sys_role.id = sys_user_role.role_id
+        where sys_user_role.user_id = #{loginId,jdbcType=BIGINT}
+    </select>
+</mapper>

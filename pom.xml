@@ -15,6 +15,7 @@
         <module>xiaoxupay-site</module>
         <module>xiaoxupay-id</module>
         <module>xiaoxupay-client</module>
+        <module>xiaoxupay-admin</module>
 
 
     </modules>
