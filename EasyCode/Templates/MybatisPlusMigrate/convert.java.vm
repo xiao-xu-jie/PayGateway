@@ -1,0 +1,19 @@
+##导入宏定义
+$!{define.vm}
+$!{mybatisCodehelper.vm}
+
+#set($entitySavePath = $tool.append(${javamodelSrcFolder},"/",${ConvertPackageName.replace(".","/")}))
+
+$!callback.setSavePath($entitySavePath)
+$!callback.setFileName($tool.append($ConvertName, ".java"))
+
+##自动导入包（全局变量）
+package ${ConvertPackageName};
+##表注释（宏定义）
+#tableComment("Convert 类")
+
+@Mapper(componentModel = "spring")
+public interface  $!{ConvertName} extends BaseConvert<$!{QueryResDTOName},$!{AddReqDTOName},$!{QueryReqDTOName},$!{BOName},$!{entityName}> {
+
+
+}

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xujie.admin.infra.mapper.SiteInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.xujie.admin.infra.DO.SiteInfo">
+        <!--@Table site_info-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="siteName" column="site_name" jdbcType="VARCHAR"/>
+        <result property="siteDesc" column="site_desc" jdbcType="VARCHAR"/>
+        <result property="notifyType" column="notify_type" jdbcType="INTEGER"/>
+        <result property="notifyUrl" column="notify_url" jdbcType="VARCHAR"/>
+        <result property="siteAppid" column="site_appid" jdbcType="VARCHAR"/>
+        <result property="siteSecret" column="site_secret" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,
+site_name,
+site_desc,
+notify_type,
+notify_url,
+site_appid,
+site_secret,
+create_time,
+
+update_time,
+is_delete
+
+    </sql>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into paygateway.site_info(site_name, site_desc, notify_type, notify_url, site_appid, site_secret,
+        create_time, update_time, is_delete)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.siteName}, #{entity.siteDesc}, #{entity.notifyType}, #{entity.notifyUrl}, #{entity.siteAppid},
+            #{entity.siteSecret}, #{entity.createTime}, #{entity.updateTime}, #{entity.isDelete})
+        </foreach>
+    </insert>
+    <!-- 批量插入或按主键更新 -->
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into paygateway.site_info(site_name, site_desc, notify_type, notify_url, site_appid, site_secret,
+        create_time, update_time, is_delete)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.siteName}, #{entity.siteDesc}, #{entity.notifyType}, #{entity.notifyUrl}, #{entity.siteAppid},
+            #{entity.siteSecret}, #{entity.createTime}, #{entity.updateTime}, #{entity.isDelete})
+        </foreach>
+        on duplicate key update
+        site_name = values(site_name) , site_desc = values(site_desc) , notify_type = values(notify_type) , notify_url =
+        values(notify_url) , site_appid = values(site_appid) , site_secret = values(site_secret) , create_time =
+        values(create_time) , update_time = values(update_time) , is_delete = values(is_delete)
+    </insert>
+
+</mapper>
+

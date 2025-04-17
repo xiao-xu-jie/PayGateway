@@ -1,0 +1,101 @@
+##following code can be generated use MybatisCodeHelperPro plugin mybatis generator mingrate to template generate.
+##copy group for different project.
+#set($javamodelSrcFolder="${projectPath}/src/main/java")
+#set($modelPackageName="com.xujie.manager.infra.DO")
+#set($BOPackageName="com.xujie.manager.domain.BO")
+#set($ReqDTOPackageName="com.xujie.manager.DTO.req")
+#set($ConvertPackageName="com.xujie.manager.domain.convert")
+#set($ResDTOPackageName="com.xujie.manager.DTO.res")
+#set($mapperSrcFolder="${projectPath}/src/main/java")
+#set($mapperPackageName="com.xujie.manager.infra.mapper")
+#set($mapperXmlFolder="${projectPath}/src/main/resources")
+#set($mapperXmlPackage="mapper")
+#set($serviceSrcFolder="${projectPath}/src/main/java")
+#set($servicePackageName="com.xujie.manager.domain.service")
+#set($serviceImplSrcFolder="${projectPath}/src/main/java")
+#set($serviceImplPackageName="com.xujie.manager.domain.service.impl")
+#set($controllerSrcFolder="${projectPath}/src/main/java")
+#set($controllerPackageName="com.xujie.manager.controller")
+#set($useLombok=true)
+#set($useSwagger=false)
+#set($useOpenApi=false)
+#set($addSchemaName=false)
+#set($mapperSuffix="Mapper")
+#set($daoSuffix="Mapper")
+#set($useActualColumName=false)
+#set($modelSuffix="Entity")
+#set($BOSuffix="BO")
+#set($QueryResDTOSuffix="DTO")
+#set($ConvertSuffix="Convert")
+#if($useActualColumName)
+    #foreach($column in $tableInfo.fullColumn)
+        $!column.setName($column.obj.name)
+    #end
+#end
+
+#*remove table prefix*#
+###set($removeTablePrefix="sys_")
+#set($entityName=$tableInfo.name)
+###set($entityName = $tool.append($entityName))
+
+#set($EntityName=$tableInfo.name)
+#if($tableInfo.obj.name.startsWith("sys_"))
+    #set($EntityName = ${tableInfo.name.substring(3)})
+#end
+
+
+#set($BOName=$tableInfo.name)
+#if($tableInfo.obj.name.startsWith("sys_"))
+    #set($BOName = ${tableInfo.name.substring(3)})
+#end
+#set($BOName = $tool.append($BOName,$BOSuffix))
+
+#set($QueryResDTOName=$tableInfo.name)
+#if($tableInfo.obj.name.startsWith("sys_"))
+    #set($QueryResDTOName = ${tableInfo.name.substring(3)})
+#end
+#set($QueryResDTOName = $tool.append($QueryResDTOName,"QueryRes",$QueryResDTOSuffix))
+
+#set($AddReqDTOName=$tableInfo.name)
+#if($tableInfo.obj.name.startsWith("sys_"))
+    #set($AddReqDTOName = ${tableInfo.name.substring(3)})
+#end
+#set($AddReqDTOName = $tool.append($AddReqDTOName,"AddReq",$QueryResDTOSuffix))
+
+
+#set($QueryReqDTOName=$tableInfo.name)
+#if($tableInfo.obj.name.startsWith("sys_"))
+    #set($QueryReqDTOName = ${tableInfo.name.substring(3)})
+#end
+#set($QueryReqDTOName = $tool.append($QueryReqDTOName,"QueryReq",$QueryResDTOSuffix))
+
+#set($ConvertName=$tableInfo.name)
+#if($tableInfo.obj.name.startsWith("sys_"))
+    #set($ConvertName = ${tableInfo.name.substring(3)})
+#end
+#set($ConvertName = $tool.append($ConvertName,$ConvertSuffix))
+#*add model Suffix to model name*#
+###set($modelSuffix="Model")
+##${tableInfo.setName($tool.append($tableInfo.getName(),$modelSuffix))}
+
+
+#*remove column prefix like when column is f_hello want generate hello, you can substring the column name*#
+###set($removeColumnPrefix="f_")
+###foreach($column in $tableInfo.fullColumn)
+##    #if($column.obj.name.startsWith($removeColumnPrefix))
+##        $!column.setName($tool.firstLowerCase($column.getName().substring(1)))
+##    #end
+###end
+
+
+
+###foreach($column in $tableInfo.fullColumn)
+##    #set($propertyName=$column.obj.name)
+##    #set($propertyName=$propertyName.substring(0,1).toLowerCase()+$propertyName.substring(1))
+##    $!column.setName($propertyName)
+##    #if($propertyName.endsWith("ID"))
+##        #set($lenght=$propertyName.length() - 2)
+##        #set($theName=${propertyName.substring(0,$lenght)}+"Id")
+##        $!column.setName($theName)
+##    #end
+###end

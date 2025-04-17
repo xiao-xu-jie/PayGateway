@@ -1,0 +1,84 @@
+##定义初始变量
+$!{mybatisCodehelper.vm}
+#set($controllerName = $tool.append($tableInfo.name, "Controller"))
+##设置回调
+#set($controllerSavePath = $tool.append(${controllerSrcFolder},"/",${controllerPackageName.replace(".","/")}))
+
+$!callback.setSavePath($controllerSavePath)
+$!callback.setFileName($tool.append($controllerName, ".java"))
+##拿到主键
+#if(!$tableInfo.pkColumn.isEmpty())
+    #set($pk = $tableInfo.pkColumn.get(0))
+#end
+
+#set($serviceName = $tool.append($tableInfo.name, "Service"))
+#set($serviceNameLower = $tool.firstLowerCase($serviceName))
+package ${controllerPackageName};
+
+import $!{modelPackageName}.$!{entityName};
+import ${serviceImplPackageName}.${serviceName};
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+
+/**
+ * $!{tableInfo.comment}($!{tableInfo.name})表控制层
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+@RestController
+@RequestMapping("$!tool.firstLowerCase($entityName)")
+public class $!{controllerName} {
+    /**
+     * 服务对象
+     */
+    @Resource
+    private ${serviceName} ${serviceNameLower};
+
+
+    /**
+     * 通过主键查询单条数据
+     *
+     * @param id 主键
+     * @return 单条数据
+     */
+    @GetMapping("{id}")
+    public ResponseEntity<$!{entityName}> queryById(@PathVariable("id") $!pk.shortType id) {
+        return ResponseEntity.ok(this.${serviceNameLower}.queryById(id));
+    }
+
+    /**
+     * 新增数据
+     *
+     * @param $!{tool.firstLowerCase($entityName)} 实体
+     * @return 新增结果
+     */
+    @PostMapping
+    public ResponseEntity<$!{entityName}> add($!{entityName} $!{tool.firstLowerCase($entityName)}) {
+        return ResponseEntity.ok(this.${serviceNameLower}.insert($!{tool.firstLowerCase($entityName)}));
+    }
+
+    /**
+     * 编辑数据
+     *
+     * @param $!{tool.firstLowerCase($entityName)} 实体
+     * @return 编辑结果
+     */
+    @PutMapping
+    public ResponseEntity<$!{entityName}> edit($!{entityName} $!{tool.firstLowerCase($entityName)}) {
+        return ResponseEntity.ok(this.${serviceNameLower}.update($!{tool.firstLowerCase($entityName)}));
+    }
+
+    /**
+     * 删除数据
+     *
+     * @param id 主键
+     * @return 删除是否成功
+     */
+    @DeleteMapping
+    public ResponseEntity<Boolean> deleteById($!pk.shortType id) {
+        return ResponseEntity.ok(this.${serviceNameLower}.deleteById(id));
+    }
+
+}

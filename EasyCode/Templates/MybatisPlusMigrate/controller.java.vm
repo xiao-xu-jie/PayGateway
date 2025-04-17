@@ -1,0 +1,32 @@
+##导入宏定义
+$!{define.vm}
+$!{mybatisCodehelper.vm}
+
+##设置表后缀（宏定义）
+#set($controllerName = $tool.append($EntityName, "Controller"))
+##设置回调
+#set($controllerSavePath = $tool.append(${controllerSrcFolder},"/",${controllerPackageName.replace(".","/")}))
+
+$!callback.setSavePath($controllerSavePath)
+$!callback.setFileName($tool.append($controllerName, ".java"))
+
+##定义服务名
+#set($serviceName = $!tool.append($!tool.firstLowerCase($!tableInfo.name), "Service"))
+#set($entityVariableName = $!tool.firstLowerCase($!entityName))
+
+#set($serviceName = $tool.append($EntityName, "DomainService"))
+##定义实体对象名
+package $!{controllerPackageName};
+
+
+##表注释（宏定义）
+#tableComment("表控制层")
+@RestController
+@RequestMapping("/$!tool.firstLowerCase($!EntityName)")
+public class $!{controllerName} extends BaseController<$!{QueryReqDTOName},$!{QueryResDTOName},$!{AddReqDTOName},$!{BOName},$!{entityName},$!{ConvertName},$!{serviceName}> {
+
+    public $!{controllerName}($!{ConvertName} baseConvert, $!{serviceName} baseDomainService){
+        this.baseConvert = baseConvert;
+        this.baseDomainService = baseDomainService;
+    }
+}

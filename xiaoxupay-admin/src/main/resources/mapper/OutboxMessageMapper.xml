@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xujie.admin.infra.mapper.OutboxMessageMapper">
+
+    <resultMap id="BaseResultMap" type="com.xujie.admin.infra.DO.OutboxMessage">
+        <!--@Table outbox_message-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="aggregateType" column="aggregate_type" jdbcType="VARCHAR"/>
+        <result property="aggregateId" column="aggregate_id" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="payload" column="payload" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="priority" column="priority" jdbcType="INTEGER"/>
+        <result property="processed" column="processed" jdbcType="BOOLEAN"/>
+        <result property="processedAt" column="processed_at" jdbcType="TIMESTAMP"/>
+        <result property="errorMessage" column="error_message" jdbcType="VARCHAR"/>
+        <result property="retryCount" column="retry_count" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,
+aggregate_type,
+aggregate_id,
+type,
+payload,
+created_at,
+priority,
+processed,
+
+processed_at,
+error_message,
+retry_count
+
+    </sql>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into paygateway.outbox_message(aggregate_type, aggregate_id, type, payload, created_at, priority,
+        processed, processed_at, error_message, retry_count)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.aggregateType}, #{entity.aggregateId}, #{entity.type}, #{entity.payload}, #{entity.createdAt},
+            #{entity.priority}, #{entity.processed}, #{entity.processedAt}, #{entity.errorMessage},
+            #{entity.retryCount})
+        </foreach>
+    </insert>
+    <!-- 批量插入或按主键更新 -->
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into paygateway.outbox_message(aggregate_type, aggregate_id, type, payload, created_at, priority,
+        processed, processed_at, error_message, retry_count)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.aggregateType}, #{entity.aggregateId}, #{entity.type}, #{entity.payload}, #{entity.createdAt},
+            #{entity.priority}, #{entity.processed}, #{entity.processedAt}, #{entity.errorMessage},
+            #{entity.retryCount})
+        </foreach>
+        on duplicate key update
+        aggregate_type = values(aggregate_type) , aggregate_id = values(aggregate_id) , type = values(type) , payload =
+        values(payload) , created_at = values(created_at) , priority = values(priority) , processed = values(processed)
+        , processed_at = values(processed_at) , error_message = values(error_message) , retry_count =
+        values(retry_count)
+    </insert>
+
+</mapper>
+

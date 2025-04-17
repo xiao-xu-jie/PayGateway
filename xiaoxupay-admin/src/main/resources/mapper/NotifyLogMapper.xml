@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xujie.admin.infra.mapper.NotifyLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.xujie.admin.infra.DO.NotifyLog">
+        <!--@Table notify_log-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="openNo" column="open_no" jdbcType="VARCHAR"/>
+        <result property="siteAppid" column="site_appid" jdbcType="VARCHAR"/>
+        <result property="notifuUrl" column="notifu_url" jdbcType="VARCHAR"/>
+        <result property="resBody" column="res_body" jdbcType="VARCHAR"/>
+        <result property="currentCount" column="current_count" jdbcType="INTEGER"/>
+        <result property="notifyType" column="notify_type" jdbcType="INTEGER"/>
+        <result property="notifyStatus" column="notify_status" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,
+open_no,
+site_appid,
+notifu_url,
+res_body,
+current_count,
+notify_type,
+notify_status,
+
+create_time,
+update_time,
+is_delete
+
+    </sql>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into paygateway.notify_log(open_no, site_appid, notifu_url, res_body, current_count, notify_type,
+        notify_status, create_time, update_time, is_delete)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.openNo}, #{entity.siteAppid}, #{entity.notifuUrl}, #{entity.resBody}, #{entity.currentCount},
+            #{entity.notifyType}, #{entity.notifyStatus}, #{entity.createTime}, #{entity.updateTime},
+            #{entity.isDelete})
+        </foreach>
+    </insert>
+    <!-- 批量插入或按主键更新 -->
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into paygateway.notify_log(open_no, site_appid, notifu_url, res_body, current_count, notify_type,
+        notify_status, create_time, update_time, is_delete)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.openNo}, #{entity.siteAppid}, #{entity.notifuUrl}, #{entity.resBody}, #{entity.currentCount},
+            #{entity.notifyType}, #{entity.notifyStatus}, #{entity.createTime}, #{entity.updateTime},
+            #{entity.isDelete})
+        </foreach>
+        on duplicate key update
+        open_no = values(open_no) , site_appid = values(site_appid) , notifu_url = values(notifu_url) , res_body =
+        values(res_body) , current_count = values(current_count) , notify_type = values(notify_type) , notify_status =
+        values(notify_status) , create_time = values(create_time) , update_time = values(update_time) , is_delete =
+        values(is_delete)
+    </insert>
+
+</mapper>
+

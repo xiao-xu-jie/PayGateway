@@ -1,0 +1,51 @@
+##导入宏定义
+$!{define.vm}
+$!{mybatisCodehelper.vm}
+
+#set($entitySavePath = $tool.append(${javamodelSrcFolder},"/",${ResDTOPackageName.replace(".","/")}))
+
+$!callback.setSavePath($entitySavePath)
+$!callback.setFileName($tool.append($QueryResDTOName, ".java"))
+
+##自动导入包（全局变量）
+package $!{ResDTOPackageName};
+
+
+##表注释（宏定义）
+#tableComment("查询返回DTO")
+#if(${useLombok})
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+#end
+public class $!{QueryResDTOName} extends BaseDTO {
+
+
+    #foreach($column in $tableInfo.fullColumn)
+        #if(${column.comment})
+
+            /**
+             * ${column.comment}
+             */
+        #end
+        #if($useSwagger)
+        @ApiModelProperty(value = "${column.comment}")
+        #end
+
+    private $!{tool.getClsNameByFullName($column.type)} $!{column.name};
+    #end
+
+    #if($useLombok)
+    #else
+        #foreach($column in $tableInfo.fullColumn)
+            #getSetMethod($column)
+        #end
+    #end
+
+
+    #foreach($column in $tableInfo.pkColumn)
+
+        #break
+    #end
+}

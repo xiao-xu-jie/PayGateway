@@ -11,9 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ObjectUtils;
 
 import java.io.InputStream;
@@ -22,8 +20,7 @@ import java.io.InputStream;
  * @author Xujie
  * @since 2025/2/24 21:47
  **/
-@Configuration
-@ConditionalOnProperty(prefix = "wx.pay", name = {"appId", "mchId", "merchantSerialNumber", "apiV3Key", "notifyUrl"})
+
 @Slf4j
 @Data
 @AllArgsConstructor

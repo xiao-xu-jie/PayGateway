@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.xujie.site.common.enums.NotifyType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,7 +39,7 @@ public class SiteInfo {
      * 回调类型
      */
     @TableField(value = "notify_type")
-    private NotifyType notifyType;
+    private Integer notifyType;
 
     /**
      * 回调URL
@@ -69,23 +68,23 @@ public class SiteInfo {
     @TableField(value = "is_delete")
     private Integer isDelete;
 
-    public static final String COL_ID = "id";
+    public static final String COL_ID = "id" ;
 
-    public static final String COL_SITE_NAME = "site_name";
+    public static final String COL_SITE_NAME = "site_name" ;
 
-    public static final String COL_SITE_DESC = "site_desc";
+    public static final String COL_SITE_DESC = "site_desc" ;
 
-    public static final String COL_NOTIFY_TYPE = "notify_type";
+    public static final String COL_NOTIFY_TYPE = "notify_type" ;
 
-    public static final String COL_NOTIFY_URL = "notify_url";
+    public static final String COL_NOTIFY_URL = "notify_url" ;
 
-    public static final String COL_SITE_APPID = "site_appid";
+    public static final String COL_SITE_APPID = "site_appid" ;
 
-    public static final String COL_SITE_SECRET = "site_secret";
+    public static final String COL_SITE_SECRET = "site_secret" ;
 
-    public static final String COL_CREATE_TIME = "create_time";
+    public static final String COL_CREATE_TIME = "create_time" ;
 
-    public static final String COL_UPDATE_TIME = "update_time";
+    public static final String COL_UPDATE_TIME = "update_time" ;
 
-    public static final String COL_IS_DELETE = "is_delete";
+    public static final String COL_IS_DELETE = "is_delete" ;
 }

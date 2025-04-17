@@ -80,7 +80,7 @@ public class NotifyTaskThreadPool {
             url.set(notifyUrl);
 
             String siteSecret = site.getSiteSecret();
-            NotifyType notifyType = site.getNotifyType();
+            NotifyType notifyType = NotifyType.getByCode(site.getNotifyType());
             type.set(notifyType);
             if (ObjectUtils.allNull(notifyUrl, siteSecret, notifyType)) {
                 throw new CustomException("站点信息不完整！");

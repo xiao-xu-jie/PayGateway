@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xujie.admin.infra.mapper.SiteOrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.xujie.admin.infra.DO.SiteOrder">
+        <!--@Table site_order-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="transactionId" column="transaction_id" jdbcType="VARCHAR"/>
+        <result property="openNo" column="open_no" jdbcType="VARCHAR"/>
+        <result property="tradeNo" column="trade_no" jdbcType="INTEGER"/>
+        <result property="siteAppid" column="site_appid" jdbcType="VARCHAR"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="orderDesc" column="order_desc" jdbcType="VARCHAR"/>
+        <result property="realFee" column="real_fee" jdbcType="VARCHAR"/>
+        <result property="discount" column="discount" jdbcType="VARCHAR"/>
+        <result property="totalFee" column="total_fee" jdbcType="VARCHAR"/>
+        <result property="channel" column="channel" jdbcType="VARCHAR"/>
+        <result property="urlQrcode" column="url_qrcode" jdbcType="VARCHAR"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="jsonData" column="json_data" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="expireTime" column="expire_time" jdbcType="TIMESTAMP"/>
+        <result property="payTime" column="pay_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="orderStatus" column="order_status" jdbcType="INTEGER"/>
+        <result property="notifyStatus" column="notify_status" jdbcType="INTEGER"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,
+transaction_id,
+open_no,
+trade_no,
+site_appid,
+title,
+order_desc,
+real_fee,
+
+discount,
+total_fee,
+channel,
+url_qrcode,
+url,
+remark,
+json_data,
+create_time,
+
+expire_time,
+pay_time,
+update_time,
+order_status,
+notify_status,
+is_delete
+
+    </sql>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into paygateway.site_order(transaction_id, open_no, trade_no, site_appid, title, order_desc, real_fee,
+        discount, total_fee, channel, url_qrcode, url, remark, json_data, create_time, expire_time, pay_time,
+        update_time, order_status, notify_status, is_delete)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.transactionId}, #{entity.openNo}, #{entity.tradeNo}, #{entity.siteAppid}, #{entity.title},
+            #{entity.orderDesc}, #{entity.realFee}, #{entity.discount}, #{entity.totalFee}, #{entity.channel},
+            #{entity.urlQrcode}, #{entity.url}, #{entity.remark}, #{entity.jsonData}, #{entity.createTime},
+            #{entity.expireTime}, #{entity.payTime}, #{entity.updateTime}, #{entity.orderStatus},
+            #{entity.notifyStatus}, #{entity.isDelete})
+        </foreach>
+    </insert>
+    <!-- 批量插入或按主键更新 -->
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into paygateway.site_order(transaction_id, open_no, trade_no, site_appid, title, order_desc, real_fee,
+        discount, total_fee, channel, url_qrcode, url, remark, json_data, create_time, expire_time, pay_time,
+        update_time, order_status, notify_status, is_delete)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.transactionId}, #{entity.openNo}, #{entity.tradeNo}, #{entity.siteAppid}, #{entity.title},
+            #{entity.orderDesc}, #{entity.realFee}, #{entity.discount}, #{entity.totalFee}, #{entity.channel},
+            #{entity.urlQrcode}, #{entity.url}, #{entity.remark}, #{entity.jsonData}, #{entity.createTime},
+            #{entity.expireTime}, #{entity.payTime}, #{entity.updateTime}, #{entity.orderStatus},
+            #{entity.notifyStatus}, #{entity.isDelete})
+        </foreach>
+        on duplicate key update
+        transaction_id = values(transaction_id) , open_no = values(open_no) , trade_no = values(trade_no) , site_appid =
+        values(site_appid) , title = values(title) , order_desc = values(order_desc) , real_fee = values(real_fee) ,
+        discount = values(discount) , total_fee = values(total_fee) , channel = values(channel) , url_qrcode =
+        values(url_qrcode) , url = values(url) , remark = values(remark) , json_data = values(json_data) , create_time =
+        values(create_time) , expire_time = values(expire_time) , pay_time = values(pay_time) , update_time =
+        values(update_time) , order_status = values(order_status) , notify_status = values(notify_status) , is_delete =
+        values(is_delete)
+    </insert>
+
+</mapper>
+

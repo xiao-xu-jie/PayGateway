@@ -1,7 +1,6 @@
 package com.xujie.site.domain.entity;
 
 
-import com.xujie.site.common.enums.NotifyType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +27,7 @@ public class Site {
     /**
      * 回调类型
      */
-    private NotifyType notifyType;
+    private Integer notifyType;
 
     /**
      * 回调URL

@@ -60,7 +60,9 @@ public class RoutersDomainServiceImpl implements RoutersDomainService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(RoutersBO routersBO) {
-        boolean b = routerService.updateOne(routersBO.getId(), routerConvert.convertBO2DO(routersBO));
+        SysRouters sysRouters = routerConvert.convertBO2DO(routersBO);
+        sysRouters.setRankNum(routersBO.getRank());
+        boolean b = routerService.updateOne(routersBO.getId(), sysRouters);
         ConditionCheck.falseAndThrow(b, new CustomException("更新路由失败"));
     }
 

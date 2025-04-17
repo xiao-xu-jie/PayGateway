@@ -13,4 +13,14 @@ public enum NotifyType {
     private final Integer code;
     @JsonValue
     private final String desc;
+
+    public static NotifyType getByCode(Integer notifyType) {
+        NotifyType[] values = values();
+        for (NotifyType value : values) {
+            if (value.getCode().equals(notifyType)) {
+                return value;
+            }
+        }
+        return null;
+    }
 }
